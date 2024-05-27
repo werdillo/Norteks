@@ -1,0 +1,80 @@
+---
+import Norteks from "../assets/img/logo.svg";
+import { Image } from "astro:assets";
+---
+
+<footer class="footer">
+	<div class="-logo">
+		<Image src={Norteks} alt="" class="-img" />
+		Стильный гардероб вашей мебели
+	</div>
+	<div class="-address">
+		<div class="-text s">Москва</div>
+		<div class="-text m">Дмитровское шоссе 71Б</div>
+		<div class="-text m">Бизнес-центр 7ONE, ООО "Нортекс"</div>
+	</div>
+	<div class="-phone">
+		<div class="-text l">+7 (495) 221 - 33 - 16</div>
+		<div class="-text l">+7 (903) 797 - 55 - 76</div>
+	</div>
+	<div class="-email">
+		<div class="-text l">firma.nortex@gmail.com</div>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		background: #363636;
+		min-height: 120px;
+		width: 1fr;
+		padding: 20px 100px;
+		border: 0;
+		color: #fff;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		margin-top: 20px;
+		flex-wrap: wrap;
+		@media (max-width: 1600px) {
+			padding: 20px 10px;
+		}
+		.-text {
+			color: #fff;
+			font-size: 16px;
+			&.s {
+				font-size: 14px;
+			}
+			&.m {
+				font-size: 18px;
+			}
+			&.l {
+				font-size: 20px;
+			}
+		}
+		.-logo {
+			width: 160px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			.-img {
+				width: 100%;
+				height: auto;
+			}
+		}
+		.-email {
+			display: flex;
+			gap: 12px;
+		}
+		.-phone {
+			display: flex;
+			gap: 20px;
+			flex-direction: column;
+		}
+		.-address {
+			display: flex;
+			gap: 6px;
+			flex-direction: column;
+		}
+	}
+</style>

@@ -1,0 +1,10 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogItem from "../components/BlogItem.jsx";
+---
+
+<BaseLayout>
+	<div class="container">
+		<BlogItem client:only />
+	</div>
+</BaseLayout>

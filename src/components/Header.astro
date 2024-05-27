@@ -1,0 +1,98 @@
+---
+import Norteks from "../assets/img/logo.svg";
+import instagram from "../assets/img/icons/instagram.svg";
+import telegram from "../assets/img/icons/telegram.svg";
+import whatsapp from "../assets/img/icons/whatsapp.svg";
+import { Image } from "astro:assets";
+---
+
+<nav class="header">
+	<div class="-container">
+		<a href="/" class="-link">
+			<Image src={Norteks} alt="" />
+		</a>
+		<div class="-links">
+			<a href="/collection" class="-link">Коллекции</a>
+			<a href="/cleaning" class="-link">Как очистить ткань</a>
+			<a href="/furniture" class="-link">Фурнитура</a>
+			<a href="/blog" class="-link">Блог</a>
+		</div>
+	</div>
+	<div class="-container">
+		<div class="-socials">
+			<Image class="-img" src={instagram} alt="" />
+			<Image class="-img" src={telegram} alt="" />
+			<Image class="-img" src={whatsapp} alt="" />
+		</div>
+		<div class="-contacts">
+			<div class="-text">Дмитровское шоссе 71Б 7ONE</div>
+			<div class="-text">+7 (495) 221-33 - 16</div>
+			<div class="-text">+7 (495) 221-33 - 16</div>
+		</div>
+	</div>
+</nav>
+<style>
+	.header {
+		background: #363636;
+		min-height: 90px;
+		width: 1fr;
+		padding: 10px 100px;
+		border: 0;
+		color: #fff;
+		display: flex;
+		/* align-items: center; */
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 10px;
+		@media (max-width: 1600px) {
+			padding: 0 10px;
+		}
+		.-logo {
+			cursor: pointer;
+		}
+		.-container {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+
+			gap: 55px;
+		}
+		.-links {
+			display: flex;
+			gap: 60px;
+			flex-wrap: wrap;
+			@media (max-width: 768px) {
+				display: none;
+			}
+
+			.-link {
+				color: #fff;
+				font-size: 16px;
+				text-decoration: none;
+				&:hover {
+					color: aqua;
+				}
+			}
+		}
+		.-socials {
+			display: flex;
+			gap: 24px;
+			.-img {
+				height: 24px;
+				width: auto;
+				cursor: pointer;
+			}
+		}
+		.-contacts {
+			display: flex;
+			gap: 8px;
+			flex-direction: column;
+			@media (max-width: 768px) {
+				display: none;
+			}
+			.-text {
+				font-size: 14px;
+			}
+		}
+	}
+</style>
