@@ -2,11 +2,11 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeImage from "../assets/img/homeImage.jpg";
 import { Image } from "astro:assets";
-import Collections from "../components/Collections.jsx";
+import Categories from "../components/Categories.jsx";
 ---
 
 <BaseLayout>
 	<div class="container">
-		<Collections client:only />
+		<Categories client:only />
 	</div>
 </BaseLayout>

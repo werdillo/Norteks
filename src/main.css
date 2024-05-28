@@ -1,7 +1,7 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	max-width: 1600px;
+	max-width: 1700px;
 	width: 95%;
 	padding: 25px 20px;
 	
@@ -21,9 +21,40 @@
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
 	}
-	.-img {
-		width: 100%;
-		height: auto;
+	&.collection {
+		/* grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); */
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		@media (max-width: 1200px) {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+	.-item {
+		position: relative;
+		text-align: center;
+		transition: 250ms;
+		overflow: hidden;
+		object-fit: contain;
+
+		.-img {
+			width: 100%;
+			height: auto;
+			object-fit: cover;
+		}
+
+		.-text {
+			font-family: 'Avenir', sans-serif;
+			font-size: 36px;
+			position: absolute;
+			top: 75%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			width: 85%;
+			color: #ffffff;
+
+			@media only screen and (max-width: 550px) {
+				font-size: 16px;
+			}
+		}
 	}
 }
 

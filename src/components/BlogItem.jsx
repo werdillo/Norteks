@@ -4,10 +4,12 @@ import { getImageUrl } from '../lib/pocketbase';
 import "../main.css";
 
 
-export default function Blog() {
+export default function BlogItem() {
 	const [items, setItems] = createSignal([]);
 	const [error, setError] = createSignal(null);
-
+	const urlSearchParams = new URLSearchParams(window.location.search);
+	const params = Object.fromEntries(urlSearchParams.entries());
+	console.log('params', params);
 	onMount(async () => {
 		try {
 			const res = await client.collection('blog').getList();
@@ -19,7 +21,7 @@ export default function Blog() {
 	});
 
 
-	return (
+	return <>
 		<div class="blog">
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={<p>Loading...</p>}>
@@ -32,6 +34,9 @@ export default function Blog() {
 					</div>
 				}
 			</For>
+			
 		</div>
-	);
+		<a href="blog?search=govns1">link</a>
+		{params.search}
+	</>
 }
