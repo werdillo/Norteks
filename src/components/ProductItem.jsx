@@ -4,7 +4,7 @@ import { getImageUrl } from '../lib/pocketbase';
 import "../main.css";
 
 
-export default function Callection() {
+export default function ProductItem() {
 	const [items, setItems] = createSignal([]);
 	const [error, setError] = createSignal(null);
 	
@@ -13,8 +13,8 @@ export default function Callection() {
 	onMount(async () => {
 		const param = params.name;
 		try {
-			const res = await client.collection('collections').getList(1, 50,
-				 {filter: `category.path="${param}"`,}
+			const res = await client.collection('textile').getList(1, 50,
+				 {filter: `collection.path="${param}"`,}
 				);
 
 			setItems(res.items);
@@ -30,12 +30,11 @@ export default function Callection() {
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={<p>Loading...</p>}>
 				{(item) => 
-					<a href={"/product?name=" + item.path}>
-						<div key={item.id} class="-item">
-							<div class="-text">{item.name}</div>
-							<img class="-img" src={getImageUrl(item)} alt={item.name} />
-						</div>
-					</a>
+					<div key={item.id} class="-item">
+						<div class="-text">{item.name}</div>
+						<img class="-img" src={getImageUrl(item)} alt={item.name} />
+					</div>
+						
 				}
 			</For>
 		</div>
