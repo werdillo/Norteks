@@ -1,11 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HomeImage from "../assets/img/homeImage.jpg";
+import img1 from "../assets/img/cleaning/img1.jpg";
+import img2 from "../assets/img/cleaning/img2.jpg";
+import img3 from "../assets/img/cleaning/img3.jpg";
 import { Image } from "astro:assets";
 import "../main.css";
 ---
 
 <BaseLayout>
+	<div class="img-container">
+		<Image src={img1}  class="-img" alt="" />
+		<Image src={img2}  class="-img" alt="" />
+		<Image src={img3}  class="-img" alt="" />
+	</div>
 	<div class="container offset">
 		<div>
 			Выбирая ткань для своей мягкой мебели, покупателю необходимо
@@ -207,6 +215,15 @@ import "../main.css";
 </BaseLayout>
 
 <style scoped>
-	
+.img-container {
+	width: 105%;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	.-img {
+		max-height: 320px;
+		width: auto;
+	}
+}
 
 </style>
