@@ -7,6 +7,8 @@ import "../main.css";
 export default function Callection() {
 	const [items, setItems] = createSignal([]);
 	const [error, setError] = createSignal(null);
+	const [description, setDescription] = createSignal("");
+	const [title, setTitle] = createSignal("");
 	
 	const urlSearchParams = new URLSearchParams(window.location.search);
 	const params = Object.fromEntries(urlSearchParams.entries());
@@ -15,9 +17,15 @@ export default function Callection() {
 		try {
 			const res = await client.collection('collections').getList(1, 50,
 				 {filter: `category.path="${param}"`,}
-				);
+			);
+			const text = await client.collection('categories').getList(1, 50, {
+				filter: `path="${param}"`,
+				fields: "name, description:excerpt(200,true)"
+			});
 
 			setItems(res.items);
+			setDescription(text.items[0].description);
+			setTitle(text.items[0].name);
 		} catch (err) {
 			console.error('Error fetching items:', err); 
 			setError(err);
@@ -26,6 +34,12 @@ export default function Callection() {
 
 
 	return <>
+		<div className="title">
+			{title}
+		</div>
+		<div className="text">
+			{description}
+		</div>
 		<div class="product-list collection">
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={<p>Loading...</p>}>
