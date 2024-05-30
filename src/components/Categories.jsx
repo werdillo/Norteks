@@ -21,8 +21,6 @@ export default function Categories() {
 			setError(err);
 		}
 	});
-
-
 	return <>
 		<div class="product-list">
 			{error() && <p>Error loading items: {error().message}</p>}

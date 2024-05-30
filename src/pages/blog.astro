@@ -1,12 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import BlogItem from "../components/BlogItem.jsx";
-const search = Astro.url.searchParams.get("post") || "";
+import BlogList from "../components/BlogList.jsx";
 ---
 
 <BaseLayout>
-	{search}
 	<div class="container">
-		<BlogItem client:only />
+		<BlogList client:only />
 	</div>
 </BaseLayout>
