@@ -24,7 +24,15 @@ export default function Categories() {
 	return <>
 		<div class="product-list">
 			{error() && <p>Error loading items: {error().message}</p>}
-			<For each={items()} fallback={<p>Loading...</p>}>
+			<For each={items()} fallback={
+				<>
+				<div class="-item skeleton"></div>
+				<div class="-item skeleton"></div>
+				<div class="-item skeleton"></div>
+				<div class="-item skeleton"></div>
+				<div class="-item skeleton"></div>
+				</>
+			}>
 				{(item) => (
 					<a href={"/collection?name=" + item.path}>
 						<div key={item.id} class="-item">
