@@ -42,7 +42,7 @@ export default function ProductItem() {
 		</div>
 		<div class="product-list collection">
 			{error() && <p>Error loading items: {error().message}</p>}
-			<For each={items()} fallback={<p>Loading...</p>}>
+			<For each={items()} fallback={<div class="-item skeleton"></div>}>
 				{(item) => 
 					<div key={item.id} class="-item">
 						<div class="-text">{item.name}</div>
