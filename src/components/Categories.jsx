@@ -31,6 +31,7 @@ export default function Categories() {
 				<div class="-item skeleton"></div>
 				<div class="-item skeleton"></div>
 				<div class="-item skeleton"></div>
+				<div class="-item skeleton"></div>
 				</>
 			}>
 				{(item) => (

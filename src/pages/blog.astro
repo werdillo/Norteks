@@ -28,33 +28,21 @@ try {
 	<div class="container">
 		<div class="blog">
 			{
-				error ? (
-					<p>Error loading items: {error.message}</p>
-				) : loading ? (
-					[...Array(5)].map(() => (
+				items.map((item) => (
+					<a href={`/post?name=${item.path}`}>
 						<div class="-item">
-							<div class="skeleton skeleton-img" />
-							<div class="skeleton skeleton-title" />
-							<div class="skeleton skeleton-description" />
-						</div>
-					))
-				) : (
-					items.map((item) => (
-						<a href={`/post?name=${item.path}`}>
-							<div class="-item">
-								<img
-									src={getImageUrl(item)}
-									class="-img"
-									alt={item.title}
-								/>
-								<div class="-title">{item.title}</div>
-								<div class="-description">
-									{item.description}
-								</div>
+							<img
+								src={getImageUrl(item)}
+								class="-img"
+								alt={item.title}
+							/>
+							<div class="-title">{item.title}</div>
+							<div class="-description">
+								{item.description}
 							</div>
-						</a>
-					))
-				)
+						</div>
+					</a>
+				))
 			}
 		</div>
 	</div>

@@ -1,0 +1,28 @@
+---
+import EmailForm from "./EmailForm";
+---
+
+<div class="content">
+	<div class="title">Оставьте заявку и мы с вами обязательно свяжемся</div>
+	<EmailForm client:only />
+</div>
+
+<style scoped>
+.title {
+	font-weight: 700;
+	font-size: 36px;
+	text-align: center;
+	color: #fff;
+	max-width: 500px;
+}
+.content {
+	height: 750px;
+	width: 100%;
+	gap: 30px;
+	flex-direction: column;
+	background: rgb(98, 98, 98);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
