@@ -1,12 +1,60 @@
 ---
+import { client } from "../lib/pocketbase";
+import { getImageUrl } from "../lib/pocketbase";
+import "../main.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HomeImage from "../assets/img/homeImage.jpg";
-import { Image } from "astro:assets";
-import Categories from "../components/Categories.jsx";
+// Function to fetch categories
+async function fetchCategories() {
+	try {
+		const res = await client.collection("categories").getList(1, 50);
+		return res.items;
+	} catch (err) {
+		console.error("Error fetching items:", err);
+		throw err;
+	}
+}
+
+// Fetch categories on the server-side and pass to the component
+let items = [];
+let error = null;
+
+try {
+	items = await fetchCategories();
+} catch (err) {
+	error = err;
+}
 ---
 
 <BaseLayout>
 	<div class="container">
-		<Categories client:only />
+		<div class="product-list">
+			{
+				error ? (
+					<p>Error loading items: {error.message}</p>
+				) : items.length === 0 ? (
+					<>
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+					</>
+				) : (
+					items.map((item) => (
+						<a href={`/collection?name=${item.path}`}>
+							<div class="-item">
+								<div class="-text">{item.name}</div>
+								<img
+									class="-img"
+									src={getImageUrl(item)}
+									alt={item.name}
+								/>
+							</div>
+						</a>
+					))
+				)
+			}
+		</div>
 	</div>
 </BaseLayout>

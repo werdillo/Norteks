@@ -1,12 +1,35 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Categories from "../components/Categories.jsx";
-
+import { client } from "../lib/pocketbase";
+import { getImageUrl } from "../lib/pocketbase";
+import "../main.css";
 import { Image } from "astro:assets";
 import "../main.css";
 import Norteks from "../assets/img/logo.svg";
 import EmailForm from "../components/EmailForm";
 import EmailBox from "../components/EmailBox.astro";
+
+
+async function fetchCategories() {
+	try {
+		const res = await client.collection("categories").getList(1, 50);
+		return res.items;
+	} catch (err) {
+		console.error("Error fetching items:", err);
+		throw err;
+	}
+}
+
+// Fetch categories on the server-side and pass to the component
+let items = [];
+let error = null;
+
+try {
+	items = await fetchCategories();
+} catch (err) {
+	error = err;
+}
 ---
 
 <BaseLayout>
@@ -35,75 +58,102 @@ import EmailBox from "../components/EmailBox.astro";
 			Основная философия нашей компании: ткани — это не только элемент
 			интерьера, но и имидж, стиль и атрибут высокой моды
 		</div>
-		<!-- <div>{resultList}</div> -->
-		<Categories client:only />
+		<div class="product-list">
+			{
+				error ? (
+					<p>Error loading items: {error.message}</p>
+				) : items.length === 0 ? (
+					<>
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+						<div class="-item skeleton" />
+					</>
+				) : (
+					items.map((item) => (
+						<a href={`/collection?name=${item.path}`}>
+							<div class="-item">
+								<div class="-text">{item.name}</div>
+								<img
+									class="-img"
+									src={getImageUrl(item)}
+									alt={item.name}
+								/>
+							</div>
+						</a>
+					))
+				)
+			}
+		</div>
 	</div>
 	<!-- <EmailBox /> -->
 </BaseLayout>
 
 <style scoped>
-.text {
-	font-size: 20px;
-	line-height: 32px;
-	@media (max-width: 768px) {
-		line-height: 24px;
-		font-size: 14px;
-	}
-	&.xl {
-		font-size: 24px;
-		font-weight: 700;
+	.text {
+		font-size: 20px;
+		line-height: 32px;
 		@media (max-width: 768px) {
-			font-size: 16px;
+			line-height: 24px;
+			font-size: 14px;
 		}
-	}
-}
-.home-image {
-	width: 100%;
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	height: 800px;
-	background-image: url("../assets/img/homeImage.jpg");
-	background-size: cover;
-	background-position: center;
-	@media (max-width: 768px) {
-		height: 500px;
-	}
-	.-container {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
-		margin-left: 60px;
-		max-width: 800px;
-		@media (max-width: 768px) {
-			margin-left: 20px;
-		}
-		.-title {
-			color: #fc7604;
-			font-size: 80px;
-			@media (max-width: 768px) {
-				font-size: 40px;
-			}
-		}
-		.-button {
-			border-radius: 40px;
-			width: 280px;
-			height: 60px;
-			background: #fc7604;
-			border: 0;
-			color: aliceblue;
+		&.xl {
 			font-size: 24px;
-			font-weight: 500;
+			font-weight: 700;
 			@media (max-width: 768px) {
 				font-size: 16px;
-				width: 200px;
-				height: 5dvb;
 			}
 		}
-		.-img {
-			width: 220px;
-			height: auto;
+	}
+	.home-image {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		height: 800px;
+		background-image: url("../assets/img/homeImage.jpg");
+		background-size: cover;
+		background-position: center;
+		@media (max-width: 768px) {
+			height: 500px;
+		}
+		.-container {
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+			margin-left: 60px;
+			max-width: 800px;
+			@media (max-width: 768px) {
+				margin-left: 20px;
+			}
+			.-title {
+				color: #fc7604;
+				font-size: 80px;
+				@media (max-width: 768px) {
+					font-size: 40px;
+				}
+			}
+			.-button {
+				border-radius: 40px;
+				width: 280px;
+				height: 60px;
+				background: #fc7604;
+				border: 0;
+				color: aliceblue;
+				font-size: 24px;
+				font-weight: 500;
+				@media (max-width: 768px) {
+					font-size: 16px;
+					width: 200px;
+					height: 5dvb;
+				}
+			}
+			.-img {
+				width: 220px;
+				height: auto;
+			}
 		}
 	}
-}
 </style>
