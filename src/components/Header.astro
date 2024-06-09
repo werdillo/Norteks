@@ -4,6 +4,8 @@ import instagram from "../assets/img/icons/instagram.svg";
 import telegram from "../assets/img/icons/telegram.svg";
 import whatsapp from "../assets/img/icons/whatsapp.svg";
 import { Image } from "astro:assets";
+
+const currentPath = Astro.url.pathname;
 ---
 
 <nav class="header">
@@ -12,10 +14,26 @@ import { Image } from "astro:assets";
 			<Image src={Norteks} alt="" />
 		</a>
 		<div class="-links">
-			<a href="/textile" class="-link">Коллекции</a>
-			<a href="/cleaning" class="-link">Как очистить ткань</a>
-			<a href="/furniture" class="-link">Фурнитура</a>
-			<a href="/blog" class="-link">Блог</a>
+			<a
+				href="/textile"
+				class={currentPath === "/textile" ? "-link active" : "-link "}
+				>Коллекции</a
+			>
+			<a
+				href="/cleaning"
+				class={currentPath === "/cleaning" ? "-link active" : "-link "}
+				>Как очистить ткань</a
+			>
+			<a
+				href="/furniture"
+				class={currentPath === "/furniture" ? "-link active" : "-link "}
+				>Фурнитура</a
+			>
+			<a
+				href="/blog"
+				class={currentPath === "/blog" ? "-link active" : "-link "}
+				>Блог</a
+			>
 		</div>
 	</div>
 	<div class="-container">
@@ -69,6 +87,9 @@ import { Image } from "astro:assets";
 				color: #fff;
 				font-size: 16px;
 				text-decoration: none;
+				&.active {
+					color: aqua;
+				}
 				&:hover {
 					color: aqua;
 				}
