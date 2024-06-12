@@ -32,13 +32,18 @@ const currentPath = Astro.url.pathname;
 			<a
 				href="/blog"
 				class={currentPath === "/blog" ? "-link active" : "-link "}
-				>Блог</a>
+				>Блог</a
+			>
 		</div>
 	</div>
 	<div class="-container">
 		<div class="-socials">
-			<Image class="-img" src={instagram} alt="" />
-			<Image class="-img" src={telegram} alt="" />
+			<a href="https://www.instagram.com/tknortex/">
+				<Image class="-img" src={instagram} alt="" />
+			</a>
+			<a href="https://t.me/tknortex">
+				<Image class="-img" src={telegram} alt="" />
+			</a>
 			<Image class="-img" src={whatsapp} alt="" />
 		</div>
 		<div class="-contacts">
