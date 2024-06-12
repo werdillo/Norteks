@@ -27,7 +27,7 @@ export default function FurnitureList() {
 
 	return (
 		<>
-			<div class="blog furniture">
+			<div class="furniture">
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={
 				<>
