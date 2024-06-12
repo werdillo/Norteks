@@ -26,12 +26,12 @@ export default function Categories() {
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={
 				<>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
 				</>
 			}>
 				{(item) => (

@@ -31,12 +31,14 @@ export default function FurnitureList() {
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={
 				<>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
-				<div class="-item skeleton"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
 				</>
 			}>
 				{(item) => (

@@ -41,12 +41,22 @@ export default function ProductItem() {
 			{description}
 		</div>
 		<div class="product-list collection">
-			{error() && <p>Error loading items: {error().message}</p>}
-			<For each={items()} fallback={<div class="-item skeleton"></div>}>
+			<For each={items()} fallback={
+				<>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+					<div class="skeleton product"></div>
+				</>
+			}>
 				{(item) => 
 					<div key={item.id} class="-item">
 						<div class="-text">{item.name}</div>
-						<img class="-img" src={getImageUrl(item)} alt={item.name} />
+						<img class="-img product" src={getImageUrl(item)} alt={item.name} />
 					</div>
 						
 				}

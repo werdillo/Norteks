@@ -44,17 +44,21 @@ export default function Callection() {
 			{error() && <p>Error loading items: {error().message}</p>}
 			<For each={items()} fallback={
 				<>
-					<div class="-item skeleton"></div>
-					<div class="-item skeleton"></div>
-					<div class="-item skeleton"></div>
-					<div class="-item skeleton"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
+					<div class="skeleton collection"></div>
 				</>
 			}>
 				{(item) => 
 					<a href={"/product?name=" + item.path}>
 						<div key={item.id} class="-item">
 							<div class="-text">{item.name}</div>
-							<img class="-img" src={getImageUrl(item)} alt={item.name} />
+							<img class="-img collection" src={getImageUrl(item)} alt={item.name} />
 						</div>
 					</a>
 				}

@@ -28,6 +28,25 @@
 	margin-top: 5px;
 }
 
+.skeleton {
+	background: #e2e2e2;
+	width: 1fr;
+	height: auto;
+	aspect-ratio: 4/3;
+	&.collection {
+		aspect-ratio: 7/6;
+	}
+	&.product {
+		aspect-ratio: 1/1;
+	}
+	&.furniture {
+		aspect-ratio: 7/5;
+	}
+	&.blog {
+		aspect-ratio: 7/4;
+	}
+}
+
 .product-list {
 	display: grid;
 	width:100%;
@@ -63,6 +82,12 @@
 			height: auto;
 			object-fit: cover;
 			aspect-ratio: 4/3;
+			&.collection {
+				aspect-ratio: 7/6;
+			}
+			&.product {
+				aspect-ratio: 1/1;
+			}
 		}
 
 		.-text {
@@ -122,9 +147,6 @@
 			height: auto;
 			aspect-ratio: 7/4;
 			object-fit: cover;
-			&.furniture {
-				aspect-ratio: 1/1;
-			}
 		}
 		.-title {
 			font-size: 24px;
@@ -148,12 +170,6 @@
 		grid-template-columns: 1fr 1fr;
 	}
 	.-item {
-		&.skeleton {
-			background: #e2e2e2;
-			width: 1fr;
-			height: auto;
-			aspect-ratio: 7/5;
-		}
 		a {
 			color: #0f0f0f;
 			text-decoration: none;
@@ -164,10 +180,6 @@
 			height: auto;
 			aspect-ratio: 7/5;
 			object-fit: cover;
-
-			&.furniture {
-				aspect-ratio: 1/1;
-			}
 		}
 
 		.-title {
