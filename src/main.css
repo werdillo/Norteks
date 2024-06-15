@@ -1,11 +1,12 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	max-width: 1900px;
-	width: 95%;
-	padding: 25px 20px;
+	max-width: 1940px;
+	width: 98%;
+	padding: 25px 10px;
 	@media (max-width: 1024px) {
 		padding: 16px 5px;
+		width: 96%;
 	}
 	&.offset {
 		gap: 16px;
