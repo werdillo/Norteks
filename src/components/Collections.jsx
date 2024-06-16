@@ -20,7 +20,7 @@ export default function Callection() {
 			);
 			const text = await client.collection('categories').getList(1, 50, {
 				filter: `path="${param}"`,
-				fields: "name, description:excerpt(200,true)"
+				fields: "name, description"
 			});
 
 			setItems(res.items);

@@ -33,7 +33,7 @@ export default function ProductItem() {
 			// Process the items to filter out empty strings
 			const processedItems = res.items.map(item => {
 				const combined = [];
-				for (let i = 1; i <= 31; i++) {
+				for (let i = 1; i <= 32; i++) {
 					const img = item[`img${i}`];
 					const textile = item[`textile${i}`];
 					if (img && textile) {
