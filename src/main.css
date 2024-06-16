@@ -32,7 +32,12 @@
 	@media (max-width: 1024px) {
 		font-size: 16px;
 	}
-	&.s { font-size: 24px;}
+	&.s { 
+		font-size: 24px;
+		@media (max-width: 1024px) {
+			font-size: 14px;
+		}
+	}
 }
 
 .skeleton {

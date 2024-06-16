@@ -12,6 +12,7 @@ export const getImage = (collectionId, fileId, fileName) => {
 export default function ProductItem() {
 	const [items, setItems] = createSignal([]);
 	const [description, setDescription] = createSignal([]);
+	const [descriptionType, setDescriptionType] = createSignal([]);
 	const [title, setTitle] = createSignal([]);
 	const [collectionId, setCollectionId] = createSignal([]);
 	const [fileId, setFileId] = createSignal([]);
@@ -46,6 +47,7 @@ export default function ProductItem() {
 			setItems(processedItems);
 			setTitle(res.items[0].name);
 			setDescription(res.items[0].description);
+			setDescriptionType(res.items[0].description_type);
 
 			setCollectionId(res.items[0].collectionId);
 			setFileId(res.items[0].id);
@@ -63,8 +65,11 @@ export default function ProductItem() {
 		<div class="title s">
 			{title()}
 		</div>
-		<div class="text s">
+		<div class="text">
 			{description()}
+		</div>
+		<div class="text s">
+			{descriptionType()}
 		</div>
 		<br/>
 		{plotnost() && <div>Плотность: {plotnost()}</div>}
