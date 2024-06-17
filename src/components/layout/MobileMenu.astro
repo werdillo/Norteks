@@ -1,6 +1,4 @@
 ---
-import Norteks from "../assets/img/logo.svg";
-import { Image } from "astro:assets";
 const currentPath = Astro.url.pathname;
 
 ---
@@ -9,7 +7,7 @@ const currentPath = Astro.url.pathname;
 	<div class="-wrapper">
 		<a
 		href="/textile"
-		class={currentPath === "/textile/" ? "-link active" : "-link "}
+		class={currentPath === "/textile/"  || currentPath.includes("/collection")|| currentPath.includes("/product") ? "-link active" : "-link "}
 		>Коллекции</a
 	>
 	<a
@@ -24,7 +22,7 @@ const currentPath = Astro.url.pathname;
 	>
 	<a
 		href="/blog"
-		class={currentPath === "/blog/" ? "-link active" : "-link "}
+		class={ currentPath === "/blog/" || currentPath.includes("/post") ? "-link active" : "-link "}
 		>Блог</a
 	>
 	</div>
