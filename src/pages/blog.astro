@@ -2,6 +2,7 @@
 import { client, getImageUrl } from "../lib/pocketbase";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../main.css";
+import BlogList from "../components/BlogList";
 
 const urlSearchParams = new URLSearchParams(Astro.request.url.split("?")[1]);
 const params = Object.fromEntries(urlSearchParams.entries());
@@ -26,24 +27,6 @@ try {
 
 <BaseLayout>
 	<div class="container">
-		<div class="blog">
-			{
-				items.map((item) => (
-					<a href={`/post?name=${item.path}`}>
-						<div class="-item">
-							<img
-								src={getImageUrl(item)}
-								class="-img"
-								alt={item.title}
-							/>
-							<div class="-title">{item.title}</div>
-							<div class="-description">
-								{item.description}
-							</div>
-						</div>
-					</a>
-				))
-			}
-		</div>
+		<BlogList client:only />
 	</div>
 </BaseLayout>

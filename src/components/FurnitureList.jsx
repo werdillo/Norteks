@@ -42,7 +42,7 @@ export default function FurnitureList() {
 				</>
 			}>
 				{(item) => (
-						<div class="-item" key={item.id}>
+						<div key={item.id}>
 							<img
 								src={getImageUrl(item)}
 								class="-img"

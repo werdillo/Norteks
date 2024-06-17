@@ -149,28 +149,27 @@
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
 	}
-	.-item {
-		a {
-			color: #0f0f0f;
-			text-decoration: none;
-		}
-		.-img {
-			width: 100%;
-			height: auto;
-			aspect-ratio: 7/4;
-			object-fit: cover;
-		}
-		.-title {
-			font-size: 24px;
-			font-weight: 700;
-			margin-top: 12px;
-		}
-		.-description {
-			font-size: 16px;
-			font-weight: 500;
-			margin-top: 6px;
-		}
+	a {
+		color: #0f0f0f;
+		text-decoration: none;
 	}
+	.-img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 7/4;
+		object-fit: cover;
+	}
+	.-title {
+		font-size: 24px;
+		font-weight: 700;
+		margin-top: 12px;
+	}
+	.-description {
+		font-size: 16px;
+		font-weight: 500;
+		margin-top: 6px;
+	}
+
 }
 
 .furniture {
@@ -181,32 +180,26 @@
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
 	}
-	.-item {
-		a {
-			color: #0f0f0f;
-			text-decoration: none;
-		}
 
-		.-img {
-			width: 100%;
-			height: auto;
-			aspect-ratio: 7/5;
-			object-fit: cover;
-		}
+	.-img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 7/5;
+		object-fit: cover;
+	}
 
-		.-title {
-			font-size: 22px;
-			font-weight: 700;
-			margin-top: 12px;
-		}
+	.-title {
+		font-size: 22px;
+		font-weight: 700;
+		margin-top: 12px;
+	}
 
-		.-description {
-			font-size: 14px;
-			font-weight: 500;
-			margin-top: 6px;
-			@media (max-width: 768px) {
-				font-size: 12px;
-			}
+	.-description {
+		font-size: 14px;
+		font-weight: 500;
+		margin-top: 6px;
+		@media (max-width: 768px) {
+			font-size: 12px;
 		}
 	}
 }
