@@ -6,7 +6,6 @@ import whatsapp from "../assets/img/icons/whatsapp.svg";
 import { Image } from "astro:assets";
 
 const currentPath = Astro.url.pathname;
-console.log(currentPath)
 ---
 
 <nav class="header">
@@ -14,26 +13,25 @@ console.log(currentPath)
 		<a href="/" class="-link">
 			<Image src={Norteks} alt="" />
 		</a>
-		{currentPath}
 		<div class="-links">
 			<a
 				href="/textile"
-				class={currentPath === "/textile" ? "-link active" : "-link "}
+				class={currentPath === "/textile/" ? "-link active" : "-link "}
 				>Коллекции</a
 			>
 			<a
 				href="/cleaning"
-				class={currentPath === "/cleaning" ? "-link active" : "-link "}
+				class={currentPath === "/cleaning/" ? "-link active" : "-link "}
 				>Как очистить ткань</a
 			>
 			<a
 				href="/furniture"
-				class={currentPath === "/furniture" ? "-link active" : "-link "}
+				class={currentPath === "/furniture/" ? "-link active" : "-link "}
 				>Фурнитура</a
 			>
 			<a
 				href="/blog"
-				class={currentPath === "/blog" ? "-link active" : "-link "}
+				class={currentPath === "/blog/" ? "-link active" : "-link "}
 				>Блог</a
 			>
 		</div>
