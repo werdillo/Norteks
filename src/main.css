@@ -16,6 +16,11 @@
 	}
 }
 
+a {
+	color: #0f0f0f;
+	text-decoration: none;
+}
+
 .title {
 	font-size: 42px;
 	font-weight: 700;
@@ -148,10 +153,6 @@
 	grid-template-columns: 1fr 1fr 1fr;
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
-	}
-	a {
-		color: #0f0f0f;
-		text-decoration: none;
 	}
 	.-img {
 		width: 100%;

@@ -20,7 +20,7 @@ export default function BlogList() {
 	});
 
 
-	return <>
+	return (<>
 		<div class="blog">
 			<For each={items()} fallback={
 				<>
@@ -48,5 +48,5 @@ export default function BlogList() {
 				}
 			</For>
 		</div>
-	</>
+	</>);
 }
