@@ -16,7 +16,7 @@ export default function Callection() {
 		const param = params.name;
 		try {
 			const res = await client.collection('collections').getList(1, 50,
-				 {filter: `category.path="${param}"`,}
+				 {filter: `category.path?="${param}"`,}
 			);
 			const text = await client.collection('categories').getList(1, 50, {
 				filter: `path="${param}"`,
