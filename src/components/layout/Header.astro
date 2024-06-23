@@ -54,70 +54,70 @@ const currentPath = Astro.url.pathname;
 	</div>
 </nav>
 <style>
-	.header {
-		background: #363636;
-		min-height: 90px;
-		width: 1fr;
-		padding: 10px 100px;
-		border: 0;
-		color: #fff;
+.header {
+	background: #363636;
+	min-height: 90px;
+	width: 1fr;
+	padding: 10px 100px;
+	border: 0;
+	color: #fff;
+	display: flex;
+	/* align-items: center; */
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 10px;
+	@media (max-width: 1600px) {
+		padding: 0 10px;
+	}
+	.-logo {
+		cursor: pointer;
+	}
+	.-container {
 		display: flex;
-		/* align-items: center; */
-		justify-content: space-between;
+		align-items: center;
 		flex-wrap: wrap;
-		gap: 10px;
-		@media (max-width: 1600px) {
-			padding: 0 10px;
-		}
-		.-logo {
-			cursor: pointer;
-		}
-		.-container {
-			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
 
-			gap: 55px;
+		gap: 55px;
+	}
+	.-links {
+		display: flex;
+		gap: 60px;
+		flex-wrap: wrap;
+		@media (max-width: 768px) {
+			display: none;
 		}
-		.-links {
-			display: flex;
-			gap: 60px;
-			flex-wrap: wrap;
-			@media (max-width: 768px) {
-				display: none;
-			}
 
-			.-link {
-				color: #fff;
-				font-size: 16px;
-				text-decoration: none;
-				&.active {
-					color: aqua;
-				}
-				&:hover {
-					color: aqua;
-				}
+		.-link {
+			color: #fff;
+			font-size: 16px;
+			text-decoration: none;
+			&.active {
+				color: aqua;
 			}
-		}
-		.-socials {
-			display: flex;
-			gap: 24px;
-			.-img {
-				height: 24px;
-				width: auto;
-				cursor: pointer;
-			}
-		}
-		.-contacts {
-			display: flex;
-			gap: 8px;
-			flex-direction: column;
-			@media (max-width: 768px) {
-				display: none;
-			}
-			.-text {
-				font-size: 14px;
+			&:hover {
+				color: aqua;
 			}
 		}
 	}
+	.-socials {
+		display: flex;
+		gap: 24px;
+		.-img {
+			height: 24px;
+			width: auto;
+			cursor: pointer;
+		}
+	}
+	.-contacts {
+		display: flex;
+		gap: 8px;
+		flex-direction: column;
+		@media (max-width: 768px) {
+			display: none;
+		}
+		.-text {
+			font-size: 14px;
+		}
+	}
+}
 </style>

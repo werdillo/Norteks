@@ -4,28 +4,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import "../main.css";
 import BlogList from "../components/BlogList";
 
-const urlSearchParams = new URLSearchParams(Astro.request.url.split("?")[1]);
-const params = Object.fromEntries(urlSearchParams.entries());
-console.log("params", params);
-
-let items = [];
-let error = null;
-let loading = true;
-
-try {
-	const res = await client.collection("blog").getFullList(50, {
-		fields: "id, collectionId, image, path, title, description:excerpt(200, true)",
-	});
-	items = res;
-	loading = false;
-} catch (err) {
-	console.error("Error fetching items:", err);
-	error = err;
-	loading = false;
-}
 ---
 
-<BaseLayout>
+<BaseLayout>	
 	<div class="container">
 		<BlogList client:only />
 	</div>
