@@ -32,6 +32,9 @@ export default function Categories() {
 				<div class="skeleton"></div>
 				<div class="skeleton"></div>
 				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
+				<div class="skeleton"></div>
 				</>
 			}>
 				{(item) => (
