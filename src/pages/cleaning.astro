@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HomeImage from "../assets/img/homeImage.jpg";
 import img1 from "../assets/img/cleaning/img1.jpg";
 import img2 from "../assets/img/cleaning/img2.jpg";
 import img3 from "../assets/img/cleaning/img3.jpg";
@@ -215,20 +214,20 @@ import "../main.css";
 </BaseLayout>
 
 <style scoped>
-	.-text {
-		font-size: 14px;
-		@media (max-width: 700px) {
-			font-size: 12px;
-		}
+.-text {
+	font-size: 14px;
+	@media (max-width: 700px) {
+		font-size: 12px;
 	}
-	.img-container {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
-		margin: 20px 0;
-		.-img {
-			max-height: 18vw;
-			width: auto;
-		}
+}
+.img-container {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin: 20px 0;
+	.-img {
+		max-height: 18vw;
+		width: auto;
 	}
+}
 </style>

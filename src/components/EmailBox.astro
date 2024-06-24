@@ -14,9 +14,12 @@ import EmailForm from "./EmailForm";
 	text-align: center;
 	color: #fff;
 	max-width: 500px;
+	@media (max-width: 768px) {
+		font-size: 24px;
+	}
 }
 .content {
-	height: 750px;
+	height: 700px;
 	width: 100%;
 	gap: 30px;
 	flex-direction: column;
@@ -24,5 +27,10 @@ import EmailForm from "./EmailForm";
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	background: url('../assets/img/email-back.jpg');
+	
+	@media (max-width: 768px) {
+		height: 450px;
+	}
 }
 </style>

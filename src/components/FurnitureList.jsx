@@ -39,6 +39,10 @@ export default function FurnitureList() {
 				<div class="skeleton furniture"></div>
 				<div class="skeleton furniture"></div>
 				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
 				</>
 			}>
 				{(item) => (

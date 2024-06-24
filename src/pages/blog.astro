@@ -1,12 +1,9 @@
 ---
-import { client, getImageUrl } from "../lib/pocketbase";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import "../main.css";
 import BlogList from "../components/BlogList";
-
 ---
 
-<BaseLayout>	
+<BaseLayout>
 	<div class="container">
 		<BlogList client:only />
 	</div>

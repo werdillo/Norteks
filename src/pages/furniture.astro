@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FurnitureList from "../components/FurnitureList.jsx";
+import EmailBox from "../components/EmailBox.astro";
 ---
 
 <BaseLayout>
 	<div class="container">
 		<FurnitureList client:only />
 	</div>
+	<EmailBox />
 </BaseLayout>
