@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
 	<div class="-wrapper">
 		<div class="-container">
 			<a href="/">
-				<Image src={Norteks} class="-logo" alt="" />
+				<img src="/logo.svg" class="-logo" alt="" />
 			</a>
 			<div class="-links">
 				<a
@@ -64,82 +64,82 @@ const currentPath = Astro.url.pathname;
 	</div>
 </nav>
 <style>
-	.header {
-		z-index: 10;
-		position: fixed;
-		top: 0;
-		background: #363636;
-		width: 100%;
-		border: 0;
-		color: #fff;
+.header {
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	background: #363636;
+	width: 100%;
+	border: 0;
+	color: #fff;
+	height: 90px;
+	.-wrapper {
+		padding: 0 100px;
+		display: flex;
+		width: 1fr;
 		height: 90px;
-		.-wrapper {
-			padding: 0 100px;
-			display: flex;
-			width: 1fr;
-			height: 90px;
-			/* align-items: center; */
-			justify-content: space-between;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 10px;
-			@media (max-width: 1600px) {
-				padding: 0 10px;
-			}
+		/* align-items: center; */
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		@media (max-width: 1600px) {
+			padding: 0 10px;
+		}
+	}
+
+	.-container {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+
+		gap: 55px;
+	}
+	.-logo {
+		cursor: pointer;
+		margin-top: 2px;
+		height: auto;
+		width: 120px;
+	}
+	.-links {
+		display: flex;
+		gap: 60px;
+		flex-wrap: wrap;
+		@media (max-width: 768px) {
+			display: none;
 		}
 
-		.-container {
-			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
-
-			gap: 55px;
-		}
-		.-logo {
-			cursor: pointer;
-			margin-top: 2px;
-			height: auto;
-			width: 120px;
-		}
-		.-links {
-			display: flex;
-			gap: 60px;
-			flex-wrap: wrap;
-			@media (max-width: 768px) {
-				display: none;
+		.-link {
+			color: #fff;
+			font-size: 16px;
+			text-decoration: none;
+			&.active {
+				color: aqua;
 			}
-
-			.-link {
-				color: #fff;
-				font-size: 16px;
-				text-decoration: none;
-				&.active {
-					color: aqua;
-				}
-				&:hover {
-					color: aqua;
-				}
-			}
-		}
-		.-socials {
-			display: flex;
-			gap: 24px;
-			.-img {
-				height: 24px;
-				width: auto;
-				cursor: pointer;
-			}
-		}
-		.-contacts {
-			display: flex;
-			gap: 8px;
-			flex-direction: column;
-			@media (max-width: 768px) {
-				display: none;
-			}
-			.-text {
-				font-size: 14px;
+			&:hover {
+				color: aqua;
 			}
 		}
 	}
+	.-socials {
+		display: flex;
+		gap: 24px;
+		.-img {
+			height: 24px;
+			width: auto;
+			cursor: pointer;
+		}
+	}
+	.-contacts {
+		display: flex;
+		gap: 8px;
+		flex-direction: column;
+		@media (max-width: 768px) {
+			display: none;
+		}
+		.-text {
+			font-size: 14px;
+		}
+	}
+}
 </style>
