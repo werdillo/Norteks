@@ -5,7 +5,7 @@ import EmailBottom from "./EmailBottom";
 import "../main.css";
 
 
-export default function Categories() {
+export default function Categories({showEmail=true}) {
 	const [items, setItems] = createSignal([]);
 	const [loading, setLoading] = createSignal(true);
 
@@ -50,7 +50,7 @@ export default function Categories() {
 				</Show>
 			</div>
 		</div>
-		<Show when={!loading()}>
+		<Show when={!loading() && showEmail}>
 			<EmailBottom />
 		</Show>
 	</>

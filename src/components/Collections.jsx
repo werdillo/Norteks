@@ -35,44 +35,44 @@ export default function Callection() {
 
 
 	return <>
-	<div className="container">	
-		<div className="title">
-			{title}
+		<div className="container">	
+			<div className="title">
+				{title}
+			</div>
+			<div className="text">
+				{description}
+			</div>
+			<div class="product-list collection">
+				<Show when={loading()}>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+					<div class="skeleton furniture"></div>
+				</Show>
+				<Show when={!loading()}>
+					<For each={items()}>
+						{(item) => 
+							<a href={"/product?name=" + item.path}>
+								<div key={item.id} class="-item">
+									<div class="-text">{item.name}</div>
+									<img class="-img collection" src={getImageUrl(item)} alt={item.name} />
+								</div>
+							</a>
+						}
+					</For>
+				</Show>
+			</div>
 		</div>
-		<div className="text">
-			{description}
-		</div>
-		<div class="product-list collection">
-			<Show when={loading()}>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-				<div class="skeleton furniture"></div>
-			</Show>
-			<Show when={!loading()}>
-				<For each={items()}>
-					{(item) => 
-						<a href={"/product?name=" + item.path}>
-							<div key={item.id} class="-item">
-								<div class="-text">{item.name}</div>
-								<img class="-img collection" src={getImageUrl(item)} alt={item.name} />
-							</div>
-						</a>
-					}
-				</For>
-			</Show>
-		</div>
-	</div>
-	<Show when={!loading()}>
-		<EmailBottom />
-	</Show>
+		<Show when={!loading()}>
+			<EmailBottom />
+		</Show>
 	</>
 }
