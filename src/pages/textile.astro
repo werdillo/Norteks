@@ -1,14 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import HomeImage from "../assets/img/homeImage.jpg";
-import { Image } from "astro:assets";
 import Categories from "../components/Categories.jsx";
-import EmailBox from "../components/EmailBox.astro";
 ---
 
 <BaseLayout>
-	<div class="container">
-		<Categories client:only />
-	</div>
-	<EmailBox />
+	<Categories client:only />
 </BaseLayout>

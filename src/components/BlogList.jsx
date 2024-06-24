@@ -18,8 +18,6 @@ export default function BlogList() {
 			setError(err);
 		}
 	});
-
-
 	return (<>
 		<div class="blog">
 			<For each={items()} fallback={

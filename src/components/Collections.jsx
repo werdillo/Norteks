@@ -2,13 +2,14 @@ import { For, createSignal, onMount } from "solid-js";
 import { client } from '../lib/pocketbase';
 import { getImageUrl } from '../lib/pocketbase';
 import "../main.css";
+import EmailBottom from "./EmailBottom";
 
 
 export default function Callection() {
 	const [items, setItems] = createSignal([]);
-	const [error, setError] = createSignal(null);
 	const [description, setDescription] = createSignal("");
 	const [title, setTitle] = createSignal("");
+	const [loading, setLoading] = createSignal(true);
 	
 	const urlSearchParams = new URLSearchParams(window.location.search);
 	const params = Object.fromEntries(urlSearchParams.entries());
@@ -26,14 +27,15 @@ export default function Callection() {
 			setItems(res.items);
 			setDescription(text.items[0].description);
 			setTitle(text.items[0].name);
+			setLoading(false)
 		} catch (err) {
 			console.error('Error fetching items:', err); 
-			setError(err);
 		}
 	});
 
 
 	return <>
+	<div className="container">	
 		<div className="title">
 			{title}
 		</div>
@@ -41,28 +43,36 @@ export default function Callection() {
 			{description}
 		</div>
 		<div class="product-list collection">
-			{error() && <p>Error loading items: {error().message}</p>}
-			<For each={items()} fallback={
-				<>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-					<div class="skeleton collection"></div>
-				</>
-			}>
-				{(item) => 
-					<a href={"/product?name=" + item.path}>
-						<div key={item.id} class="-item">
-							<div class="-text">{item.name}</div>
-							<img class="-img collection" src={getImageUrl(item)} alt={item.name} />
-						</div>
-					</a>
-				}
-			</For>
+			<Show when={loading()}>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+				<div class="skeleton furniture"></div>
+			</Show>
+			<Show when={!loading()}>
+				<For each={items()}>
+					{(item) => 
+						<a href={"/product?name=" + item.path}>
+							<div key={item.id} class="-item">
+								<div class="-text">{item.name}</div>
+								<img class="-img collection" src={getImageUrl(item)} alt={item.name} />
+							</div>
+						</a>
+					}
+				</For>
+			</Show>
 		</div>
+	</div>
+	<Show when={!loading()}>
+		<EmailBottom />
+	</Show>
 	</>
 }

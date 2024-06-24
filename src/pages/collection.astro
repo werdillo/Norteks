@@ -1,12 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Collections from "../components/Collections.jsx";
-import EmailBox from "../components/EmailBox.astro";
 ---
 
 <BaseLayout>
-	<div class="container">
-		<Collections client:only />
-	</div>
-	<EmailBox />
+	<Collections client:only />
 </BaseLayout>

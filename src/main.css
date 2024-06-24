@@ -228,3 +228,31 @@ a {
 	height: 600px;
 	object-fit: cover;
 }
+
+.email-content {
+	height: 700px;
+	width: 100%;
+	gap: 30px;
+	flex-direction: column;
+	background: rgb(98, 98, 98);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: url("./assets/img/email-back.jpg");
+
+	@media (max-width: 768px) {
+		height: 450px;
+	}
+
+	.-title {
+		font-weight: 700;
+		font-size: 36px;
+		text-align: center;
+		color: #fff;
+		max-width: 500px;
+
+		@media (max-width: 768px) {
+			font-size: 24px;
+		}
+	}
+}
