@@ -11,8 +11,8 @@ const currentPath = Astro.url.pathname;
 <nav class="header">
 	<div class="-wrapper">
 		<div class="-container">
-			<a href="/" class="-link">
-				<Image src={Norteks} alt="" />
+			<a href="/">
+				<Image src={Norteks} class="-logo" alt="" />
 			</a>
 			<div class="-links">
 				<a
@@ -96,7 +96,10 @@ const currentPath = Astro.url.pathname;
 			gap: 55px;
 		}
 		.-logo {
+			margin-top: 4px;
 			cursor: pointer;
+			height: 60px;
+			width: auto;
 		}
 		.-links {
 			display: flex;
