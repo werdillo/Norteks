@@ -6,7 +6,7 @@ import EmailBox from "../components/EmailBox.astro";
 
 <BaseLayout>
 	<div class="container">
-		<Collections client:load />
+		<Collections client:only />
 	</div>
 	<EmailBox />
 </BaseLayout>
