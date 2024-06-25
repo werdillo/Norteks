@@ -9,7 +9,7 @@ export const getImage = (collectionId, fileId, fileName) => {
 	return `${url}/api/files/${collectionId}/${fileId}/${fileName}`;
 };
 
-export default function ProductItem() {
+export default function CollectionItem() {
 	const [items, setItems] = createSignal([]);
 	const [description, setDescription] = createSignal([]);
 	const [descriptionType, setDescriptionType] = createSignal([]);
@@ -65,28 +65,28 @@ export default function ProductItem() {
 		<div class="title s">
 			{title()}
 		</div>
-		<div class="text">
+		<div class="text small-width ">
 			{description()}
 		</div>
-		<div class="text s">
+		<div class="text small-width s">
 			{descriptionType()}
 		</div>
 		<br/>
 		{plotnost() && 
 			<div class="spec">
-				<div class="-title">Плотность</div>
+				<div class="-name">Плотность</div>
 				<div class="-value">{plotnost()}</div>
 			</div>
 		}
 		{sostav() && 
 			<div class="spec">
-				<div class="-title">Состав</div>
+				<div class="-name">Состав</div>
 				<div class="-value">{sostav()}</div>
 			</div>
 		}
 		{istiranie() && 
 			<div class="spec">
-				<div class="-title">Тест на истирание</div>
+				<div class="-name">Тест на истирание</div>
 				<div class="-value">{istiranie()}</div>
 			</div>
 		}

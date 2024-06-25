@@ -34,10 +34,10 @@ export default function ProductItem() {
 
 
 	return <>
-		<div className="title s">
+		<div className="title small-width s">
 			{title}
 		</div>
-		<div className="text s">
+		<div className="text small-width s">
 			{description}
 		</div>
 		<div class="product-list collection">

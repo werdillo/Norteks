@@ -49,17 +49,32 @@ export default function FurnitureList() {
 				<Show when={!loading()}>
 					<For each={items()}>
 						{(item) => (
-							<div key={item.id}>
-								<img
-									src={getImageUrl(item)}
-									class="-img"
-									alt={item.title}
-								/>
-								<div class="-title">{item.name}</div>
-								<div class="-description">Высота: {item.height}</div>
-								<div class="-description">Материал: {item.material}</div>
-								<div class="-description">Цвет: {item.color}</div>
-							</div>
+							<>
+							<div>
+								<div key={item.id}>
+									<img
+										src={getImageUrl(item)}
+										class="-img"
+										alt={item.title}
+									/>
+								
+									<div class="-title">{item.name}</div>
+								</div>
+								<br/>
+								<div class="spec no-border">
+									<div class="-name">Высота</div>
+									<div class="-value">{item.height}</div>
+								</div>
+								<div class="spec no-border">
+									<div class="-name">Материал</div>
+									<div class="-value">{item.material}</div>
+								</div>
+								<div class="spec no-border">
+									<div class="-name">Цвет</div>
+									<div class="-value">{item.color}</div>
+								</div>
+								</div>
+							</>
 						)}
 					</For>
 				</Show>

@@ -39,7 +39,7 @@ export default function Callection() {
 			<div className="title">
 				{title}
 			</div>
-			<div className="text">
+			<div className="text small-width">
 				{description}
 			</div>
 			<div class="product-list collection">

@@ -2,8 +2,8 @@
 	display: flex;
 	flex-direction: column;
 	max-width: 1940px;
-	width: 98%;
-	padding: 25px 10px;
+	width: 96%;
+	padding: 25px 5px;
 	@media (max-width: 1024px) {
 		padding: 16px 5px;
 		width: 96%;
@@ -15,10 +15,10 @@
 		}
 	}
 	&.disable-top {
-		padding: 0px 10px 16px 10px;
+		padding: 0px 5px 16px 5px;
 	}
 	&.disable-bottom {
-		padding: 16px 10px 0px 10px;
+		padding: 16px 5px 0px 5px;
 	}
 }
 
@@ -41,29 +41,43 @@ a {
 	flex-direction: column;
 	gap: 6px;
 	padding-bottom: 12px;
-	max-width: 200px;
+	max-width: 300px;
 	border-bottom: 1px solid #000;
 	margin-bottom: 8px;
-	.-title {
+	&.no-border {
+		border-bottom: 0px;
+		margin-bottom: 4px;
+		padding-bottom: 4px;
+	}
+	.-name {
 		font-size: 14px;
 		font-weight: 400;
 		color: #5F5F5F;
+		@media (max-width: 1024px) {
+			font-size: 12px;
+		}
 	}
 	.-value {
 		font-size: 20px;
 		font-weight: 600;
+		@media (max-width: 1024px) {
+			font-size: 14px;
+		}
 	}
 }
 
 .text {
-	font-size: 28px;
+	font-size: 24px;
 	font-weight: 500;
 	margin-top: 5px;
 	@media (max-width: 1024px) {
 		font-size: 16px;
 	}
+	&.small-width {
+		max-width: 1000px;
+	}
 	&.s { 
-		font-size: 24px;
+		font-size: 22px;
 		@media (max-width: 1024px) {
 			font-size: 14px;
 		}
@@ -82,7 +96,7 @@ a {
 		aspect-ratio: 1/1;
 	}
 	&.furniture {
-		aspect-ratio: 5/4;
+		aspect-ratio: 9/8;
 	}
 	&.blog {
 		aspect-ratio: 7/4;
@@ -97,6 +111,7 @@ a {
 	margin-top: 20px;
 	@media (max-width: 1024px) {
 		grid-template-columns: 1fr 1fr;
+		gap: 10px;
 	}
 
 	&.collection {
@@ -208,16 +223,17 @@ a {
 .furniture {
 	grid-template-columns: 1fr 1fr 1fr 1fr;
 	display: grid;
-	width: 100%;
+	width: 1fr;
 	gap: 30px;
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
+		gap: 10px;
 	}
 
 	.-img {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 5/4;
+		aspect-ratio: 9/8;
 		object-fit: cover;
 	}
 
@@ -225,6 +241,9 @@ a {
 		font-size: 22px;
 		font-weight: 700;
 		margin-top: 12px;
+		@media (max-width: 768px) {
+			font-size: 18px;
+		}
 	}
 
 	.-description {
@@ -250,8 +269,11 @@ a {
 }
 .post-image {
 	width: 100%;
-	height: 600px;
+	height: 500px;
 	object-fit: cover;
+	@media (max-width: 768px) {
+		height: 30vh;
+	}
 }
 
 .email-content {
