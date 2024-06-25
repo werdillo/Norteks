@@ -47,7 +47,7 @@ a {
 	&.no-border {
 		border-bottom: 0px;
 		margin-bottom: 4px;
-		padding-bottom: 4px;
+		padding-bottom: 8px;
 	}
 	.-name {
 		font-size: 14px;
