@@ -30,6 +30,25 @@ a {
 	&.s { font-size: 32px;}
 }
 
+.spec {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	padding-bottom: 12px;
+	max-width: 200px;
+	border-bottom: 1px solid #000;
+	margin-bottom: 8px;
+	.-title {
+		font-size: 14px;
+		font-weight: 400;
+		color: #5F5F5F;
+	}
+	.-value {
+		font-size: 20px;
+		font-weight: 600;
+	}
+}
+
 .text {
 	font-size: 28px;
 	font-weight: 500;

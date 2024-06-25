@@ -72,9 +72,24 @@ export default function ProductItem() {
 			{descriptionType()}
 		</div>
 		<br/>
-		{plotnost() && <div>Плотность: {plotnost()}</div>}
-		{sostav() && <div>Состав: {sostav()}</div>}
-		{istiranie() !== "" && <div>Тест на истирание: {istiranie()}</div>}
+		{plotnost() && 
+			<div class="spec">
+				<div class="-title">Плотность</div>
+				<div class="-value">{plotnost()}</div>
+			</div>
+		}
+		{sostav() && 
+			<div class="spec">
+				<div class="-title">Состав</div>
+				<div class="-value">{sostav()}</div>
+			</div>
+		}
+		{istiranie() && 
+			<div class="spec">
+				<div class="-title">Тест на истирание</div>
+				<div class="-value">{istiranie()}</div>
+			</div>
+		}
 		<div class="product-list collection">
 			<For each={items()} fallback={
 				<>
