@@ -23,7 +23,7 @@ export default function Categories({showEmail=true}) {
 		}
 	});
 	return <>
-		<div class="container">
+		<div class="container disable-top">
 			<div class="product-list">
 				<Show when={loading()}>
 					<div class="skeleton"></div>

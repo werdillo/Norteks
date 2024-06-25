@@ -14,6 +14,12 @@
 			gap: 12px;
 		}
 	}
+	&.disable-top {
+		padding: 0px 10px 16px 10px;
+	}
+	&.disable-bottom {
+		padding: 16px 10px 0px 10px;
+	}
 }
 
 a {
@@ -76,7 +82,7 @@ a {
 		aspect-ratio: 1/1;
 	}
 	&.furniture {
-		aspect-ratio: 7/5;
+		aspect-ratio: 5/4;
 	}
 	&.blog {
 		aspect-ratio: 7/4;
@@ -211,7 +217,7 @@ a {
 	.-img {
 		width: 100%;
 		height: auto;
-		aspect-ratio: 7/5;
+		aspect-ratio: 5/4;
 		object-fit: cover;
 	}
 
