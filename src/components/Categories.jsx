@@ -9,11 +9,7 @@ export default function Categories({showEmail=true}) {
 	const [items, setItems] = createSignal([]);
 	const [loading, setLoading] = createSignal(true);
 
-	
-	const urlSearchParams = new URLSearchParams(window.location.search);
-	const params = Object.fromEntries(urlSearchParams.entries());
 	onMount(async () => {
-		const param = params.type;
 		try {
 			const res = await client.collection('categories').getList(1, 50);
 			setItems(res.items);

@@ -4,10 +4,6 @@ import EmailBottom from "./EmailBottom";
 
 import "../main.css";
 
-const urlSearchParams = new URLSearchParams(window.location.search);
-const params = Object.fromEntries(urlSearchParams.entries());
-console.log("params", params);
-
 export default function FurnitureList() {
 	const [items, setItems] = createSignal([]);
 	const [error, setError] = createSignal(null);
