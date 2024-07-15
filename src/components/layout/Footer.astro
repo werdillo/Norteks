@@ -2,6 +2,7 @@
 import Norteks from "../../assets/img/logo.svg";
 import mail from "../../assets/img/icons/mail.svg";
 import phone from "../../assets/img/icons/phone.svg";
+import location from "../../assets/img/icons/location.svg";
 import { Image } from "astro:assets";
 ---
 
@@ -11,6 +12,7 @@ import { Image } from "astro:assets";
 		Стильный гардероб вашей мебели
 	</div>
 	<div class="-address">
+		<Image class="-img" src={location} alt="" />
 		<div class="-text s">Москва</div>
 		<div class="-text m">Дмитровское шоссе 71Б</div>
 		<div class="-text m">Бизнес-центр 7ONE, ООО "Нортекс"</div>
@@ -108,13 +110,23 @@ import { Image } from "astro:assets";
 			.-phones {
 				display: flex;
 				flex-direction: column;
-				gap:10px;
+				gap: 10px;
 			}
 		}
 		.-address {
+			position: relative;
 			display: flex;
 			gap: 6px;
 			flex-direction: column;
+			margin-left: 26px;
+			@media (max-width: 768px) {
+				margin-top: 12px;
+			}
+			.-img {
+				position: absolute;
+				top: -20px;
+				left: -20px;
+			}
 		}
 	}
 </style>
