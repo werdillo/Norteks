@@ -4,26 +4,22 @@ const currentPath = Astro.url.pathname;
 
 <nav class="mobile-menu">
 	<div class="-wrapper">
-		<a
+	<a
 		href="/textile"
 		class={currentPath === "/textile/"  || currentPath.includes("/collection")|| currentPath.includes("/product") ? "-link active" : "-link "}
-		>Коллекции</a
-	>
+		>Коллекции</a>
 	<a
 		href="/cleaning"
 		class={currentPath === "/cleaning/" ? "-link active" : "-link "}
-		>Как очистить ткань</a
-	>
+		>Как очистить ткань</a>
 	<a
 		href="/furniture"
 		class={currentPath === "/furniture/" ? "-link active" : "-link "}
-		>Фурнитура</a
-	>
+		>Фурнитура</a>
 	<a
 		href="/blog"
 		class={ currentPath === "/blog/" || currentPath.includes("/post") ? "-link active" : "-link "}
-		>Блог</a
-	>
+		>Блог</a>
 	</div>
 </nav>
 <style>

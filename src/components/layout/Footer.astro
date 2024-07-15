@@ -1,5 +1,7 @@
 ---
 import Norteks from "../../assets/img/logo.svg";
+import mail from "../../assets/img/icons/mail.svg";
+import phone from "../../assets/img/icons/phone.svg";
 import { Image } from "astro:assets";
 ---
 
@@ -14,11 +16,21 @@ import { Image } from "astro:assets";
 		<div class="-text m">Бизнес-центр 7ONE, ООО "Нортекс"</div>
 	</div>
 	<div class="-phone">
-		<div class="-text l">+7 (495) 221 - 33 - 16</div>
-		<div class="-text l">+7 (903) 797 - 55 - 76</div>
+		<Image src={phone} class="-img" alt="" />
+		<div class="-phones">
+			<a class="-text l link" href="tel:+7(495)2213316">
+				+7 (495) 221 - 33 - 16
+			</a>
+			<a class="-text l link" href="tel:+7(903)7975576">
+				+7 (903) 797 - 55 - 76
+			</a>
+		</div>
 	</div>
 	<div class="-email">
-		<div class="-text l">firma.nortex@gmail.com</div>
+		<Image src={mail} class="-img" alt="" />
+		<a class="-text l link" href="mailto:firma.nortex@gmail.com"
+			>firma.nortex@gmail.com</a
+		>
 	</div>
 </footer>
 
@@ -62,6 +74,11 @@ import { Image } from "astro:assets";
 					font-size: 17px;
 				}
 			}
+			&.link {
+				&:hover {
+					color: aquamarine;
+				}
+			}
 		}
 		.-logo {
 			width: 160px;
@@ -76,11 +93,23 @@ import { Image } from "astro:assets";
 		.-email {
 			display: flex;
 			gap: 12px;
+			.-img {
+				height: 22px;
+				width: auto;
+			}
 		}
 		.-phone {
 			display: flex;
-			gap: 20px;
-			flex-direction: column;
+			gap: 12px;
+			.-img {
+				width: 18px;
+				height: auto;
+			}
+			.-phones {
+				display: flex;
+				flex-direction: column;
+				gap:10px;
+			}
 		}
 		.-address {
 			display: flex;

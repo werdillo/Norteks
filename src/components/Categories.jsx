@@ -43,8 +43,8 @@ export default function Categories({showEmail=true}) {
 				</Show>
 			</div>
 		</div>
-		<Show when={!loading() && showEmail}>
+		{/* <Show when={!loading() && showEmail}>
 			<EmailBottom />
-		</Show>
+		</Show> */}
 	</>
 }

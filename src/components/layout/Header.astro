@@ -3,6 +3,7 @@ import Norteks from "../../assets/img/logo.svg";
 import instagram from "../../assets/img/icons/instagram.svg";
 import telegram from "../../assets/img/icons/telegram.svg";
 import whatsapp from "../../assets/img/icons/whatsapp.svg";
+import mail from "../../assets/img/icons/mail.svg";
 import { Image } from "astro:assets";
 
 const currentPath = Astro.url.pathname;
@@ -47,6 +48,9 @@ const currentPath = Astro.url.pathname;
 
 		<div class="-container">
 			<div class="-socials">
+				<a href="mailto:firma.nortex@gmail.com">
+					<Image class="-img" src={mail} alt="" />
+				</a>
 				<a href="https://www.instagram.com/tknortex/">
 					<Image class="-img" src={instagram} alt="" />
 				</a>
@@ -57,89 +61,98 @@ const currentPath = Astro.url.pathname;
 			</div>
 			<div class="-contacts">
 				<div class="-text">Дмитровское шоссе 71Б 7ONE</div>
-				<div class="-text">+7 (495) 221 - 33 - 16</div>
-				<div class="-text">+7 (903) 797 - 55 - 76</div>
+				<a class="-text link" href="tel:+7(495)2213316">
+					+7 (495) 221 - 33 - 16
+				</a>
+				<a class="-text link" href="tel:+7(903)7975576">
+					+7 (903) 797 - 55 - 76
+				</a>
 			</div>
 		</div>
 	</div>
 </nav>
 <style>
-.header {
-	z-index: 10;
-	position: fixed;
-	top: 0;
-	background: #363636;
-	width: 100%;
-	border: 0;
-	color: #fff;
-	height: 90px;
-	.-wrapper {
-		padding: 0 100px;
-		display: flex;
-		width: 1fr;
+	.header {
+		z-index: 10;
+		position: fixed;
+		top: 0;
+		background: #363636;
+		width: 100%;
+		border: 0;
+		color: #fff;
 		height: 90px;
-		/* align-items: center; */
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 10px;
-		@media (max-width: 1600px) {
-			padding: 0 10px;
-		}
-	}
-
-	.-container {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-
-		gap: 55px;
-	}
-	.-logo {
-		cursor: pointer;
-		margin-top: 2px;
-		height: auto;
-		width: 120px;
-	}
-	.-links {
-		display: flex;
-		gap: 60px;
-		flex-wrap: wrap;
-		@media (max-width: 768px) {
-			display: none;
-		}
-
-		.-link {
-			color: #fff;
-			font-size: 16px;
-			text-decoration: none;
-			&.active {
-				color: aqua;
-			}
-			&:hover {
-				color: aqua;
+		.-wrapper {
+			padding: 0 100px;
+			display: flex;
+			width: 1fr;
+			height: 90px;
+			/* align-items: center; */
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 10px;
+			@media (max-width: 1600px) {
+				padding: 0 10px;
 			}
 		}
-	}
-	.-socials {
-		display: flex;
-		gap: 24px;
-		.-img {
-			height: 24px;
-			width: auto;
+
+		.-container {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+
+			gap: 55px;
+		}
+		.-logo {
 			cursor: pointer;
+			margin-top: 2px;
+			height: auto;
+			width: 120px;
+		}
+		.-links {
+			display: flex;
+			gap: 60px;
+			flex-wrap: wrap;
+			@media (max-width: 768px) {
+				display: none;
+			}
+
+			.-link {
+				color: #fff;
+				font-size: 16px;
+				text-decoration: none;
+				&.active {
+					color: aqua;
+				}
+				&:hover {
+					color: aqua;
+				}
+			}
+		}
+		.-socials {
+			display: flex;
+			gap: 24px;
+			.-img {
+				height: 24px;
+				width: auto;
+				cursor: pointer;
+			}
+		}
+		.-contacts {
+			display: flex;
+			gap: 8px;
+			flex-direction: column;
+			@media (max-width: 768px) {
+				display: none;
+			}
+			.-text {
+				font-size: 14px;
+				&.link {
+					&:hover {
+						color: aquamarine;
+					}
+				}
+			}
 		}
 	}
-	.-contacts {
-		display: flex;
-		gap: 8px;
-		flex-direction: column;
-		@media (max-width: 768px) {
-			display: none;
-		}
-		.-text {
-			font-size: 14px;
-		}
-	}
-}
 </style>

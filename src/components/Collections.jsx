@@ -71,8 +71,8 @@ export default function Callection() {
 				</Show>
 			</div>
 		</div>
-		<Show when={!loading()}>
+		{/* <Show when={!loading()}>
 			<EmailBottom />
-		</Show>
+		</Show> */}
 	</>
 }
