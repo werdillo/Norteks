@@ -103,7 +103,7 @@ a {
 	}
 	&.post {
 		margin-top: 10px;
-		width: 96%;
+		width: 88%;
 		height: 450px;
 		margin-bottom: 30px;
 		@media (max-width: 768px) {
@@ -127,7 +127,7 @@ a {
 }
 
 .left {
-	width: 96%;
+	width: 85%;
 	margin-bottom: 20px;
 }
 
