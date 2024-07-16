@@ -27,6 +27,10 @@ export default function PostItem() {
 					<div class="skeleton text"></div>
 					<div class="skeleton text"></div>
 					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
 				</div>
 			</>
 		}>
