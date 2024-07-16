@@ -49,9 +49,6 @@ const currentPath = Astro.url.pathname;
 
 		<div class="-container">
 			<div class="-socials">
-				<a href="mailto:firma.nortex@gmail.com">
-					<Image class="-img" src={mail} alt="" />
-				</a>
 				<a href="https://www.instagram.com/tknortex/">
 					<Image class="-img" src={instagram} alt="" />
 				</a>
@@ -76,6 +73,12 @@ const currentPath = Astro.url.pathname;
 						</a>
 					</div>
 				</div>
+				<div class="-wrap">
+					<Image class="-img" src={mail} alt="" />
+					<a class="-text link" href="mailto:firma.nortex@gmail.com"
+						>firma.nortex@gmail.com
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -89,12 +92,12 @@ const currentPath = Astro.url.pathname;
 		width: 100%;
 		border: 0;
 		color: #fff;
-		height: 90px;
+		height: 100px;
 		.-wrapper {
 			padding: 0 100px;
 			display: flex;
 			width: 1fr;
-			height: 90px;
+			height: 100px;
 			/* align-items: center; */
 			justify-content: space-between;
 			align-items: center;
@@ -156,7 +159,7 @@ const currentPath = Astro.url.pathname;
 				display: none;
 			}
 			.-text {
-				font-size: 14px;
+				font-size: 12px;
 				&.link {
 					&:hover {
 						color: aquamarine;
