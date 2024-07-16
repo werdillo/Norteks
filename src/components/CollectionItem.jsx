@@ -10,6 +10,7 @@ export const getImage = (collectionId, fileId, fileName) => {
 };
 
 export default function CollectionItem() {
+	const [loading, setLoading] = createSignal(true);
 	const [items, setItems] = createSignal([]);
 	const [description, setDescription] = createSignal([]);
 	const [descriptionType, setDescriptionType] = createSignal([]);
@@ -43,7 +44,7 @@ export default function CollectionItem() {
 				}
 				return { ...item, combined };
 			});
-
+			setLoading(false)
 			setItems(processedItems);
 			setTitle(res.items[0].name);
 			setDescription(res.items[0].description);
@@ -71,6 +72,16 @@ export default function CollectionItem() {
 		<div class="text small-width s">
 			{descriptionType()}
 		</div>
+		<Show when={loading()}>
+			<div>
+				<div class="skeleton text title"></div>
+				<div class="skeleton text"></div>
+				<div class="skeleton text"></div>
+				<div class="skeleton text"></div>
+				<div class="skeleton text"></div>
+				<div class="skeleton text"></div>
+			</div>
+		</Show>
 		<br/>
 		{plotnost() && 
 			<div class="spec">
@@ -91,29 +102,30 @@ export default function CollectionItem() {
 			</div>
 		}
 		<div class="product-list collection">
-			<For each={items()} fallback={
-				<>
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-					<div class="skeleton product" />
-				</>
-			}>
-				{item =>
-					item.combined.map((pair, index) => (
-						<div key={item.id} class="-item">
-							<div>
-								<div class="-text">{pair.textile}</div>
-								<img class="-img product" src={getImage(collectionId(), fileId(), pair.img)} alt={pair.textile} />
+			<Show when={loading()}>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+			</Show>
+			<Show when={!loading()}>
+				<For each={items()}>
+					{item =>
+						item.combined.map((pair, index) => (
+							<div key={item.id} class="-item">
+								<div>
+									<div class="-text">{pair.textile}</div>
+									<img class="-img product" src={getImage(collectionId(), fileId(), pair.img)} alt={pair.textile} />
+								</div>
 							</div>
-						</div>
-					))
-				}
-			</For>
+						))
+					}
+				</For>
+			</Show>
 		</div>
 
 	</>

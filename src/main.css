@@ -101,6 +101,33 @@ a {
 	&.blog {
 		aspect-ratio: 7/4;
 	}
+	&.post {
+		margin-top: 10px;
+		width: 96%;
+		height: 450px;
+		margin-bottom: 30px;
+		@media (max-width: 768px) {
+			height: 30vh;
+		}
+	}
+	&.text {
+		margin: 7px 0;
+		height: 16px;
+		max-width: 900px;
+		width: 100%;
+		border-radius: 2px;
+		&.title {
+			height: 40px;
+			max-width: 150px;
+		}
+		&.xl {
+			height: 140px;
+		}
+	}
+}
+
+.left {
+	width: 96%;
 }
 
 .product-list {
@@ -199,6 +226,7 @@ a {
 	gap: 30px;
 	grid-template-columns: 1fr 1fr 1fr;
 	@media (max-width: 768px) {
+		gap: 14px;
 		grid-template-columns: 1fr 1fr;
 	}
 	.-img {

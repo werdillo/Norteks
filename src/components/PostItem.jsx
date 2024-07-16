@@ -19,7 +19,17 @@ export default function PostItem() {
 	const [item, { refetch }] = createResource(() => params.name, fetchPostItem);
 
 	return (
-		<Suspense fallback={<p>Loading...</p>}>
+		<Suspense fallback={
+			<>
+				<div class="skeleton post"></div>
+				<div class="left">
+					<div class="skeleton text title"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+				</div>
+			</>
+		}>
 			{item() && (
 				<>
 					<img src={getImageUrl(item())} class="post-image" alt={item().name} />

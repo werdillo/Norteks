@@ -76,9 +76,9 @@ export default function FurnitureList() {
 				</Show>
 			</div>
 		</div>
-		<Show when={!loading()}>
+		{/* <Show when={!loading()}>
 			<EmailBottom />
-		</Show>
+		</Show> */}
 		</>
 	);
 }

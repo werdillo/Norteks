@@ -36,6 +36,16 @@ export default function Callection() {
 
 	return <>
 		<div className="container">	
+			<Show when={loading()}>
+				<div>
+					<div class="skeleton text title"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+					<div class="skeleton text"></div>
+				</div>
+			</Show>
 			<div className="title">
 				{title}
 			</div>
