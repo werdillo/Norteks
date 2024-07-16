@@ -8,47 +8,51 @@ import MobileMenu from "../components/layout/MobileMenu.astro";
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/favicon.ico" sizes="any" />
+		<title>Norteks</title>
 	</head>
-	<body>
-		<div id="main">
-			<Header />
-			<article id="content">
-				<slot />
-			</article>
-			<MobileMenu />
-			<Footer />
-		</div>
-	</body>
 </html>
+<body>
+	<div id="main">
+		<Header />
+		<article id="content">
+			<slot />
+		</article>
+		<MobileMenu />
+		<Footer />
+	</div>
+</body>
 
 <style scoped>
-/* @style {
+	/* @style {
 	@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
 } */
 
-body {
-	padding: 0;
-	margin: 0;
-	font-family: Arial, sans-serif;
-	/* font-family: "Open Sans", sans-serif; */
-	a:hover,
-	a:visited,
-	a:link,
-	a:active {
-		text-decoration: none;
-		color: inherit;
+	body {
+		padding: 0;
+		margin: 0;
+		font-family: Arial, sans-serif;
+		/* font-family: "Open Sans", sans-serif; */
+		a:hover,
+		a:visited,
+		a:link,
+		a:active {
+			text-decoration: none;
+			color: inherit;
+		}
 	}
-}
-#main {
-	display: flex;
-	min-height: 100vh;
-	flex-direction: column;
-}
-#content {
-	margin-top: 90px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	flex: 1;
-}
+	#main {
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+	}
+	#content {
+		margin-top: 90px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		flex: 1;
+	}
 </style>
