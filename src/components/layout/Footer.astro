@@ -19,7 +19,7 @@ import { Image } from "astro:assets";
 	</div>
 	<div class="-phone">
 		<Image src={phone} class="-img" alt="" />
-		<div class="-phones">
+		<div class="-contacts-container">
 			<a class="-text l link" href="tel:+7(495)2213316">
 				+7 (495) 221 - 33 - 16
 			</a>
@@ -30,9 +30,14 @@ import { Image } from "astro:assets";
 	</div>
 	<div class="-email">
 		<Image src={mail} class="-img" alt="" />
-		<a class="-text l link" href="mailto:firma.nortex@gmail.com"
-			>firma.nortex@gmail.com</a
-		>
+		<div class="-contacts-container">
+			<a class="-text l link" href="mailto:firma.nortex@gmail.com"
+				>firma.nortex@gmail.com</a
+			>
+			<a class="-text l link" href="mailto:info@tkani-nortex.ru"
+				>info@tkani-nortex.ru</a
+			>
+		</div>
 	</div>
 </footer>
 
@@ -94,23 +99,25 @@ import { Image } from "astro:assets";
 		}
 		.-email {
 			display: flex;
-			gap: 12px;
+			gap: 16px;
+			align-items: center;
 			.-img {
 				height: 22px;
 				width: auto;
 			}
 		}
+		.-contacts-container {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
 		.-phone {
 			display: flex;
-			gap: 12px;
+			gap: 16px;
+			align-items: center;
 			.-img {
 				width: 18px;
 				height: auto;
-			}
-			.-phones {
-				display: flex;
-				flex-direction: column;
-				gap: 10px;
 			}
 		}
 		.-address {

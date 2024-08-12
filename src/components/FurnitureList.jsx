@@ -1,5 +1,6 @@
 import { createSignal, onMount } from "solid-js";
 import { client, getImageUrl } from "../lib/pocketbase";
+import img3 from "../assets/img/cleaning/img3.jpg";
 import EmailBottom from "./EmailBottom";
 
 import "../main.css";
@@ -76,9 +77,6 @@ export default function FurnitureList() {
 				</Show>
 			</div>
 		</div>
-		{/* <Show when={!loading()}>
-			<EmailBottom />
-		</Show> */}
 		</>
 	);
 }
