@@ -27,6 +27,11 @@ a {
 	text-decoration: none;
 }
 
+swiper-container {
+    max-width: 100vw;
+    width: 100%;
+}
+
 .title {
 	font-size: 42px;
 	font-weight: 700;
@@ -80,6 +85,56 @@ a {
 		font-size: 22px;
 		@media (max-width: 1024px) {
 			font-size: 14px;
+		}
+	}
+}
+
+.home-image {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	height: 800px;
+	background-image: url("./assets/img/homeImage.jpg");
+	background-size: cover;
+	background-position: center;
+	@media (max-width: 768px) {
+		height: 500px;
+	}
+	.-container {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		margin-left: 60px;
+		max-width: 800px;
+		@media (max-width: 768px) {
+			margin-left: 20px;
+		}
+		.-title {
+			color: #fc7604;
+			font-size: 80px;
+			@media (max-width: 768px) {
+				font-size: 40px;
+			}
+		}
+		.-button {
+			border-radius: 40px;
+			width: 280px;
+			height: 60px;
+			background: #fc7604;
+			border: 0;
+			color: aliceblue;
+			font-size: 24px;
+			font-weight: 500;
+			@media (max-width: 768px) {
+				font-size: 16px;
+				width: 200px;
+				height: 5dvb;
+			}
+		}
+		.-img {
+			width: 220px;
+			height: auto;
 		}
 	}
 }

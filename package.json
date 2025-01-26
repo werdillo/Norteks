@@ -13,7 +13,8 @@
     "@astrojs/solid-js": "^5.0.4",
     "astro": "^5.1.9",
     "pocketbase": "^0.21.5",
-    "solid-js": "^1.9.4"
+    "solid-js": "^1.9.4",
+    "swiper": "^11.2.1"
   },
   "devDependencies": {
     "vite": "^4.5.9"

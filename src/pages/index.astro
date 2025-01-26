@@ -5,20 +5,11 @@ import Categories from "../components/Categories.jsx";
 import { Image } from "astro:assets";
 import "../main.css";
 import Norteks from "../assets/img/logo.svg";
+import Slider from "../components/Slider";
 ---
 
 <BaseLayout>
-	<div class="home-image">
-		<div class="-container">
-			<Image src={Norteks} class="-img" alt="" />
-			<div class="-title">Стильный гардероб мягкой мебели</div>
-			<button class="-button">
-				<a class="-text link" href="mailto:firma.nortex@gmail.com"
-					>Оставить заявку
-				</a>
-			</button>
-		</div>
-	</div>
+	<Slider client:only/>
 
 	<div class="container disable-bottom">
 		<div class="text xl">
@@ -62,53 +53,5 @@ import Norteks from "../assets/img/logo.svg";
 			color: #fff;
 		}
 	}
-	.home-image {
-		width: 100%;
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-		height: 800px;
-		background-image: url("../assets/img/homeImage.jpg");
-		background-size: cover;
-		background-position: center;
-		@media (max-width: 768px) {
-			height: 500px;
-		}
-		.-container {
-			display: flex;
-			flex-direction: column;
-			gap: 24px;
-			margin-left: 60px;
-			max-width: 800px;
-			@media (max-width: 768px) {
-				margin-left: 20px;
-			}
-			.-title {
-				color: #fc7604;
-				font-size: 80px;
-				@media (max-width: 768px) {
-					font-size: 40px;
-				}
-			}
-			.-button {
-				border-radius: 40px;
-				width: 280px;
-				height: 60px;
-				background: #fc7604;
-				border: 0;
-				color: aliceblue;
-				font-size: 24px;
-				font-weight: 500;
-				@media (max-width: 768px) {
-					font-size: 16px;
-					width: 200px;
-					height: 5dvb;
-				}
-			}
-			.-img {
-				width: 220px;
-				height: auto;
-			}
-		}
-	}
+	
 </style>
