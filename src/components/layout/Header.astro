@@ -25,12 +25,7 @@ const currentPath = Astro.url.pathname;
 						? "-link active"
 						: "-link "}>Коллекции</a
 				>
-				<a
-					href="/cleaning"
-					class={currentPath === "/cleaning/"
-						? "-link active"
-						: "-link "}>Как очистить ткань</a
-				>
+			
 				<a
 					href="/furniture"
 					class={currentPath === "/furniture/"
@@ -43,6 +38,18 @@ const currentPath = Astro.url.pathname;
 					currentPath.includes("/post")
 						? "-link active"
 						: "-link "}>Блог</a
+				>
+				<a
+					href="/cleaning"
+					class={currentPath === "/cleaning/"
+						? "-link active"
+						: "-link "}>Как очистить ткань</a
+				>
+				<a
+					href="/contacts"
+					class={currentPath === "/contacts/"
+						? "-link active"
+						: "-link "}>Контакты</a
 				>
 			</div>
 		</div>

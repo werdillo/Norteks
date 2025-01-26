@@ -20,7 +20,13 @@ const currentPath = Astro.url.pathname;
 		href="/blog"
 		class={ currentPath === "/blog/" || currentPath.includes("/post") ? "-link active" : "-link "}
 		>Блог</a>
+	<a
+	href="/contacts"
+	class={currentPath === "/contacts/"
+		? "-link active"
+		: "-link "}>Контакты</a>
 	</div>
+
 </nav>
 <style>
 	.mobile-menu {
@@ -49,7 +55,7 @@ const currentPath = Astro.url.pathname;
 
 		.-link {
 			color: #fff;
-			font-size: 12px;
+			font-size: 10px;
 			text-decoration: none;
 			&:hover {
 				color: aqua;
