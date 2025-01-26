@@ -101,8 +101,12 @@ export default function CollectionItem() {
 				<div class="-value">{istiranie()}</div>
 			</div>
 		}
-		<div class="product-list collection">
+		<div class="product-list colors">
 			<Show when={loading()}>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
+				<div class="skeleton product"></div>
 				<div class="skeleton product"></div>
 				<div class="skeleton product"></div>
 				<div class="skeleton product"></div>

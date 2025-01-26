@@ -1,0 +1,137 @@
+---
+import { Image } from "astro:assets";
+import "../main.css";
+import interior1 from "../assets/img/cleaning/img1.jpg";
+import interior2 from "../assets/img/cleaning/img2.jpg";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout>
+  <div class="about-page">
+    
+    
+      <h1 class="title">Norteks</h1>
+      <p class="subtitle">Оптовый поставщик декоративных тканей</p>
+      <div class="container min">
+        <div class="grid">
+          <div class="text-content">
+            <p class="lead">
+              Компания Valencia занимается текстилем уже более 7 лет. Наши клиенты 
+              это салоны штор, архитектурные бюро, частные дизайнеры и компании 
+              занимающиеся оснащением отелей, гостиниц и общественных объектов.
+            </p>
+
+            <div class="specialization">
+              <p>
+                Наша компания специализируется на продаже тканей для штор, скатертных 
+                и негорючих тканей, а также аксессуаров для штор, таких, как шторная лента, кисти, 
+                подхваты, декоративные шнуры и бахрома. Часть продукции мы создаем совместно 
+                с фабриками, имеем эксклюзивные права на продажу этих дизайнов в России и 
+                держим ткани в наличии на нашем складе в Москве, что позволяет нам совершать 
+                отгрузки тканей в течение одного двух дней и продавать ткани метражом от одного 
+                метра.
+              </p>
+            </div>
+
+            <div class="custom-order">
+              <p>
+                С какими-то коллекциями мы работаем под заказ, 
+                и возим нужный метраж из Европы под конкретный заказ клиента. 
+                Помимо этого, мы представляем несколько Европейских фабрик на Российском 
+                рынке на правах агента. То есть мы продаем ткани напрямую с фабрик рулонами 
+                для оптовиков и салонов штор держащих склад по ценам фабрик, имея от них лишь 
+                стандартное комиссионное вознаграждение, никак не отражающееся 
+                на цене продукции.
+              </p>
+            </div>
+          </div>
+
+          <div class="image-content">
+            <Image src={interior1} alt="Интерьер с текстилем" class="main-image" />
+            <Image src={interior2} alt="Дизайн интерьера" class="secondary-image" />
+          </div>
+        </div>
+      </div>
+  </div>
+</BaseLayout>
+
+<style scoped>
+.about-page {
+  background: #fff;
+}
+
+.hero {
+  background-color: #f8f8f8;
+  padding: 60px 0;
+}
+
+
+.title {
+  color: #B8995E;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #666;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lead {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.specialization, .custom-order {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+}
+
+.image-content {
+  display: grid;
+  gap: 20px;
+}
+
+.main-image, .secondary-image {
+  width: 100%;
+  height: auto;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 40px 0;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+  }
+}
+</style>

@@ -6,11 +6,11 @@ import { Image } from "astro:assets";
 import "../main.css";
 import Norteks from "../assets/img/logo.svg";
 import Slider from "../components/Slider";
+import Advantages from "../components/Advantages.astro";
 ---
 
 <BaseLayout>
 	<Slider client:only/>
-
 	<div class="container disable-bottom">
 		<div class="text xl">
 			НОРТЕКС предлагает широкий выбор высококачественных и
@@ -26,8 +26,28 @@ import Slider from "../components/Slider";
 			обслуживания, успешно реализовать даже самые сложные запросы
 			клиентов.
 		</div>
-		<Categories client:only showEmail={false} />
 	</div>
+	<Advantages />
+	<Categories client:only showEmail={false} />
+	<div class="container">
+		<div class="text">
+			Компания Валенсия, вот уже более 7 лет занимается поставкой декоративных тканей
+			для штор, негорючих и скатертных тканей на Российском рынке. Наши клиенты это салоны
+			штор, дизайн студии, архитектурные бюро, магазины тканей, а также частные
+			профессиональные декораторы и дизайнеры интерьеров.
+		</div>
+		<div class="text">
+			Отдельное направление в нашей компании занимает рулонная продажа тканей напрямую
+			с фабрик по фабричным ценам. Это особенно интересно салонам штор
+			и магазинам тканей, имеющим свой склад и занимающимся продажей тканей из наличия.
+		</div>
+		<div class="text">
+			Наша компания оказывает полный сервис
+			по привозу тканей в Россию. Вы имеете возможность, по желанию, заказать ткань
+			у нас, как с доставкой в Россию, так и напрямую с фабрики в Испании или Италии.
+		</div>
+	</div>
+
 </BaseLayout>
 
 <style scoped>

@@ -1,0 +1,133 @@
+---
+import "../main.css";
+---
+
+<div class="container">
+  <section class="features">
+    <div class="features-grid">
+      <!-- Прямой импорт -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-ship"></i>
+        </div>
+        <h3>Прямой импорт</h3>
+        <p>Работаем напрямую с фабриками-производителями, минуя посредников</p>
+      </div>
+
+      <!-- Логистика -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-truck-fast"></i>
+        </div>
+        <h3>Отлаженная логистика</h3>
+        <p>Быстрая и надежная доставка товаров со складов в любую точку России</p>
+      </div>
+
+      <!-- Контракты -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-file-contract"></i>
+        </div>
+        <h3>Прямые контракты</h3>
+        <p>Официальные контракты с ведущими производителями тканей</p>
+      </div>
+
+      <!-- Фабрики -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-industry"></i>
+        </div>
+        <h3>Сотрудничество с фабриками</h3>
+        <p>Партнерство с лучшими фабриками текстильной промышленности</p>
+      </div>
+
+      <!-- Оригинальная продукция -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-certificate"></i>
+        </div>
+        <h3>Только оригинальная продукция</h3>
+        <p>Гарантируем подлинность всех поставляемых тканей и материалов</p>
+      </div>
+
+      <!-- Гарантия -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Гарантия качества</h3>
+        <p>Контроль качества на всех этапах от производства до поставки</p>
+      </div>
+
+      <!-- Цены -->
+      <div class="feature-card">
+        <div class="icon">
+          <i class="fas fa-tags"></i>
+        </div>
+        <h3>Лучшие цены</h3>
+        <p>Конкурентные цены благодаря прямым поставкам и оптимизации расходов</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style scoped>
+.features {
+  padding: 80px 0;
+}
+
+
+.features-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+  gap: 30px;
+  justify-items: center;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0px 16px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease;
+  max-width: 350px;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon {
+  font-size: 2.5rem;
+  color: #B8995E;
+  margin-bottom: 20px;
+}
+
+.feature-card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.feature-card p {
+  color: #666;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .features {
+    padding: 40px 0;
+  }
+  
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    padding: 20px;
+  }
+}
+</style>
