@@ -20,12 +20,12 @@ const currentPath = Astro.url.pathname;
 		href="/blog"
 		class={ currentPath === "/blog/" || currentPath.includes("/post") ? "-link active" : "-link "}
 		>Блог</a>
-	<a
-	href="/contacts"
-	class={currentPath === "/contacts/"
-		? "-link active"
-		: "-link "}>Контакты</a>
-	</div>
+		<a
+		href="/about-us"
+		class={currentPath === "/about-us/"
+			? "-link active"
+			: "-link "}>О нас</a
+	>
 
 </nav>
 <style>
@@ -48,7 +48,6 @@ const currentPath = Astro.url.pathname;
 			color: #fff;
 			display: flex;
 			align-items: center;
-			flex-wrap: wrap;
 			gap: 10px;
 			justify-content: space-between;
 		}

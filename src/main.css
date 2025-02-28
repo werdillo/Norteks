@@ -107,7 +107,7 @@ swiper-container {
 	background-size: cover;
 	background-position: center;
 	@media (max-width: 768px) {
-		height: 500px;
+		height: 400px;
 	}
 	.-container {
 		display: flex;
@@ -221,13 +221,14 @@ swiper-container {
 			grid-template-columns: 1fr 1fr 1fr;
 			gap: 5px;
 		}
-	}
+}
 	.-item {
 		position: relative;
 		text-align: center;
 		transition: 250ms;
 		overflow: hidden;
 		object-fit: contain;
+		transition: 300ms;
 		&.skeleton {
 			background: #e2e2e2;
 			width: 1fr;

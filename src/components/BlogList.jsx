@@ -12,7 +12,7 @@ export default function BlogList() {
             const res = await client.collection("blog").getFullList(50, {
                 fields: "id, collectionId, image, path, title, description:excerpt(200, true)",
             });
-			setItems(res);
+			setItems([...res].reverse());
 		} catch (err) {
 			console.error('Error fetching items:', err); 
 			setError(err);
