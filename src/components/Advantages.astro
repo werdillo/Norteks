@@ -1,5 +1,13 @@
 ---
 import "../main.css";
+import { Image } from "astro:assets";
+import ship from "../assets/img/icons/dark/import.svg";
+import truck from "../assets/img/icons/dark/truck-fast.svg";
+import contract from "../assets/img/icons/dark/contract.svg";
+import industry from "../assets/img/icons/dark/industry.svg";
+import certificate from "../assets/img/icons/dark/certificate_mod.svg";
+import shield from "../assets/img/icons/dark/shield.svg";
+import tags from "../assets/img/icons/dark/money.svg";
 ---
 
 <div class="container">
@@ -8,7 +16,7 @@ import "../main.css";
       <!-- Прямой импорт -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-ship"></i>
+          <Image src={ship} alt="Прямой импорт" width="40" height="40" />
         </div>
         <h3>Прямой импорт</h3>
         <p>Работаем напрямую с фабриками-производителями, минуя посредников</p>
@@ -17,7 +25,7 @@ import "../main.css";
       <!-- Логистика -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-truck-fast"></i>
+          <Image src={truck} alt="Отлаженная логистика" width="40" height="40" />
         </div>
         <h3>Отлаженная логистика</h3>
         <p>Быстрая и надежная доставка товаров со складов в любую точку России</p>
@@ -26,7 +34,7 @@ import "../main.css";
       <!-- Контракты -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-file-contract"></i>
+          <Image src={contract} alt="Прямые контракты" width="40" height="40" />
         </div>
         <h3>Прямые контракты</h3>
         <p>Официальные контракты с ведущими производителями тканей</p>
@@ -35,7 +43,7 @@ import "../main.css";
       <!-- Фабрики -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-industry"></i>
+          <Image src={industry} alt="Сотрудничество с фабриками" width="40" height="40" />
         </div>
         <h3>Сотрудничество с фабриками</h3>
         <p>Партнерство с лучшими фабриками текстильной промышленности</p>
@@ -44,7 +52,7 @@ import "../main.css";
       <!-- Оригинальная продукция -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-certificate"></i>
+          <Image src={certificate} alt="Только оригинальная продукция" width="40" height="40" />
         </div>
         <h3>Только оригинальная продукция</h3>
         <p>Гарантируем подлинность всех поставляемых тканей и материалов</p>
@@ -53,7 +61,7 @@ import "../main.css";
       <!-- Гарантия -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-shield-alt"></i>
+          <Image src={shield} alt="Гарантия качества" width="40" height="40" />
         </div>
         <h3>Гарантия качества</h3>
         <p>Контроль качества на всех этапах от производства до поставки</p>
@@ -62,7 +70,7 @@ import "../main.css";
       <!-- Цены -->
       <div class="feature-card">
         <div class="icon">
-          <i class="fas fa-tags"></i>
+          <Image src={tags} alt="Лучшие цены" width="40" height="40" />
         </div>
         <h3>Лучшие цены</h3>
         <p>Конкурентные цены благодаря прямым поставкам и оптимизации расходов</p>
@@ -81,7 +89,7 @@ import "../main.css";
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
-  gap: 30px;
+  gap: 20px;
   justify-items: center;
 }
 
@@ -92,7 +100,7 @@ import "../main.css";
   box-shadow: 0 0px 16px rgba(0, 0, 0, 0.08);
   text-align: center;
   transition: transform 0.3s ease;
-  max-width: 350px;
+  max-width: 400px;
 }
 
 .feature-card:hover {

@@ -8,6 +8,7 @@ import EmailBottom from "./EmailBottom";
 export default function Callection() {
 	const [items, setItems] = createSignal([]);
 	const [description, setDescription] = createSignal("");
+	const [extended, setExtended] = createSignal("");
 	const [title, setTitle] = createSignal("");
 	const [loading, setLoading] = createSignal(true);
 	
@@ -21,12 +22,14 @@ export default function Callection() {
 			);
 			const text = await client.collection('categories').getList(1, 50, {
 				filter: `path="${param}"`,
-				fields: "name, description"
+				fields: "name, description, rich_description, description_extended"
 			});
 
 			setItems(res.items);
 			setDescription(text.items[0].description);
 			setTitle(text.items[0].name);
+			console.log(text.items[0].description_extended)
+			setExtended(text.items[0].description_extended);
 			setLoading(false)
 		} catch (err) {
 			console.error('Error fetching items:', err); 
@@ -79,7 +82,9 @@ export default function Callection() {
 						}
 					</For>
 				</Show>
+
 			</div>
+			<div class="rich-editor" innerHTML={extended()}></div>
 		</div>
 		{/* <Show when={!loading()}>
 			<EmailBottom />

@@ -10,11 +10,16 @@
 	}
 	&.min {
 	 	max-width: 1200px;
+		width: 96%;
 	}
 	&.offset {
+		max-width: 1340px;
+
 		gap: 16px;
 		@media (max-width: 768px) {
 			gap: 12px;
+			padding: 25px 0px;
+
 		}
 	}
 	&.disable-top {
@@ -75,9 +80,9 @@ swiper-container {
 }
 
 .text {
-	font-size: 24px;
+	font-size: 26px;
 	font-weight: 500;
-	margin-top: 5px;
+	margin-top: 2px;
 	@media (max-width: 1024px) {
 		font-size: 16px;
 	}
@@ -362,6 +367,13 @@ swiper-container {
 	}
 	.-text {
 		font-size: 18px;
+	}
+}
+
+.rich-editor{ 
+	font-size: 20px;
+	@media (max-width: 768px) {
+		font-size: 14px;
 	}
 }
 .post-image {

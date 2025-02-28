@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import img1 from "../assets/img/cleaning/img1.jpg";
-import img2 from "../assets/img/cleaning/img2.jpg";
-import img3 from "../assets/img/cleaning/img3.jpg";
 import { Image } from "astro:assets";
+import phone from "../assets/img/icons/dark/phone.svg";
+import mail from "../assets/img/icons/dark/mail.svg";
+import location from "../assets/img/icons/dark/location.svg";
 import "../main.css";
 ---
 
@@ -13,7 +13,7 @@ import "../main.css";
           <h2>НОРТЕКС</h2>
           
           <div class="address">
-            <img src="/icons/location.svg" alt="Адрес" width="24" height="24" />
+            <Image src={location} alt="Адрес" width="24" height="24" />
             <p>
 
               127238 г. Москва, Дмитровское шоссе 71Б, Западное Дегунино, Северный (САО)<br />
@@ -23,13 +23,13 @@ import "../main.css";
           </div>
 
           <div class="phone">
-            <img src="/icons/phone.svg" alt="Телефон" width="24" height="24" />
+            <Image src={phone} alt="Телефон" width="24" height="24" />
             <a href="tel:+7(495)2213316">+7 (495) 221 - 33 - 16</a>
             <a href="tel:+7(903)2213316">+7 (903) 221 - 33 - 16</a>
           </div>
 
           <div class="email">
-            <img src="/icons/mail.svg" alt="Email" width="24" height="24" />
+            <Image src={mail} alt="Email" width="24" height="24" />
             <a class="-text l link" href="mailto:firma.nortex@gmail.com"
             >firma.nortex@gmail.com</a
             >
