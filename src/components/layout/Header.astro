@@ -63,7 +63,7 @@ const currentPath = Astro.url.pathname;
 
 		<div class="-container">
 			<div class="-socials">
-				<div class="link-mobile">
+				<div class="-link-mobile">
 					<a
 						href="/contacts"
 						class={currentPath === "/contacts/"
@@ -155,7 +155,7 @@ const currentPath = Astro.url.pathname;
 			}
 		}
 		.-link-mobile {
-			@media (min-width: 1367px) {
+			@media (min-width: 1399px) {
 				display: none;
 			}
 		}
@@ -163,7 +163,7 @@ const currentPath = Astro.url.pathname;
 			display: flex;
 			gap: 60px;
 			flex-wrap: wrap;
-			@media (max-width: 1366px) {
+			@media (max-width: 1400px) {
 				display: none;
 			}
 		}
