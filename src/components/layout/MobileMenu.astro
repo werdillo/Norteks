@@ -54,8 +54,14 @@ const currentPath = Astro.url.pathname;
 
 		.-link {
 			color: #fff;
-			font-size: 10px;
+			font-size: 12px;
 			text-decoration: none;
+			@media (max-width: 380px) {
+				font-size: 11px;
+			}
+			@media (max-width: 350px) {
+				font-size: 10px;
+			}
 			&:hover {
 				color: aqua;
 			}
