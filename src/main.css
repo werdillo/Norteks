@@ -368,7 +368,6 @@ swiper-container {
 			font-size: 18px;
 		}
 	}
-
 	.-description {
 		font-size: 14px;
 		font-weight: 500;
@@ -392,9 +391,9 @@ swiper-container {
 }
 
 .rich-editor{ 
-	font-size: 20px;
+	font-size: 22px;
 	@media (max-width: 768px) {
-		font-size: 14px;
+		font-size: 16Hpx;
 	}
 }
 .post-image {
