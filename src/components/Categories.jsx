@@ -19,7 +19,8 @@ export default function Categories({showEmail=true}) {
 		}
 	});
 	return <>
-		<div class="container disable-top">
+		<div class="container">
+			<div class="title xs">Широкий выбор тканей</div>
 			<div class="product-list">
 				<Show when={loading()}>
 					<div class="skeleton"></div>
