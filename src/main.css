@@ -93,7 +93,7 @@ swiper-container {
 		font-size: 16px;
 	}
 	&.small-width {
-		max-width: 1000px;
+		max-width: 1800px;
 	}
 	&.s { 
 		font-size: 22px;
@@ -386,6 +386,9 @@ swiper-container {
 
 .post {
 	padding: 20px;
+	@media (max-width: 768px) {
+		padding: 10px;
+	}
 	.-title {
 		text-decoration: none;
 		font-size: 32px;
@@ -399,7 +402,7 @@ swiper-container {
 .rich-editor{ 
 	font-size: 22px;
 	@media (max-width: 768px) {
-		font-size: 16Hpx;
+		font-size: 14px;
 	}
 }
 .post-image {
