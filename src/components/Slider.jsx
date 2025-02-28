@@ -17,7 +17,7 @@ export default function Slider() {
     <swiper-slide>
         <div class="home-image">
             <div class="-container">
-                <img src={Norteks} class="-img" alt="" />
+                {/* <img src={Norteks} class="-img" alt="" /> */}
                 <div class="-title">Стильный гардероб мягкой мебели</div>
                 <a class="-text link" href="mailto:firma.nortex@gmail.com">
                     <button class="-button">
@@ -30,7 +30,7 @@ export default function Slider() {
     <swiper-slide>
         <div class="home-image textile">
             <div class="-container">
-                <img src={Norteks} class="-img" alt="" />
+                {/* <img src={Norteks} class="-img" alt="" /> */}
                 <div class="-title">Широкий выбор тканей</div>
                 <a class="-text link" href="/textile">
                     <button class="-button">
