@@ -28,14 +28,14 @@ export default function CollectionItem() {
 	onMount(async () => {
 		const param = params.name;
 		try {
-			const res = await client.collection('collections').getList(1, 50, {
+			const res = await client.collection('collections').getList(1, 100, {
 				filter: `path="${param}"`,
 			});
 
 			// Process the items to filter out empty strings
 			const processedItems = res.items.map(item => {
 				const combined = [];
-				for (let i = 1; i <= 32; i++) {
+				for (let i = 1; i <= 64; i++) {
 					const img = item[`img${i}`];
 					const textile = item[`textile${i}`];
 					if (img && textile) {
