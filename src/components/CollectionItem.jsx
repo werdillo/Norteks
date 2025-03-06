@@ -35,7 +35,7 @@ export default function CollectionItem() {
 			// Process the items to filter out empty strings
 			const processedItems = res.items.map(item => {
 				const combined = [];
-				for (let i = 1; i <= 64; i++) {
+				for (let i = 1; i <= 100; i++) {
 					const img = item[`img${i}`];
 					const textile = item[`textile${i}`];
 					if (img && textile) {
