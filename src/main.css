@@ -116,7 +116,7 @@ swiper-container {
 		height: 400px;
 	}
 	&.textile {
-		background-image: url("./assets/img/homeImage2.jpg");
+		background-image: url("./assets/img/textile.jpg");
 	}
 	.-container {
 		display: flex;
