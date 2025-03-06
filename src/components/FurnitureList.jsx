@@ -12,7 +12,7 @@ export default function FurnitureList() {
 
 	onMount(async () => {
 		try {
-			const res = await client.collection("furniture").getFullList(50, {
+			const res = await client.collection("furniture").getFullList(100, {
 				fields: "id, collectionId, name, image, height, title, color, material:excerpt(200, true)",
 			});
 			setItems(res);
