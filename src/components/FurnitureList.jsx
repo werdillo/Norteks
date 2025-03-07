@@ -59,16 +59,16 @@ export default function FurnitureList() {
 								</div>
 								<br/>
 								<div class="spec no-border">
-									<div class="-name">Высота</div>
-									<div class="-value">{item.height}</div>
+									<div class="-name s">Высота</div>
+									<div class="-value s">{item.height}</div>
 								</div>
 								<div class="spec no-border">
-									<div class="-name">Материал</div>
-									<div class="-value">{item.material}</div>
+									<div class="-name s">Материал</div>
+									<div class="-value s">{item.material}</div>
 								</div>
 								<div class="spec no-border">
-									<div class="-name">Цвет</div>
-									<div class="-value">{item.color}</div>
+									<div class="-name s">Цвет</div>
+									<div class="-value s">{item.color}</div>
 								</div>
 								</div>
 							</>

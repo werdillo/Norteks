@@ -75,12 +75,18 @@ swiper-container {
 		@media (max-width: 1024px) {
 			font-size: 12px;
 		}
+		&.s {
+			font-size: 12px;
+		}
 	}
 	.-value {
 		font-size: 20px;
 		font-weight: 600;
 		@media (max-width: 1024px) {
 			font-size: 14px;
+		}
+		&.s {
+			font-size: 18px;
 		}
 	}
 }
@@ -350,10 +356,11 @@ swiper-container {
 }
 
 .furniture {
-	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	display: grid;
 	width: 1fr;
 	gap: 30px;
+	align-items: center;
 	@media (max-width: 768px) {
 		grid-template-columns: 1fr 1fr;
 		gap: 10px;
@@ -363,11 +370,11 @@ swiper-container {
 		width: 100%;
 		height: auto;
 		aspect-ratio: 9/8;
-		object-fit: cover;
+		/* object-fit: cover; */
 	}
 
 	.-title {
-		font-size: 22px;
+		font-size: 20px;
 		font-weight: 700;
 		margin-top: 12px;
 		@media (max-width: 768px) {
@@ -375,7 +382,7 @@ swiper-container {
 		}
 	}
 	.-description {
-		font-size: 14px;
+		font-size: 12px;
 		font-weight: 500;
 		margin-top: 6px;
 		@media (max-width: 768px) {
