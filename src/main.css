@@ -67,12 +67,11 @@ swiper-container {
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
-		
-	}
-	&.no-border {
+		margin: 0 6px;
 		border-bottom: 0px;
 		margin-bottom: 4px;
 		padding-bottom: 8px;
+		
 	}
 	.-name {
 		font-size: 14px;
@@ -365,26 +364,36 @@ swiper-container {
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	display: grid;
 	width: 1fr;
-	gap: 30px;
+	gap: 16px;
 	align-items: center;
 	@media (max-width: 768px) {
-		grid-template-columns: 1fr 1fr;
-		gap: 10px;
+		grid-template-columns: 49% 49%;
+		gap: 8px;
 	}
+	.-card {
+		border: 1px solid #dfdfdf ;
+		border-radius: 8px;
+		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.02); /* Enhanced shadow on hover */
 
+	}
 	.-img {
 		width: 100%;
+		border-radius: 8px 8px 0 0;
 		height: auto;
 		aspect-ratio: 9/8;
-		/* object-fit: cover; */
+		@media (max-width: 768px) {
+		object-fit: cover;
+
+		}
 	}
 
 	.-title {
 		font-size: 20px;
 		font-weight: 700;
+		text-align: center;
 		margin-top: 12px;
 		@media (max-width: 768px) {
-			font-size: 18px;
+			font-size: 16px;
 		}
 	}
 	.-description {

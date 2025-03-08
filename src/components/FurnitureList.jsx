@@ -46,8 +46,7 @@ export default function FurnitureList() {
 				<Show when={!loading()}>
 					<For each={items()}>
 						{(item) => (
-							<>
-							<div>
+							<div class="-card">
 								<div key={item.id}>
 									<img
 										src={getImageUrl(item)}
@@ -70,8 +69,7 @@ export default function FurnitureList() {
 									<div class="-name s">Цвет</div>
 									<div class="-value s">{item.color}</div>
 								</div>
-								</div>
-							</>
+							</div>
 						)}
 					</For>
 				</Show>
