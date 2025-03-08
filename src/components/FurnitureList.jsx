@@ -13,9 +13,10 @@ export default function FurnitureList() {
 	onMount(async () => {
 		try {
 			const res = await client.collection("furniture").getFullList(100, {
-				fields: "id, collectionId, name, image, height, title, color, material:excerpt(200, true)",
+				fields: "id, collectionId, name, image, height, title, color, order, material:excerpt(200, true)",
 			});
-			setItems(res);
+			const sortedItems = res.sort((a, b) => a.order - b.order);
+			setItems(sortedItems);
 			setLoading(false);
 		} catch (err) {
 			console.error("Error fetching items:", err);
