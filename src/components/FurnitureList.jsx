@@ -58,15 +58,15 @@ export default function FurnitureList() {
 									<div class="-title">{item.name}</div>
 								</div>
 								<br/>
-								<div class="spec no-border">
+								<div class="spec horizontal no-border">
 									<div class="-name s">Высота</div>
 									<div class="-value s">{item.height}</div>
 								</div>
-								<div class="spec no-border">
+								<div class="spec horizontal no-border">
 									<div class="-name s">Материал</div>
 									<div class="-value s">{item.material}</div>
 								</div>
-								<div class="spec no-border">
+								<div class="spec horizontal no-border">
 									<div class="-name s">Цвет</div>
 									<div class="-value s">{item.color}</div>
 								</div>

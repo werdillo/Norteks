@@ -63,6 +63,12 @@ swiper-container {
 	max-width: 300px;
 	border-bottom: 1px solid #000;
 	margin-bottom: 8px;
+	&.horizontal {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		
+	}
 	&.no-border {
 		border-bottom: 0px;
 		margin-bottom: 4px;
@@ -86,7 +92,7 @@ swiper-container {
 			font-size: 14px;
 		}
 		&.s {
-			font-size: 18px;
+			font-size: 14px;
 		}
 	}
 }
