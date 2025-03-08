@@ -57,18 +57,18 @@ export default function Callection() {
 			</div>
 			<div class="product-list collection">
 				<Show when={loading()}>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
-					<div class="skeleton furniture"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
+					<div class="skeleton"></div>
 				</Show>
 				<Show when={!loading()}>
 					<For each={items()}>
