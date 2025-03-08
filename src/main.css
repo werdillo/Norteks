@@ -82,6 +82,9 @@ swiper-container {
 		}
 		&.s {
 			font-size: 12px;
+			@media (max-width: 1024px) {
+				font-size: 11px;
+			}
 		}
 	}
 	.-value {
@@ -92,6 +95,9 @@ swiper-container {
 		}
 		&.s {
 			font-size: 14px;
+			@media (max-width: 1024px) {
+				font-size: 12px;
+			}
 		}
 	}
 }
@@ -190,7 +196,9 @@ swiper-container {
 		aspect-ratio: 1/1;
 	}
 	&.furniture {
-		aspect-ratio: 9/8;
+		aspect-ratio: 6/8;
+		background: #efefef;
+		border-radius: 4px;
 	}
 	&.blog {
 		aspect-ratio: 7/4;
@@ -371,9 +379,9 @@ swiper-container {
 		gap: 8px;
 	}
 	.-card {
-		border: 1px solid #dfdfdf ;
+		border: 1px solid #f1f1f1 ;
 		border-radius: 8px;
-		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.02); /* Enhanced shadow on hover */
+		box-shadow: 0 2px 18px rgba(0, 0, 0, 0.02); /* Enhanced shadow on hover */
 
 	}
 	.-img {
