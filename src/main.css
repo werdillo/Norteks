@@ -185,7 +185,7 @@ swiper-container {
 }
 
 .skeleton {
-	background: #e2e2e2;
+	background: #e0e0e0;
 	width: 1fr;
 	height: auto;
 	aspect-ratio: 4/3;
