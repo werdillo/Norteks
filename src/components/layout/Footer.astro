@@ -7,6 +7,22 @@ import instagram from "../../assets/img/icons/instagram.svg";
 import telegram from "../../assets/img/icons/telegram.svg";
 import whatsapp from "../../assets/img/icons/whatsapp.svg";
 import { Image } from "astro:assets";
+
+const phoneNumbers = [
+	{ number: "+7(495)2213316", display: "+7 (495) 221 - 33 - 16" },
+	{ number: "+7(903)2213316", display: "+7 (903) 221 - 33 - 16" }
+];
+
+const emails = [
+	{ address: "firma.nortex@gmail.com" },
+	{ address: "info@tkani-nortex.ru" }
+];
+
+const socialLinks = [
+	{ href: "https://www.instagram.com/tknortex/", icon: instagram, alt: "Instagram" },
+	{ href: "https://t.me/tknortex", icon: telegram, alt: "Telegram" },
+	{ href: "#", icon: whatsapp, alt: "WhatsApp" }
+];
 ---
 
 <footer class="footer">
@@ -23,36 +39,36 @@ import { Image } from "astro:assets";
 	<div class="-phone">
 		<Image src={phone} class="-img" alt="" />
 		<div class="-contacts-container">
-			<a class="-text l link" href="tel:+7(495)2213316">
-				+7 (495) 221 - 33 - 16
-			</a>
-			<a class="-text l link" href="tel:+7(903)2213316">
-				+7 (903) 221 - 33 - 16
-			</a>
+			{phoneNumbers.map((phone) => (
+				<a class="-text l link" href={`tel:${phone.number}`}>
+					{phone.display}
+				</a>
+			))}
 		</div>
 	</div>
 	<div class="-email">
 		<Image src={mail} class="-img" alt="" />
 		<div class="-contacts-container">
-			<a class="-text l link" href="mailto:firma.nortex@gmail.com"
-				>firma.nortex@gmail.com</a
-			>
-			<a class="-text l link" href="mailto:info@tkani-nortex.ru"
-				>info@tkani-nortex.ru</a
-			>
+			{emails.map((email) => (
+				<a class="-text l link" href={`mailto:${email.address}`}>
+					{email.address}
+				</a>
+			))}
 		</div>
 	</div>
 	<div class="-social">
 		<div class="-social-links">
-			<a href="https://www.instagram.com/tknortex/" class="-social-link">
-				<Image class="-social-icon" src={instagram} alt="Instagram" />
-			</a>
-			<a href="https://t.me/tknortex" class="-social-link">
-				<Image class="-social-icon" src={telegram} alt="Telegram" />
-			</a>
-			<div class="-social-link">
-				<Image class="-social-icon" src={whatsapp} alt="WhatsApp" />
-			</div>
+			{socialLinks.map((social) => (
+				social.href !== "#" ? (
+					<a href={social.href} class="-social-link">
+						<Image class="-social-icon" src={social.icon} alt={social.alt} />
+					</a>
+				) : (
+					<div class="-social-link">
+						<Image class="-social-icon" src={social.icon} alt={social.alt} />
+					</div>
+				)
+			))}
 		</div>
 	</div>
 </footer>

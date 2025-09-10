@@ -7,59 +7,26 @@ import aboutIcon from "../../assets/img/icons/mobile/about.svg";
 import { Image } from "astro:assets";
 
 const currentPath = Astro.url.pathname;
+
+const menuItems = [
+	{ href: "/textile", icon: textileIcon, text: "Коллекции", isActive: currentPath === "/textile/" || currentPath.includes("/collection") || currentPath.includes("/product") },
+	{ href: "/cleaning", icon: cleaningIcon, text: "Уход", isActive: currentPath === "/cleaning/" },
+	{ href: "/furniture", icon: furnitureIcon, text: "Фурнитура", isActive: currentPath === "/furniture/" },
+	{ href: "/blog", icon: blogIcon, text: "Блог", isActive: currentPath === "/blog/" || currentPath.includes("/post") },
+	{ href: "/about-us", icon: aboutIcon, text: "О нас", isActive: currentPath === "/about-us/" }
+];
 ---
 
 <nav class="mobile-menu">
 	<div class="-wrapper">
-		<a
-			href="/textile"
-			class={currentPath === "/textile/" || currentPath.includes("/collection") || currentPath.includes("/product") ? "-link active" : "-link"}
-		>
-			<div class="-icon">
-				<Image src={textileIcon} alt="" />
-			</div>
-			<span class="-text">Коллекции</span>
-		</a>
-		
-		<a
-			href="/cleaning"
-			class={currentPath === "/cleaning/" ? "-link active" : "-link"}
-		>
-			<div class="-icon">
-				<Image src={cleaningIcon} alt="" />
-			</div>
-			<span class="-text">Уход</span>
-		</a>
-		
-		<a
-			href="/furniture"
-			class={currentPath === "/furniture/" ? "-link active" : "-link"}
-		>
-			<div class="-icon">
-				<Image src={furnitureIcon} alt="" />
-			</div>
-			<span class="-text">Фурнитура</span>
-		</a>
-		
-		<a
-			href="/blog"
-			class={currentPath === "/blog/" || currentPath.includes("/post") ? "-link active" : "-link"}
-		>
-			<div class="-icon">
-				<Image src={blogIcon} alt="" />
-			</div>
-			<span class="-text">Блог</span>
-		</a>
-		
-		<a
-			href="/about-us"
-			class={currentPath === "/about-us/" ? "-link active" : "-link active"}
-		>
-			<div class="-icon">
-				<Image src={aboutIcon} alt="" />
-			</div>
-			<span class="-text">О нас</span>
-		</a>
+		{menuItems.map((item) => (
+			<a href={item.href} class={item.isActive ? "-link active" : "-link"}>
+				<div class="-icon">
+					<Image src={item.icon} alt={item.text} />
+				</div>
+				<span class="-text">{item.text}</span>
+			</a>
+		))}
 	</div>
 </nav>
 <style>

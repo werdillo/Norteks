@@ -113,9 +113,13 @@ export default function SearchComponent() {
 			<input 
 				type="text" 
 				class="-search-input" 
-				placeholder="Поиск категорий и коллекций"
+				placeholder="Поиск коллекций"
 				value={searchQuery()}
 				onInput={handleInput}
+				autocomplete="off"
+				autocapitalize="off"
+				autocorrect="off"
+				spellcheck="false"
 			/>
 			<Show when={showResults()}>
 				<div class="-search-results" style="display: block !important;">

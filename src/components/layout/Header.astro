@@ -9,6 +9,31 @@ import { Image } from "astro:assets";
 import SearchComponent from "../SearchComponent.jsx";
 
 const currentPath = Astro.url.pathname;
+
+const navigationItems = [
+	{ href: "/textile", text: "Коллекции", isActive: currentPath === "/textile/" || currentPath.includes("/collection") || currentPath.includes("/product") },
+	{ href: "/furniture", text: "Фурнитура", isActive: currentPath === "/furniture/" },
+	{ href: "/blog", text: "Блог", isActive: currentPath === "/blog/" || currentPath.includes("/post") },
+	{ href: "/cleaning", text: "Как очистить ткань", isActive: currentPath === "/cleaning/" },
+	{ href: "/contacts", text: "Контакты", isActive: currentPath === "/contacts/" },
+	{ href: "/about-us", text: "О нас", isActive: currentPath === "/about-us/" }
+];
+
+const socialLinks = [
+	{ href: "https://www.instagram.com/tknortex/", icon: instagram, alt: "Instagram" },
+	{ href: "https://t.me/tknortex", icon: telegram, alt: "Telegram" },
+	{ href: "#", icon: whatsapp, alt: "WhatsApp" }
+];
+
+const phoneNumbers = [
+	{ number: "+7(495)2213316", display: "+7 (495) 221 - 33 - 16" },
+	{ number: "+7(903)2213316", display: "+7 (903) 221 - 33 - 16" }
+];
+
+const emails = [
+	{ address: "firma.nortex@gmail.com" },
+	{ address: "info@tkani-nortex.ru" }
+];
 ---
 
 <nav class="header">
@@ -18,46 +43,11 @@ const currentPath = Astro.url.pathname;
 				<img src="/logo.png" class="-logo" alt="" />
 			</a>
 			<div class="-links">
-				<a
-					href="/textile"
-					class={currentPath === "/textile/" ||
-					currentPath.includes("/collection") ||
-					currentPath.includes("/product")
-						? "-link active"
-						: "-link "}>Коллекции</a
-				>
-			
-				<a
-					href="/furniture"
-					class={currentPath === "/furniture/"
-						? "-link active"
-						: "-link "}>Фурнитура</a
-				>
-				<a
-					href="/blog"
-					class={currentPath === "/blog/" ||
-					currentPath.includes("/post")
-						? "-link active"
-						: "-link "}>Блог</a
-				>
-				<a
-					href="/cleaning"
-					class={currentPath === "/cleaning/"
-						? "-link active"
-						: "-link "}>Как очистить ткань</a
-				>
-				<a
-					href="/contacts"
-					class={currentPath === "/contacts/"
-						? "-link active"
-						: "-link "}>Контакты</a
-				>
-				<a
-					href="/about-us"
-					class={currentPath === "/about-us/"
-						? "-link active"
-						: "-link "}>О нас</a
-				>
+				{navigationItems.map((item) => (
+					<a href={item.href} class={item.isActive ? "-link active" : "-link"}>
+						{item.text}
+					</a>
+				))}
 			</div>
 		</div>
 
@@ -67,31 +57,26 @@ const currentPath = Astro.url.pathname;
 				<div class="-link-mobile">
 					<a
 						href="/contacts"
-						class={currentPath === "/contacts/"
-							? "-link mobile active"
-							: "-link mobile "}>Контакты</a
-					>
+						class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
+						Контакты
+					</a>
 				</div>
-				<a href="https://www.instagram.com/tknortex/">
-					<Image class="-img" src={instagram} alt="" />
-				</a>
-				<a href="https://t.me/tknortex">
-					<Image class="-img" src={telegram} alt="" />
-				</a>
-				<Image class="-img" src={whatsapp} alt="" />
-
+				{socialLinks.map((social) => (
+					<a href={social.href}>
+						<Image class="-img" src={social.icon} alt={social.alt} />
+					</a>
+				))}
 			</div>
 			<div class="-contacts">
 				<div class="-contact-column">
 					<div class="-wrap">
 						<Image class="-img" src={phone} alt="" />
 						<div class="-phones">
-							<a class="-text link" href="tel:+7(495)2213316">
-								+7 (495) 221 - 33 - 16
-							</a>
-							<a class="-text link" href="tel:+7(903)2213316">
-								+7 (903) 221 - 33 - 16
-							</a>
+							{phoneNumbers.map((phone) => (
+								<a class="-text link" href={`tel:${phone.number}`}>
+									{phone.display}
+								</a>
+							))}
 						</div>
 					</div>
 				</div>
@@ -100,12 +85,11 @@ const currentPath = Astro.url.pathname;
 					<div class="-wrap email">
 						<Image class="-img" src={mail} alt="" />
 						<div class="-emails">
-							<a class="-text link" href="mailto:firma.nortex@gmail.com"
-								>firma.nortex@gmail.com
-							</a>
-							<a class="-text link" href="mailto:info@tkani-nortex.ru"
-								>info@tkani-nortex.ru
-							</a>
+							{emails.map((email) => (
+								<a class="-text link" href={`mailto:${email.address}`}>
+									{email.address}
+								</a>
+							))}
 						</div>
 					</div>
 				</div>
@@ -190,6 +174,13 @@ const currentPath = Astro.url.pathname;
 			padding: 8px 12px;
 			width: 200px;
 			font-size: 14px;
+			
+			@media (max-width: 768px) {
+				font-size: 16px; /* Prevents zoom on iOS */
+				width: 100%;
+				max-width: 200px;
+			}
+			
 			&::placeholder {
 				color: #bbb;
 			}
@@ -197,6 +188,10 @@ const currentPath = Astro.url.pathname;
 				outline: none;
 				border-color: aqua;
 				box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+				
+				@media (max-width: 768px) {
+					transform: none; /* Prevents transform on focus */
+				}
 			}
 		}
 		.-search-results {
@@ -356,6 +351,13 @@ const currentPath = Astro.url.pathname;
 				@media (max-width: 1200px) {
 					gap: 6px;
 				}
+				
+				&.address {
+					@media (max-width: 1500px) {
+						display: none;
+					}
+				}
+				
 				&.email {
 					@media (max-width: 1640px) {
 						display: none;
@@ -378,6 +380,20 @@ const currentPath = Astro.url.pathname;
 				
 				@media (max-width: 1200px) {
 					gap: 4px;
+				}
+			}
+			
+			.-address-text {
+				font-size: 12px;
+				color: #ccc;
+				white-space: nowrap;
+				
+				@media (max-width: 1400px) {
+					font-size: 11px;
+				}
+				
+				@media (max-width: 1200px) {
+					font-size: 10px;
 				}
 			}
 		}
