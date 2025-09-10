@@ -53,7 +53,7 @@ const currentPath = Astro.url.pathname;
 		
 		<a
 			href="/about-us"
-			class={currentPath === "/about-us/" ? "-link active" : "-link"}
+			class={currentPath === "/about-us/" ? "-link active" : "-link active"}
 		>
 			<div class="-icon">
 				<Image src={aboutIcon} alt="" />
@@ -91,7 +91,7 @@ const currentPath = Astro.url.pathname;
 			gap: 2px;
 			color: rgba(255, 255, 255, 0.6);
 			text-decoration: none;
-			padding: 4px;
+			padding: 4px 6px;
 			border-radius: 12px;
 			transition: all 0.3s ease;
 			min-width: 50px;
@@ -106,8 +106,7 @@ const currentPath = Astro.url.pathname;
 			}
 			
 			&.active {
-				color: #00d4ff;
-				background: rgba(0, 212, 255, 0.1);
+				color: #ffffff;
 				
 				.-icon img {
 					opacity: 1;
