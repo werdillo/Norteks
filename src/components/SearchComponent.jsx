@@ -22,23 +22,17 @@ export default function SearchComponent() {
 		setLoading(true);
 		
 		try {
-			// Поиск в категориях, как в примере
+			// Поиск в категориях с игнорированием регистра
 			const categoriesRes = await client.collection("categories").getList(1, 10, {
-				filter: client.filter(
-					"name ~ {:search}",
-					{ search: searchTerm }
-				),
+				filter: `LOWER(name) ~ LOWER('${searchTerm}')`,
 				fields: 'id, collectionId, name, path, image'
 			});
 			
 			console.log('Categories found:', categoriesRes.items.length);
 
-			// Поиск в коллекциях, как в примере  
+			// Поиск в коллекциях с игнорированием регистра  
 			const collectionsRes = await client.collection("collections").getList(1, 10, {
-				filter: client.filter(
-					"name ~ {:search}", 
-					{ search: searchTerm }
-				),
+				filter: `LOWER(name) ~ LOWER('${searchTerm}')`,
 				fields: 'id, collectionId, name, path, image'
 			});
 			
