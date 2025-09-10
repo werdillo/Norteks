@@ -3,6 +3,9 @@ import Norteks from "../../assets/img/logo.png";
 import mail from "../../assets/img/icons/mail.svg";
 import phone from "../../assets/img/icons/phone.svg";
 import location from "../../assets/img/icons/location.svg";
+import instagram from "../../assets/img/icons/instagram.svg";
+import telegram from "../../assets/img/icons/telegram.svg";
+import whatsapp from "../../assets/img/icons/whatsapp.svg";
 import { Image } from "astro:assets";
 ---
 
@@ -37,6 +40,19 @@ import { Image } from "astro:assets";
 			<a class="-text l link" href="mailto:info@tkani-nortex.ru"
 				>info@tkani-nortex.ru</a
 			>
+		</div>
+	</div>
+	<div class="-social">
+		<div class="-social-links">
+			<a href="https://www.instagram.com/tknortex/" class="-social-link">
+				<Image class="-social-icon" src={instagram} alt="Instagram" />
+			</a>
+			<a href="https://t.me/tknortex" class="-social-link">
+				<Image class="-social-icon" src={telegram} alt="Telegram" />
+			</a>
+			<div class="-social-link">
+				<Image class="-social-icon" src={whatsapp} alt="WhatsApp" />
+			</div>
 		</div>
 	</div>
 </footer>
@@ -133,6 +149,48 @@ import { Image } from "astro:assets";
 				position: absolute;
 				top: -20px;
 				left: -24px;
+			}
+		}
+
+		.-social {
+			display: flex;
+			align-items: center;
+
+			.-social-links {
+				display: flex;
+				gap: 15px;
+				align-items: center;
+
+				@media (max-width: 768px) {
+					gap: 12px;
+				}
+
+				.-social-link {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: 40px;
+					height: 40px;
+					background: rgba(255, 255, 255, 0.1);
+					border-radius: 50%;
+					transition: all 0.3s;
+					cursor: pointer;
+
+					&:hover {
+						background: #00d4ff;
+						transform: translateY(-2px);
+					}
+
+					.-social-icon {
+						width: 20px;
+						height: 20px;
+
+						@media (max-width: 768px) {
+							width: 18px;
+							height: 18px;
+						}
+					}
+				}
 			}
 		}
 	}
