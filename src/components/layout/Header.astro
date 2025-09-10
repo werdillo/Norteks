@@ -52,16 +52,16 @@ const emails = [
 			</div>
 		</div>
 
-
+		<div class="-link-mobile">
+			<a
+				href="/contacts"
+				class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
+				Контакты
+			</a>
+		</div>
 		<div class="-container">
 			<div class="-socials">
-				<div class="-link-mobile">
-					<a
-						href="/contacts"
-						class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
-						Контакты
-					</a>
-				</div>
+				
 				{socialLinks.map((social) => (
 					<a href={social.href}>
 						<Image class="-img" src={social.icon} alt={social.alt} />
@@ -159,13 +159,18 @@ const emails = [
 			height: auto;
 			width: 120px;
 			@media (max-width: 768px) {
-				width: 110px;
+				margin-top: 4px;
+				width: 100px;
 			}
 		}
 		.-link-mobile {
 			@media (min-width: 1200px) {
 				display: none;
 			}
+			@media (max-width: 370px) {
+				display: none;
+			}
+			font-size: 12px;
 		}
 		.-links {
 			display: flex;
@@ -198,8 +203,8 @@ const emails = [
 			}
 			
 			&.mobile {
-				font-size: 12px;
-				margin-bottom: 5px;
+				font-size: 11px;
+				margin-bottom: 10px;
 			}
 			&.active {
 				color: aqua;
