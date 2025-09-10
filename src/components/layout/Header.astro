@@ -50,15 +50,15 @@ const emails = [
 					</a>
 				))}
 			</div>
+			<div class="-link-mobile">
+				<a
+					href="/contacts"
+					class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
+					Контакты
+				</a>
+			</div>
 		</div>
 
-		<div class="-link-mobile">
-			<a
-				href="/contacts"
-				class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
-				Контакты
-			</a>
-		</div>
 		<div class="-container">
 			<div class="-socials">
 				
@@ -167,7 +167,7 @@ const emails = [
 			@media (min-width: 1200px) {
 				display: none;
 			}
-			@media (max-width: 370px) {
+			@media (max-width:385px) {
 				display: none;
 			}
 			font-size: 12px;
@@ -204,7 +204,6 @@ const emails = [
 			
 			&.mobile {
 				font-size: 11px;
-				margin-bottom: 10px;
 			}
 			&.active {
 				color: aqua;
