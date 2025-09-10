@@ -1,0 +1,27 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tkani-nortex.ru/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin areas and build files
+Disallow: /admin/
+Disallow: /_astro/
+Disallow: /api/
+
+# Allow important pages explicitly
+Allow: /textile
+Allow: /furniture
+Allow: /blog
+Allow: /cleaning
+Allow: /about-us
+Allow: /contacts
+
+# Block common spam/bot paths
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /.git/
+Disallow: /node_modules/

@@ -5,9 +5,15 @@ import img2 from "../assets/img/cleaning/img2.jpg";
 import img3 from "../assets/img/cleaning/img3.jpg";
 import { Image } from "astro:assets";
 import "../main.css";
+
+const seoData = {
+	title: "Как очистить ткань | Советы по уходу за текстилем от Нортекс",
+	description: "Профессиональные советы по уходу за различными типами тканей: велюр, замша, экокожа, рогожка. Методы чистки, удаления пятен и сохранения качества текстиля.",
+	keywords: "уход за тканями, чистка тканей, удаление пятен, уход за велюром, чистка замши, уход за экокожей, профессиональная чистка"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
   <div class="img-container">
     <Image src={img3} class="-img" alt="" />
     <Image src={img2} class="-img" alt="" />

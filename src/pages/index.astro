@@ -1,15 +1,20 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Categories from "../components/Categories.jsx";
-
 import { Image } from "astro:assets";
 import "../main.css";
 import Norteks from "../assets/img/logo.svg";
 import Slider from "../components/Slider";
 import Advantages from "../components/Advantages.astro";
+
+const seoData = {
+	title: "Нортекс - Оптовый поставщик декоративных тканей | Ткани для мебели и штор",
+	description: "Компания Нортекс - ваш надежный партнер в мире декоративных тканей. Более 20 лет опыта, широкий ассортимент: велюр, замша, экокожа, рогожка. Работаем с дизайнерами и архитекторами.",
+	keywords: "ткани оптом, декоративные ткани, мебельные ткани, шторные ткани, велюр, замша, экокожа, рогожка, дизайнерские ткани, Нортекс, поставщик тканей"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
 	<Slider client:load/>
 	<div class="container disable-bottom">
 		<div class="text xl">

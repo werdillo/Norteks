@@ -1,9 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogList from "../components/BlogList";
+
+const seoData = {
+	title: "Блог о тканях и дизайне | Советы от экспертов Нортекс",
+	description: "Полезные статьи о выборе тканей, уходе за текстилем, модных тенденциях в дизайне интерьера. Экспертные советы от компании Нортекс.",
+	keywords: "блог о тканях, советы по выбору тканей, уход за тканями, дизайн интерьера, текстиль в интерьере, модные ткани"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
 	<div class="container">
 		<BlogList client:only />
 	</div>

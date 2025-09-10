@@ -5,9 +5,15 @@ import phone from "../assets/img/icons/dark/phone.svg";
 import mail from "../assets/img/icons/dark/mail.svg";
 import location from "../assets/img/icons/dark/location.svg";
 import "../main.css";
+
+const seoData = {
+	title: "Контакты компании Нортекс | Свяжитесь с поставщиком тканей",
+	description: "Контактная информация компании Нортекс: адрес в Москве, телефоны, электронная почта. Мы находимся по адресу: Дмитровское шоссе 71Б, Бизнес-центр 7ONE.",
+	keywords: "контакты Нортекс, адрес офиса, телефон поставщика тканей, как связаться с Нортекс, Москва ткани"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
     <div class="contact-container">
         <div class="contact-info">
           <h2>НОРТЕКС</h2>

@@ -1,8 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Categories from "../components/Categories.jsx";
+
+const seoData = {
+	title: "Коллекции декоративных тканей | Каталог тканей Нортекс",
+	description: "Широкий выбор декоративных тканей: велюр, замша, микрофибра, экокожа, рогожка, шенилл, букле. Ткани для мебели и штор от надежного поставщика с 20-летним опытом.",
+	keywords: "коллекции тканей, каталог тканей, велюр, замша, микрофибра, экокожа, рогожка, шенилл, букле, мебельные ткани, шторные ткани"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
 	<Categories client:only />
 </BaseLayout>

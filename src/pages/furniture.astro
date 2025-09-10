@@ -1,8 +1,14 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import FurnitureList from "../components/FurnitureList.jsx";
+
+const seoData = {
+	title: "Мебельная фурнитура | Каталог комплектующих для мебели Нортекс",
+	description: "Широкий выбор мебельной фурнитуры и комплектующих. Качественные детали для производства и ремонта мебели от надежного поставщика.",
+	keywords: "мебельная фурнитура, комплектующие для мебели, фурнитура оптом, детали для мебели, мебельные аксессуары"
+};
 ---
 
-<BaseLayout>
+<BaseLayout {...seoData}>
 	<FurnitureList client:only />
 </BaseLayout>

@@ -2,16 +2,80 @@
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
 import MobileMenu from "../components/layout/MobileMenu.astro";
+
+export interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	ogImage?: string;
+}
+
+const { 
+	title = "Нортекс - Оптовый поставщик декоративных тканей",
+	description = "Компания Нортекс - ваш надежный партнер в мире декоративных тканей. Более 20 лет опыта, широкий ассортимент тканей для мебели и штор.",
+	keywords = "ткани, декоративные ткани, мебельные ткани, шторы, велюр, замша, экокожа, рогожка, дизайнерские ткани, оптом",
+	ogImage = "/logo.png"
+} = Astro.props;
 ---
 
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
-		<title>Norteks</title>
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<meta name="author" content="Нортекс" />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href={Astro.url.href} />
+		<link rel="sitemap" href="/sitemap.xml" />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url.href} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(ogImage, Astro.site || 'https://tkani-nortex.ru').href} />
+		<meta property="og:site_name" content="Нортекс" />
+		<meta property="og:locale" content="ru_RU" />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(ogImage, Astro.site || 'https://tkani-nortex.ru').href} />
+		
+		<!-- Structured Data -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"name": "Нортекс",
+			"description": "Оптовый поставщик декоративных тканей",
+			"url": "https://tkani-nortex.ru",
+			"logo": "https://tkani-nortex.ru/logo.png",
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"telephone": "+7-495-221-33-16",
+				"contactType": "customer service",
+				"areaServed": "RU",
+				"availableLanguage": "Russian"
+			},
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "Дмитровское шоссе 71Б, Бизнес-центр 7ONE",
+				"addressLocality": "Москва",
+				"addressCountry": "RU"
+			},
+			"sameAs": [
+				"https://www.instagram.com/tknortex/",
+				"https://t.me/tknortex"
+			]
+		}
+		</script>
 	</head>
 </html>
 <body>
