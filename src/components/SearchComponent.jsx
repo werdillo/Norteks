@@ -22,11 +22,12 @@ export default function SearchComponent() {
 		setLoading(true);
 		
 		try {
-			// Поиск в категориях, как в примере
+			// Поиск в категориях с заглавной буквы
+			const searchTermCapitalized = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
 			const categoriesRes = await client.collection("categories").getList(1, 10, {
 				filter: client.filter(
-					"name ~ {:search}",
-					{ search: searchTerm }
+					"name ~ {:search} || name ~ {:searchCap}",
+					{ search: searchTerm.toLowerCase(), searchCap: searchTermCapitalized }
 				),
 				fields: 'id, collectionId, name, path, image'
 			});
