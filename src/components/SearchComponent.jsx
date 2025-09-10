@@ -22,17 +22,23 @@ export default function SearchComponent() {
 		setLoading(true);
 		
 		try {
-			// Поиск в категориях с игнорированием регистра
+			// Поиск в категориях, как в примере
 			const categoriesRes = await client.collection("categories").getList(1, 10, {
-				filter: `LOWER(name) ~ LOWER('${searchTerm}')`,
+				filter: client.filter(
+					"name ~ {:search}",
+					{ search: searchTerm }
+				),
 				fields: 'id, collectionId, name, path, image'
 			});
 			
 			console.log('Categories found:', categoriesRes.items.length);
 
-			// Поиск в коллекциях с игнорированием регистра  
+			// Поиск в коллекциях, как в примере  
 			const collectionsRes = await client.collection("collections").getList(1, 10, {
-				filter: `LOWER(name) ~ LOWER('${searchTerm}')`,
+				filter: client.filter(
+					"name ~ {:search}", 
+					{ search: searchTerm }
+				),
 				fields: 'id, collectionId, name, path, image'
 			});
 			
@@ -104,6 +110,10 @@ export default function SearchComponent() {
 
 	return (
 		<div class="-search-container">
+			<svg class="-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+				<circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+				<path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+			</svg>
 			<input 
 				type="text" 
 				class="-search-input" 
