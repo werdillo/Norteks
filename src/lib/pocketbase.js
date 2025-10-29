@@ -1,7 +1,7 @@
 // lib/pocketbase.js
 import PocketBase from "pocketbase";
 
-export const url = "http://80.87.198.50:8090";
+export const url = "https://norteks.dpdns.org";
 export const client = new PocketBase(url);
 
 export const getImageUrl = (item) => {
