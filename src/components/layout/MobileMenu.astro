@@ -9,107 +9,141 @@ import { Image } from "astro:assets";
 const currentPath = Astro.url.pathname;
 
 const menuItems = [
-	{ href: "/textile", icon: textileIcon, text: "Коллекции", isActive: currentPath === "/textile/" || currentPath.includes("/collection") || currentPath.includes("/product") },
-	{ href: "/cleaning", icon: cleaningIcon, text: "Уход", isActive: currentPath === "/cleaning/" },
-	{ href: "/furniture", icon: furnitureIcon, text: "Фурнитура", isActive: currentPath === "/furniture/" },
-	{ href: "/blog", icon: blogIcon, text: "Блог", isActive: currentPath === "/blog/" || currentPath.includes("/post") },
-	{ href: "/about-us", icon: aboutIcon, text: "О нас", isActive: currentPath === "/about-us/" }
+    {
+        href: "/textile",
+        icon: textileIcon,
+        text: "Коллекции",
+        isActive:
+            currentPath.includes("/textile") ||
+            currentPath.includes("/collection") ||
+            currentPath.includes("/product"),
+    },
+    {
+        href: "/cleaning",
+        icon: cleaningIcon,
+        text: "Уход",
+        isActive: currentPath.includes("/cleaning"),
+    },
+    {
+        href: "/furniture",
+        icon: furnitureIcon,
+        text: "Фурнитура",
+        isActive: currentPath.includes("/furniture"),
+    },
+    {
+        href: "/blog",
+        icon: blogIcon,
+        text: "Блог",
+        isActive:
+            currentPath.includes("/blog") || currentPath.includes("/post"),
+    },
+    {
+        href: "/about-us",
+        icon: aboutIcon,
+        text: "О нас",
+        isActive: currentPath.includes("/about-us"),
+    },
 ];
 ---
 
 <nav class="mobile-menu">
-	<div class="-wrapper">
-		{menuItems.map((item) => (
-			<a href={item.href} class={item.isActive ? "-link active" : "-link"}>
-				<div class="-icon">
-					<Image src={item.icon} alt={item.text} />
-				</div>
-				<span class="-text">{item.text}</span>
-			</a>
-		))}
-	</div>
+    <div class="-wrapper">
+        {
+            menuItems.map((item) => (
+                <a
+                    href={item.href}
+                    class={item.isActive ? "-link active" : "-link"}
+                >
+                    <div class="-icon">
+                        <Image src={item.icon} alt={item.text} />
+                    </div>
+                    <span class="-text">{item.text}</span>
+                </a>
+            ))
+        }
+    </div>
 </nav>
 <style>
-	.mobile-menu {
-		z-index: 1000;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: rgba(47, 47, 47, 0.95);
-		backdrop-filter: blur(10px);
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
-		@media (min-width: 768px) {
-			display: none;
-		}
-		
-		.-wrapper {
-			padding: 2px 8px;
-			display: flex;
-			align-items: center;
-			justify-content: space-around;
-			max-width: 100%;
-		}
+    .mobile-menu {
+        z-index: 1000;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(47, 47, 47, 0.95);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        @media (min-width: 768px) {
+            display: none;
+        }
 
-		.-link {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 2px;
-			color: rgba(255, 255, 255, 0.6);
-			text-decoration: none;
-			padding: 4px 6px;
-			border-radius: 12px;
-			transition: all 0.3s ease;
-			min-width: 50px;
-			
-			&:hover {
-				background: rgba(255, 255, 255, 0.1);
-				color: #00d4ff;
-				
-				.-icon img {
-					opacity: 1;
-				}
-			}
-			
-			&.active {
-				color: #ffffff;
-				
-				.-icon img {
-					opacity: 1;
-				}
-			}
-		}
+        .-wrapper {
+            padding: 2px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            max-width: 100%;
+        }
 
-		.-icon {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			width: 24px;
-			height: 24px;
-			
-			img {
-				width: 20px;
-				height: 20px;
-				opacity: 0.6;
-				transition: all 0.3s ease;
-			}
-		}
+        .-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            padding: 4px 6px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-width: 50px;
 
-		.-text {
-			font-size: 10px;
-			font-weight: 500;
-			text-align: center;
-			line-height: 1.2;
-			
-			@media (max-width: 380px) {
-				font-size: 9px;
-			}
-		}
+            &:hover {
+                background: rgba(255, 255, 255, 0.1);
+                color: #00d4ff;
 
-		.-link:hover .-icon img,
-		.-link.active .-icon img {
-			opacity: 1;
-		}
-	}
+                .-icon img {
+                    opacity: 1;
+                }
+            }
+
+            &.active {
+                color: #ffffff;
+
+                .-icon img {
+                    opacity: 1;
+                }
+            }
+        }
+
+        .-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+
+            img {
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+                transition: all 0.3s ease;
+            }
+        }
+
+        .-text {
+            font-size: 10px;
+            font-weight: 500;
+            text-align: center;
+            line-height: 1.2;
+
+            @media (max-width: 380px) {
+                font-size: 9px;
+            }
+        }
+
+        .-link:hover .-icon img,
+        .-link.active .-icon img {
+            opacity: 1;
+        }
+    }
 </style>

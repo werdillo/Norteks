@@ -16,31 +16,31 @@ const navigationItems = [
         href: "/textile",
         text: "Коллекции",
         isActive:
-            currentPath === "/textile" ||
+            currentPath.includes("/textile") ||
             currentPath.includes("/collection") ||
             currentPath.includes("/product"),
     },
     {
         href: "/furniture",
         text: "Фурнитура",
-        isActive: currentPath === "/furniture",
+        isActive: currentPath.includes("/furniture"),
     },
     {
         href: "/blog",
         text: "Блог",
-        isActive: currentPath === "/blog" || currentPath.includes("/post"),
+        isActive: currentPath.includes("/blog") || currentPath.includes("/post"),
     },
     {
         href: "/cleaning",
         text: "Как очистить ткань",
-        isActive: currentPath === "/cleaning",
+        isActive: currentPath.includes("/cleaning"),
     },
     {
         href: "/contacts",
         text: "Контакты",
-        isActive: currentPath === "/contacts",
+        isActive: currentPath.includes("/contacts"),
     },
-    { href: "/about-us", text: "О нас", isActive: currentPath === "/about-us" },
+    { href: "/about-us", text: "О нас", isActive: currentPath.includes("/about-us") },
 ];
 
 const socialLinks = [
@@ -85,7 +85,7 @@ const emails = [
             <div class="-link-mobile">
                 <a
                     href="/contacts"
-                    class={currentPath === "/contacts/"
+                    class={currentPath.includes("/contacts")
                         ? "-link mobile active"
                         : "-link mobile"}
                 >
