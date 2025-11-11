@@ -9,12 +9,13 @@
 	border: 1px solid #666;
 	border-radius: 4px;
 	color: #fff;
-	padding: 8px 12px 8px 36px; /* Добавляем отступ слева для иконки */
+	padding: 8px 12px 8px 36px;
 	width: 150px;
 	font-size: 14px;
+	transition: all 0.2s;
 	
 	@media (max-width: 768px) {
-		font-size: 16px; /* Prevents zoom on iOS */
+		font-size: 16px;
 		width: 100%;
 		max-width: 140px;
 	}
@@ -27,9 +28,11 @@
 		outline: none;
 		border-color: aqua;
 		box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+		width: 200px;
 		
 		@media (max-width: 768px) {
-			transform: none; /* Prevents transform on focus */
+			width: 100%;
+			max-width: 160px;
 		}
 	}
 }
@@ -48,29 +51,90 @@
 
 .-search-results {
 	position: absolute;
-	top: 100%;
+	top: calc(100% + 4px);
 	left: 0;
 	right: 0;
-	background: #4a4a4a;
+	min-width: 250px;
+	background: #3a3a3a;
 	border: 1px solid #666;
-	border-top: none;
-	border-radius: 0 0 4px 4px;
-	max-height: 200px;
+	border-radius: 6px;
+	max-height: 300px;
 	overflow-y: auto;
 	z-index: 1000;
-	display: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	
+	@media (max-width: 768px) {
+		min-width: 200px;
+		max-height: 250px;
+	}
 }
 
 .-result-item {
-	padding: 8px 12px;
+	padding: 10px 12px;
 	cursor: pointer;
 	border-bottom: 1px solid #555;
+	transition: background 0.2s;
 	
 	&:hover {
-		background: #5a5a5a;
+		background: #4a4a4a;
 	}
 	
 	&:last-child {
 		border-bottom: none;
 	}
+}
+
+.-result-content {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.-result-image {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border-radius: 4px;
+	flex-shrink: 0;
+}
+
+.-result-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.-result-type {
+	color: #aaa;
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	display: block;
+	margin-bottom: 2px;
+}
+
+.-result-name {
+	color: #fff;
+	font-size: 14px;
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* Custom scrollbar */
+.-search-results::-webkit-scrollbar {
+	width: 6px;
+}
+
+.-search-results::-webkit-scrollbar-track {
+	background: #2a2a2a;
+}
+
+.-search-results::-webkit-scrollbar-thumb {
+	background: #666;
+	border-radius: 3px;
+}
+
+.-search-results::-webkit-scrollbar-thumb:hover {
+	background: #888;
 }

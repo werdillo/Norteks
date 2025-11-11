@@ -2,18 +2,16 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { client, getImageUrl } from "../../lib/pocketbase";
 
-export async function getStaticPaths() {
-	// Загружаем все посты ОДИН раз
-	const posts = await client.collection("blog").getFullList(100);
-	
-	return posts.map((post) => ({
-		params: { post: post.path },
-		props: { post } // Передаем весь пост в props
-	}));
+const { post: postPath } = Astro.params;
+
+if (!postPath) {
+	return Astro.redirect("/blog");
 }
 
-const { post: postPath } = Astro.params;
-const { post } = Astro.props;
+// SSR - загружаем данные на лету
+const post = await client.collection("blog").getFirstListItem(
+	`path="${postPath}"`
+);
 
 const seoData = {
 	title: `${post.title} | Блог Нортекс`,

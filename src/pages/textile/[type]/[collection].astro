@@ -2,50 +2,16 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { client } from "../../../lib/pocketbase";
 
-export async function getStaticPaths() {
-    // Получаем все коллекции и категории
-    const [collections, categories] = await Promise.all([
-        client.collection("collections").getFullList(200),
-        client.collection("categories").getFullList(100),
-    ]);
+const { type, collection: collectionPath } = Astro.params;
 
-    // Создаем карту категорий для быстрого поиска
-    const categoryMap = new Map();
-    categories.forEach((cat) => {
-        categoryMap.set(cat.id, cat.path);
-    });
-
-    return collections
-        .filter(
-            (collection) =>
-                collection.category && collection.category.length > 0,
-        )
-        .map((collection) => {
-            const categoryId = Array.isArray(collection.category)
-                ? collection.category[0]
-                : collection.category;
-            const categoryPath = categoryMap.get(categoryId);
-
-            if (!categoryPath) {
-                console.warn(
-                    `No category found for collection ${collection.name}`,
-                );
-                return null;
-            }
-
-            return {
-                params: {
-                    type: categoryPath,
-                    collection: collection.path,
-                },
-                props: { collection },
-            };
-        })
-        .filter(Boolean); // Убираем null значения
+if (!type || !collectionPath) {
+    return Astro.redirect("/textile");
 }
 
-const { type, collection: collectionPath } = Astro.params;
-const { collection } = Astro.props;
+// SSR - загружаем данные на лету
+const collection = await client
+    .collection("collections")
+    .getFirstListItem(`path="${collectionPath}"`);
 
 // Обрабатываем изображения и текстили
 const combinedItems = [];

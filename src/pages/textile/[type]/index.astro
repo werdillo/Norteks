@@ -2,34 +2,22 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import { client, getImageUrl } from "../../../lib/pocketbase";
 
-export async function getStaticPaths() {
-	// Загружаем все категории и коллекции ОДИН раз
-	const [categories, allCollections] = await Promise.all([
-		client.collection("categories").getFullList(100),
-		client.collection("collections").getFullList(200)
-	]);
-	
-	// Создаем карту коллекций по категории
-	const collectionsByCategory = new Map();
-	allCollections.forEach(collection => {
-		const categoryId = Array.isArray(collection.category) ? collection.category[0] : collection.category;
-		if (!collectionsByCategory.has(categoryId)) {
-			collectionsByCategory.set(categoryId, []);
-		}
-		collectionsByCategory.get(categoryId).push(collection);
-	});
-	
-	return categories.map((category) => ({
-		params: { type: category.path },
-		props: { 
-			category,
-			collections: collectionsByCategory.get(category.id) || []
-		}
-	}));
+const { type } = Astro.params;
+
+if (!type) {
+	return Astro.redirect("/textile");
 }
 
-const { type } = Astro.params;
-const { category, collections } = Astro.props;
+// SSR - загружаем данные на лету
+const [collections, category] = await Promise.all([
+	client.collection("collections").getList(1, 50, { 
+		filter: `category.path?="${type}"` 
+	}),
+	client.collection("categories").getFirstListItem(
+		`path="${type}"`,
+		{ fields: "name, description, rich_description, description_extended" }
+	)
+]);
 
 const seoData = {
 	title: `${category.name} - Коллекции тканей | Нортекс`,
@@ -43,7 +31,7 @@ const seoData = {
 		<div class="text small-width">{category.description}</div>
 		
 		<div class="product-list collection">
-			{collections.map((item) => (
+			{collections.items.map((item) => (
 				<a href={`/textile/${type}/${item.path}`}>
 					<div class="-item">
 						<div class="-text">{item.name}</div>

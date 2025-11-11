@@ -1,6 +1,5 @@
 import { createSignal, onMount, Show, For } from "solid-js";
-import { client } from '../lib/pocketbase';
-import { getImageUrl } from '../lib/pocketbase';
+import { client, getImageUrl } from '../lib/pocketbase';
 
 export default function SearchComponent() {
 	const [searchQuery, setSearchQuery] = createSignal("");
@@ -9,11 +8,7 @@ export default function SearchComponent() {
 	const [loading, setLoading] = createSignal(false);
 	let searchTimeout;
 
-	console.log('SearchComponent loaded');
-
 	const searchData = async (searchTerm) => {
-		console.log('Searching for:', searchTerm);
-		
 		if (searchTerm.length < 2) {
 			setShowResults(false);
 			return;
@@ -22,44 +17,48 @@ export default function SearchComponent() {
 		setLoading(true);
 		
 		try {
-			// Поиск в категориях с заглавной буквы
-			const searchTermCapitalized = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1).toLowerCase();
-			const categoriesRes = await client.collection("categories").getList(1, 10, {
-				filter: client.filter(
-					"name ~ {:search} || name ~ {:searchCap}",
-					{ search: searchTerm.toLowerCase(), searchCap: searchTermCapitalized }
-				),
+			// Поиск в категориях
+			const categoriesRes = await client.collection("categories").getList(1, 5, {
+				filter: `name ~ "${searchTerm}"`,
 				fields: 'id, collectionId, name, path, image'
 			});
-			
-			console.log('Categories found:', categoriesRes.items.length);
 
-			// Поиск в коллекциях, как в примере  
+			// Поиск в коллекциях с expand для получения category.path
 			const collectionsRes = await client.collection("collections").getList(1, 10, {
-				filter: client.filter(
-					"name ~ {:search}", 
-					{ search: searchTerm }
-				),
-				fields: 'id, collectionId, name, path, image'
+				filter: `name ~ "${searchTerm}"`,
+				fields: 'id, collectionId, name, path, image, category',
+				expand: 'category'
 			});
-			
-			console.log('Collections found:', collectionsRes.items.length);
+
+			// Получаем все категории для маппинга
+			const categoryMap = new Map();
+			if (collectionsRes.items.length > 0) {
+				const categories = await client.collection("categories").getFullList(100, {
+					fields: 'id, path'
+				});
+				categories.forEach(cat => categoryMap.set(cat.id, cat.path));
+			}
 
 			// Объединяем результаты
 			const results = [
+				// Категории
 				...categoriesRes.items.map(item => ({
 					...item,
 					type: 'category',
-					url: `/collection?name=${item.path}`
+					url: `/textile/${item.path}`
 				})),
-				...collectionsRes.items.map(item => ({
-					...item,
-					type: 'collection', 
-					url: `/product?name=${item.path}`
-				}))
+				// Коллекции
+				...collectionsRes.items.map(item => {
+					const categoryId = Array.isArray(item.category) ? item.category[0] : item.category;
+					const categoryPath = categoryMap.get(categoryId);
+					return {
+						...item,
+						type: 'collection',
+						url: categoryPath ? `/textile/${categoryPath}/${item.path}` : '#'
+					};
+				})
 			];
-			
-			console.log('Total results:', results.length);
+
 			setFilteredResults(results);
 			setShowResults(true);
 			
@@ -76,26 +75,25 @@ export default function SearchComponent() {
 		const query = e.target.value.trim();
 		setSearchQuery(query);
 		
-		console.log('Search query:', query);
-		
 		if (query.length === 0) {
 			setShowResults(false);
 			return;
 		}
 
-		// Очищаем предыдущий таймаут
+		// Debounce
 		if (searchTimeout) {
 			clearTimeout(searchTimeout);
 		}
 
-		// Добавляем debounce для предотвращения частых запросов
 		searchTimeout = setTimeout(() => {
 			searchData(query);
-		}, 300); // 300ms задержка
+		}, 300);
 	};
 
 	const handleResultClick = (item) => {
-		window.location.href = item.url;
+		if (item.url && item.url !== '#') {
+			window.location.href = item.url;
+		}
 	};
 
 	const handleClickOutside = (e) => {
@@ -118,16 +116,13 @@ export default function SearchComponent() {
 			<input 
 				type="text" 
 				class="-search-input" 
-				placeholder="Поиск коллекций"
+				placeholder="Поиск тканей"
 				value={searchQuery()}
 				onInput={handleInput}
 				autocomplete="off"
-				autocapitalize="off"
-				autocorrect="off"
-				spellcheck="false"
 			/>
 			<Show when={showResults()}>
-				<div class="-search-results" style="display: block !important;">
+				<div class="-search-results">
 					<Show 
 						when={loading()}
 						fallback={
@@ -135,27 +130,25 @@ export default function SearchComponent() {
 								when={filteredResults().length > 0}
 								fallback={<div class="-result-item">Ничего не найдено</div>}
 							>
-								<For each={filteredResults().slice(0, 5)}>
+								<For each={filteredResults()}>
 									{(item) => (
 										<div 
 											class="-result-item" 
 											onClick={() => handleResultClick(item)}
 										>
-											<div style="display: flex; align-items: center; gap: 8px;">
+											<div class="-result-content">
 												<Show when={item.image}>
 													<img 
 														src={getImageUrl(item)} 
 														alt={item.name}
-														style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0;"
+														class="-result-image"
 													/>
 												</Show>
-												<div style="flex: 1;">
-													<span style="color: #aaa; font-size: 11px; margin-right: 8px;">
+												<div class="-result-info">
+													<span class="-result-type">
 														{item.type === 'category' ? 'Категория' : 'Коллекция'}
 													</span>
-													<div style="color: #fff; font-size: 14px;">
-														{item.name}
-													</div>
+													<div class="-result-name">{item.name}</div>
 												</div>
 											</div>
 										</div>
