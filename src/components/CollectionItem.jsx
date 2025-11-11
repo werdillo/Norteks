@@ -1,6 +1,5 @@
 import { For, createSignal, onMount } from "solid-js";
 import { client, url } from "../lib/pocketbase";
-import { getImageUrl } from "../lib/pocketbase";
 import "../main.css";
 
 export const getImage = (collectionId, fileId, fileName) => {
