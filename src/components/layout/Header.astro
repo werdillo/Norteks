@@ -12,337 +12,387 @@ import "../../styles/search.css";
 const currentPath = Astro.url.pathname;
 
 const navigationItems = [
-	{ href: "/textile", text: "Коллекции", isActive: currentPath === "/textile/" || currentPath.includes("/collection") || currentPath.includes("/product") },
-	{ href: "/furniture", text: "Фурнитура", isActive: currentPath === "/furniture/" },
-	{ href: "/blog", text: "Блог", isActive: currentPath === "/blog/" || currentPath.includes("/post") },
-	{ href: "/cleaning", text: "Как очистить ткань", isActive: currentPath === "/cleaning/" },
-	{ href: "/contacts", text: "Контакты", isActive: currentPath === "/contacts/" },
-	{ href: "/about-us", text: "О нас", isActive: currentPath === "/about-us/" }
+    {
+        href: "/textile",
+        text: "Коллекции",
+        isActive:
+            currentPath === "/textile" ||
+            currentPath.includes("/collection") ||
+            currentPath.includes("/product"),
+    },
+    {
+        href: "/furniture",
+        text: "Фурнитура",
+        isActive: currentPath === "/furniture",
+    },
+    {
+        href: "/blog",
+        text: "Блог",
+        isActive: currentPath === "/blog" || currentPath.includes("/post"),
+    },
+    {
+        href: "/cleaning",
+        text: "Как очистить ткань",
+        isActive: currentPath === "/cleaning",
+    },
+    {
+        href: "/contacts",
+        text: "Контакты",
+        isActive: currentPath === "/contacts",
+    },
+    { href: "/about-us", text: "О нас", isActive: currentPath === "/about-us" },
 ];
 
 const socialLinks = [
-	{ href: "https://www.instagram.com/tknortex/", icon: instagram, alt: "Instagram" },
-	{ href: "https://t.me/tknortex", icon: telegram, alt: "Telegram" },
-	{ href: "#", icon: whatsapp, alt: "WhatsApp" }
+    {
+        href: "https://www.instagram.com/tknortex/",
+        icon: instagram,
+        alt: "Instagram",
+    },
+    { href: "https://t.me/tknortex", icon: telegram, alt: "Telegram" },
+    { href: "#", icon: whatsapp, alt: "WhatsApp" },
 ];
 
 const phoneNumbers = [
-	{ number: "+7(495)2213316", display: "+7 (495) 221 - 33 - 16" },
-	{ number: "+7(903)2213316", display: "+7 (903) 221 - 33 - 16" }
+    { number: "+7(495)2213316", display: "+7 (495) 221 - 33 - 16" },
+    { number: "+7(903)2213316", display: "+7 (903) 221 - 33 - 16" },
 ];
 
 const emails = [
-	{ address: "firma.nortex@gmail.com" },
-	{ address: "info@tkani-nortex.ru" }
+    { address: "firma.nortex@gmail.com" },
+    { address: "info@tkani-nortex.ru" },
 ];
 ---
 
 <nav class="header">
-	<div class="-wrapper">
-		<div class="-container">
-			<a href="/">
-				<img src="/logo.png" class="-logo" alt="" />
-			</a>
-			<div class="-links">
-				{navigationItems.map((item) => (
-					<a href={item.href} class={item.isActive ? "-link active" : "-link"}>
-						{item.text}
-					</a>
-				))}
-			</div>
-			<div class="-link-mobile">
-				<a
-					href="/contacts"
-					class={currentPath === "/contacts/" ? "-link mobile active" : "-link mobile"}>
-					Контакты
-				</a>
-			</div>
-		</div>
+    <div class="-wrapper">
+        <div class="-container">
+            <a href="/">
+                <img src="/logo.png" class="-logo" alt="" />
+            </a>
+            <div class="-links">
+                {
+                    navigationItems.map((item) => (
+                        <a
+                            href={item.href}
+                            class={item.isActive ? "-link active" : "-link"}
+                        >
+                            {item.text}
+                        </a>
+                    ))
+                }
+            </div>
+            <div class="-link-mobile">
+                <a
+                    href="/contacts"
+                    class={currentPath === "/contacts/"
+                        ? "-link mobile active"
+                        : "-link mobile"}
+                >
+                    Контакты
+                </a>
+            </div>
+        </div>
 
-		<div class="-container">
-			<div class="-socials">
-				
-				{socialLinks.map((social) => (
-					<a href={social.href}>
-						<Image class="-img" src={social.icon} alt={social.alt} />
-					</a>
-				))}
-			</div>
-			<div class="-contacts">
-				<div class="-contact-column">
-					<div class="-wrap">
-						<Image class="-img" src={phone} alt="" />
-						<div class="-phones">
-							{phoneNumbers.map((phone) => (
-								<a class="-text link" href={`tel:${phone.number}`}>
-									{phone.display}
-								</a>
-							))}
-						</div>
-					</div>
-				</div>
-				
-				<div class="-contact-column">
-					<div class="-wrap email">
-						<Image class="-img" src={mail} alt="" />
-						<div class="-emails">
-							{emails.map((email) => (
-								<a class="-text link" href={`mailto:${email.address}`}>
-									{email.address}
-								</a>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
-			<SearchComponent client:load />
-		</div>
+        <div class="-container">
+            <div class="-socials">
+                {
+                    socialLinks.map((social) => (
+                        <a href={social.href}>
+                            <Image
+                                class="-img"
+                                src={social.icon}
+                                alt={social.alt}
+                            />
+                        </a>
+                    ))
+                }
+            </div>
+            <div class="-contacts">
+                <div class="-contact-column">
+                    <div class="-wrap">
+                        <Image class="-img" src={phone} alt="" />
+                        <div class="-phones">
+                            {
+                                phoneNumbers.map((phone) => (
+                                    <a
+                                        class="-text link"
+                                        href={`tel:${phone.number}`}
+                                    >
+                                        {phone.display}
+                                    </a>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
 
-	</div>
+                <div class="-contact-column">
+                    <div class="-wrap email">
+                        <Image class="-img" src={mail} alt="" />
+                        <div class="-emails">
+                            {
+                                emails.map((email) => (
+                                    <a
+                                        class="-text link"
+                                        href={`mailto:${email.address}`}
+                                    >
+                                        {email.address}
+                                    </a>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <SearchComponent client:load />
+        </div>
+    </div>
 </nav>
 <style>
-	.header {
-		z-index: 10;
-		position: fixed;
-		top: 0;
-		background: #363636;
-		width: 100%;
-		border: 0;
-		color: #fff;
-		height: 80px;
-		@media (max-width: 768px) {
-			height: 70px;
-		}
-		.-wrapper {
-			padding: 0 100px;
-			display: flex;
-			width: 1fr;
-			height: 80px;
-			justify-content: space-between;
-			align-items: center;
-			gap: 10px;
-			@media (max-width: 1600px) {
-				padding: 0 50px;
-			}
-			@media (max-width: 1400px) {
-				padding: 0 20px;
-			}
-			@media (max-width: 1200px) {
-				padding: 0 10px;
-			}
-			@media (max-width: 768px) {
-				height: 70px;
-			}
-		}
+    .header {
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        background: #363636;
+        width: 100%;
+        border: 0;
+        color: #fff;
+        height: 80px;
+        @media (max-width: 768px) {
+            height: 70px;
+        }
+        .-wrapper {
+            padding: 0 100px;
+            display: flex;
+            width: 1fr;
+            height: 80px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            @media (max-width: 1600px) {
+                padding: 0 50px;
+            }
+            @media (max-width: 1400px) {
+                padding: 0 20px;
+            }
+            @media (max-width: 1200px) {
+                padding: 0 10px;
+            }
+            @media (max-width: 768px) {
+                height: 70px;
+            }
+        }
 
-		.-container {
-			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 35px;
-			
-			@media (max-width: 1600px) {
-				gap: 25px;
-			}
-			
-			@media (max-width: 1400px) {
-				gap: 20px;
-			}
-			
-			@media (max-width: 1200px) {
-				gap: 15px;
-			}
-		}
-		.-logo {
-			cursor: pointer;
-			margin-top: 2px;
-			height: auto;
-			width: 120px;
-			@media (max-width: 768px) {
-				margin-top: 4px;
-				width: 100px;
-			}
-		}
-		.-link-mobile {
-			@media (min-width: 1200px) {
-				display: none;
-			}
-			@media (max-width:385px) {
-				display: none;
-			}
-			font-size: 12px;
-		}
-		.-links {
-			display: flex;
-			gap: 30px;
-			flex-wrap: wrap;
-			
-			@media (max-width: 1600px) {
-				gap: 25px;
-			}
-			
-			@media (max-width: 1400px) {
-				gap: 20px;
-			}
-			
-			@media (max-width: 1200px) {
-				display: none;
-			}
-		}
-		.-link {
-			color: #fff;
-			font-size: 14px;
-			text-decoration: none;
-			
-			@media (max-width: 1400px) {
-				font-size: 13px;
-			}
-			
-			@media (max-width: 1300px) {
-				font-size: 12px;
-			}
-			
-			&.mobile {
-				font-size: 11px;
-			}
-			&.active {
-				color: aqua;
-			}
-			&:hover {
-				color: aqua;
-			}
-		}
-		.-socials {
-			display: flex;
-			gap: 24px;
-			
-			@media (max-width: 1400px) {
-				gap: 20px;
-			}
-			
-			@media (max-width: 1200px) {
-				gap: 16px;
-			}
-			
-			@media (max-width: 768px) {
-				display: none;
-			}
-			
-			.-img {
-				height: 24px;
-				width: auto;
-				cursor: pointer;
-				
-				@media (max-width: 1200px) {
-					height: 22px;
-				}
-				
-				@media (max-width: 768px) {
-					height: 20px;
-				}
-			}
-		}
-		.-contacts {
-			display: flex;
-			gap: 20px;
-			align-items: flex-start;
-			
-			@media (max-width: 1400px) {
-				gap: 15px;
-			}
-			
-			@media (max-width: 1200px) {
-				gap: 10px;
-			}
-			
-			@media (max-width: 768px) {
-				display: none;
-			}
+        .-container {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 35px;
 
-			.-contact-column {
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-				
-				@media (max-width: 1200px) {
-					gap: 6px;
-				}
-			}
-			
-			.-text {
-				font-size: 12px;
-				
-				@media (max-width: 1400px) {
-					font-size: 11px;
-				}
-				
-				@media (max-width: 1200px) {
-					font-size: 10px;
-				}
-				
-				&.link {
-					&:hover {
-						color: aquamarine;
-					}
-				}
-			}
-			.-wrap {
-				display: flex;
-				justify-content: center;
-				gap: 12px;
-				
-				@media (max-width: 1400px) {
-					gap: 8px;
-				}
-				
-				@media (max-width: 1200px) {
-					gap: 6px;
-				}
-				
-				&.address {
-					@media (max-width: 1500px) {
-						display: none;
-					}
-				}
-				
-				&.email {
-					@media (max-width: 1640px) {
-						display: none;
-					}
-				}
-				
-				.-img {
-					width: 14px;
-					height: auto;
-					
-					@media (max-width: 1200px) {
-						width: 12px;
-					}
-				}
-			}
-			.-phones, .-emails {
-				display: flex;
-				flex-direction: column;
-				gap: 8px;
-				
-				@media (max-width: 1200px) {
-					gap: 4px;
-				}
-			}
-			
-			.-address-text {
-				font-size: 12px;
-				color: #ccc;
-				white-space: nowrap;
-				
-				@media (max-width: 1400px) {
-					font-size: 11px;
-				}
-				
-				@media (max-width: 1200px) {
-					font-size: 10px;
-				}
-			}
-		}
-	}
+            @media (max-width: 1600px) {
+                gap: 25px;
+            }
+
+            @media (max-width: 1400px) {
+                gap: 20px;
+            }
+
+            @media (max-width: 1200px) {
+                gap: 15px;
+            }
+        }
+        .-logo {
+            cursor: pointer;
+            margin-top: 2px;
+            height: auto;
+            width: 120px;
+            @media (max-width: 768px) {
+                margin-top: 4px;
+                width: 100px;
+            }
+        }
+        .-link-mobile {
+            @media (min-width: 1200px) {
+                display: none;
+            }
+            @media (max-width: 385px) {
+                display: none;
+            }
+            font-size: 12px;
+        }
+        .-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+
+            @media (max-width: 1600px) {
+                gap: 25px;
+            }
+
+            @media (max-width: 1400px) {
+                gap: 20px;
+            }
+
+            @media (max-width: 1200px) {
+                display: none;
+            }
+        }
+        .-link {
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+
+            @media (max-width: 1400px) {
+                font-size: 13px;
+            }
+
+            @media (max-width: 1300px) {
+                font-size: 12px;
+            }
+
+            &.mobile {
+                font-size: 11px;
+            }
+            &.active {
+                color: aqua;
+            }
+            &:hover {
+                color: aqua;
+            }
+        }
+        .-socials {
+            display: flex;
+            gap: 24px;
+
+            @media (max-width: 1400px) {
+                gap: 20px;
+            }
+
+            @media (max-width: 1200px) {
+                gap: 16px;
+            }
+
+            @media (max-width: 768px) {
+                display: none;
+            }
+
+            .-img {
+                height: 24px;
+                width: auto;
+                cursor: pointer;
+
+                @media (max-width: 1200px) {
+                    height: 22px;
+                }
+
+                @media (max-width: 768px) {
+                    height: 20px;
+                }
+            }
+        }
+        .-contacts {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+
+            @media (max-width: 1400px) {
+                gap: 15px;
+            }
+
+            @media (max-width: 1200px) {
+                gap: 10px;
+            }
+
+            @media (max-width: 768px) {
+                display: none;
+            }
+
+            .-contact-column {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                @media (max-width: 1200px) {
+                    gap: 6px;
+                }
+            }
+
+            .-text {
+                font-size: 12px;
+
+                @media (max-width: 1400px) {
+                    font-size: 11px;
+                }
+
+                @media (max-width: 1200px) {
+                    font-size: 10px;
+                }
+
+                &.link {
+                    &:hover {
+                        color: aquamarine;
+                    }
+                }
+            }
+            .-wrap {
+                display: flex;
+                justify-content: center;
+                gap: 12px;
+
+                @media (max-width: 1400px) {
+                    gap: 8px;
+                }
+
+                @media (max-width: 1200px) {
+                    gap: 6px;
+                }
+
+                &.address {
+                    @media (max-width: 1500px) {
+                        display: none;
+                    }
+                }
+
+                &.email {
+                    @media (max-width: 1640px) {
+                        display: none;
+                    }
+                }
+
+                .-img {
+                    width: 14px;
+                    height: auto;
+
+                    @media (max-width: 1200px) {
+                        width: 12px;
+                    }
+                }
+            }
+            .-phones,
+            .-emails {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                @media (max-width: 1200px) {
+                    gap: 4px;
+                }
+            }
+
+            .-address-text {
+                font-size: 12px;
+                color: #ccc;
+                white-space: nowrap;
+
+                @media (max-width: 1400px) {
+                    font-size: 11px;
+                }
+
+                @media (max-width: 1200px) {
+                    font-size: 10px;
+                }
+            }
+        }
+    }
 </style>
