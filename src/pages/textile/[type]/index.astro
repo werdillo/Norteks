@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { client, getImageUrl } from "../../../lib/pocketbase";
+
+export async function getStaticPaths() {
+	// Загружаем все категории и коллекции ОДИН раз
+	const [categories, allCollections] = await Promise.all([
+		client.collection("categories").getFullList(100),
+		client.collection("collections").getFullList(200)
+	]);
+	
+	// Создаем карту коллекций по категории
+	const collectionsByCategory = new Map();
+	allCollections.forEach(collection => {
+		const categoryId = Array.isArray(collection.category) ? collection.category[0] : collection.category;
+		if (!collectionsByCategory.has(categoryId)) {
+			collectionsByCategory.set(categoryId, []);
+		}
+		collectionsByCategory.get(categoryId).push(collection);
+	});
+	
+	return categories.map((category) => ({
+		params: { type: category.path },
+		props: { 
+			category,
+			collections: collectionsByCategory.get(category.id) || []
+		}
+	}));
+}
+
+const { type } = Astro.params;
+const { category, collections } = Astro.props;
+
+const seoData = {
+	title: `${category.name} - Коллекции тканей | Нортекс`,
+	description: category.description || `Коллекции ${category.name} от компании Нортекс`,
+};
+---
+
+<BaseLayout {...seoData}>
+	<div class="container">
+		<div class="title">{category.name}</div>
+		<div class="text small-width">{category.description}</div>
+		
+		<div class="product-list collection">
+			{collections.map((item) => (
+				<a href={`/textile/${type}/${item.path}`}>
+					<div class="-item">
+						<div class="-text">{item.name}</div>
+						<img
+							class="-img collection"
+							src={getImageUrl(item)}
+							alt={item.name}
+							loading="lazy"
+						/>
+					</div>
+				</a>
+			))}
+		</div>
+		
+		{category.description_extended && (
+			<div class="rich-editor" set:html={category.description_extended}></div>
+		)}
+	</div>
+</BaseLayout>

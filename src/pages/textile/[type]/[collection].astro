@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { client } from "../../../lib/pocketbase";
+
+export async function getStaticPaths() {
+    // Получаем все коллекции и категории
+    const [collections, categories] = await Promise.all([
+        client.collection("collections").getFullList(200),
+        client.collection("categories").getFullList(100),
+    ]);
+
+    // Создаем карту категорий для быстрого поиска
+    const categoryMap = new Map();
+    categories.forEach((cat) => {
+        categoryMap.set(cat.id, cat.path);
+    });
+
+    return collections
+        .filter(
+            (collection) =>
+                collection.category && collection.category.length > 0,
+        )
+        .map((collection) => {
+            const categoryId = Array.isArray(collection.category)
+                ? collection.category[0]
+                : collection.category;
+            const categoryPath = categoryMap.get(categoryId);
+
+            if (!categoryPath) {
+                console.warn(
+                    `No category found for collection ${collection.name}`,
+                );
+                return null;
+            }
+
+            return {
+                params: {
+                    type: categoryPath,
+                    collection: collection.path,
+                },
+                props: { collection },
+            };
+        })
+        .filter(Boolean); // Убираем null значения
+}
+
+const { type, collection: collectionPath } = Astro.params;
+const { collection } = Astro.props;
+
+// Обрабатываем изображения и текстили
+const combinedItems = [];
+for (let i = 1; i <= 100; i++) {
+    const img = collection[`img${i}`];
+    const textile = collection[`textile${i}`];
+    if (img && textile) {
+        combinedItems.push({ img, textile, id: `${collection.id}-${i}` });
+    }
+}
+
+// Фильтруем спецификации
+const specs = [
+    { name: "Плотность", value: collection.plotnost },
+    { name: "Состав", value: collection.sostav },
+    { name: "Тест на истирание", value: collection.istiranie },
+].filter((spec) => spec.value);
+
+const seoData = {
+    title: `${collection.name} - Ткани коллекции | Нортекс`,
+    description:
+        collection.description || `Ткани из коллекции ${collection.name}`,
+};
+---
+
+<BaseLayout {...seoData}>
+    <div class="container">
+        <div class="title s">{collection.name}</div>
+        <div class="text small-width">{collection.description}</div>
+        <div class="text small-width s">{collection.description_type}</div>
+        <br />
+
+        {
+            specs.map((spec) => (
+                <div class="spec">
+                    <div class="-name">{spec.name}</div>
+                    <div class="-value">{spec.value}</div>
+                </div>
+            ))
+        }
+
+        <div class="product-list colors">
+            {
+                combinedItems.map((item) => (
+                    <div class="-item">
+                        <div>
+                            <div class="-text">{item.textile}</div>
+                            <img
+                                class="-img product"
+                                src={`${import.meta.env.PUBLIC_POCKETBASE_URL}/api/files/${collection.collectionId}/${collection.id}/${item.img}`}
+                                alt={item.textile}
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</BaseLayout>

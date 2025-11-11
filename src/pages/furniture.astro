@@ -1,14 +1,56 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import FurnitureList from "../components/FurnitureList.jsx";
+import { client, getImageUrl } from "../lib/pocketbase";
+import "../main.css";
 
 const seoData = {
-	title: "Мебельная фурнитура | Каталог комплектующих для мебели Нортекс",
-	description: "Широкий выбор мебельной фурнитуры и комплектующих. Качественные детали для производства и ремонта мебели от надежного поставщика.",
-	keywords: "мебельная фурнитура, комплектующие для мебели, фурнитура оптом, детали для мебели, мебельные аксессуары"
+    title: "Мебельная фурнитура | Каталог комплектующих для мебели Нортекс",
+    description:
+        "Широкий выбор мебельной фурнитуры и комплектующих. Качественные детали для производства и ремонта мебели от надежного поставщика.",
+    keywords:
+        "мебельная фурнитура, комплектующие для мебели, фурнитура оптом, детали для мебели, мебельные аксессуары",
 };
+
+// SSR - загружаем фурнитуру
+const furnitureRes = await client.collection("furniture").getFullList(100, {
+    fields: "id, collectionId, name, image, height, title, color, order, material:excerpt(200, true)",
+});
+
+// Сортируем по полю order
+const furniture = furnitureRes.sort((a, b) => a.order - b.order);
 ---
 
 <BaseLayout {...seoData}>
-	<FurnitureList client:only />
+    <div class="container">
+        <div class="furniture">
+            {
+                furniture.map((item) => (
+                    <div class="-card">
+                        <div>
+                            <img
+                                src={getImageUrl(item)}
+                                class="-img"
+                                alt={item.title}
+                                loading="lazy"
+                            />
+                            <div class="-title">{item.name}</div>
+                        </div>
+                        <br />
+                        <div class="spec horizontal no-border">
+                            <div class="-name s">Высота</div>
+                            <div class="-value s">{item.height}</div>
+                        </div>
+                        <div class="spec horizontal no-border">
+                            <div class="-name s">Материал</div>
+                            <div class="-value s">{item.material}</div>
+                        </div>
+                        <div class="spec horizontal no-border">
+                            <div class="-name s">Цвет</div>
+                            <div class="-value s">{item.color}</div>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
 </BaseLayout>

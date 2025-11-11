@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { client, getImageUrl } from "../../lib/pocketbase";
+
+export async function getStaticPaths() {
+	// Загружаем все посты ОДИН раз
+	const posts = await client.collection("blog").getFullList(100);
+	
+	return posts.map((post) => ({
+		params: { post: post.path },
+		props: { post } // Передаем весь пост в props
+	}));
+}
+
+const { post: postPath } = Astro.params;
+const { post } = Astro.props;
+
+const seoData = {
+	title: `${post.title} | Блог Нортекс`,
+	description: post.description || post.title,
+};
+---
+
+<BaseLayout {...seoData}>
+	<img src={getImageUrl(post)} class="post-image" alt={post.title} />
+	<div class="container">
+		<div class="post">
+			<div class="-title">{post.title}</div>
+			<div class="-text" set:html={post.content}></div>
+		</div>
+	</div>
+</BaseLayout>

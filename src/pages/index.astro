@@ -1,17 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Categories from "../components/Categories.jsx";
 import { Image } from "astro:assets";
 import "../main.css";
-import Norteks from "../assets/img/logo.svg";
 import Slider from "../components/Slider";
 import Advantages from "../components/Advantages.astro";
+import { client, getImageUrl } from "../lib/pocketbase";
 
 const seoData = {
 	title: "Нортекс - Оптовый поставщик декоративных тканей | Ткани для мебели и штор",
 	description: "Компания Нортекс - ваш надежный партнер в мире декоративных тканей. Более 20 лет опыта, широкий ассортимент: велюр, замша, экокожа, рогожка. Работаем с дизайнерами и архитекторами.",
 	keywords: "ткани оптом, декоративные ткани, мебельные ткани, шторные ткани, велюр, замша, экокожа, рогожка, дизайнерские ткани, Нортекс, поставщик тканей"
 };
+
+// SSR - загружаем данные на сервере
+const categories = await client.collection("categories").getList(1, 50);
 ---
 
 <BaseLayout {...seoData}>
@@ -33,7 +35,22 @@ const seoData = {
 		</div>
 	</div>
 	<Advantages />
-	<Categories client:only showEmail={false} />
+	
+	<!-- SSR Categories -->
+	<div class="container">
+		<div class="title xs">Широкий выбор тканей</div>
+		<div class="product-list">
+			{categories.items.map((item) => (
+				<a href={`/textile/${item.path}`}>
+					<div class="-item">
+						<div class="-text">{item.name}</div>
+						<img class="-img" src={getImageUrl(item)} alt={item.name} loading="lazy" />
+					</div>
+				</a>
+			))}
+		</div>
+	</div>
+	
 	<div class="container">
 		<div class="text">
 			Наши сотрудники имеют более 20-ти летний опыт продаж тканей на Российский рынок. Наши клиенты это крупные производства, частные дизайнеры и декораторы, дизайнерские студии, архитектурные бюро, государственные заказы. Имеем огромный ассортимент лучших мировых тканей для мебели и штор, таких как велюр, замша, микрофибра, экокожа, рогожка, негорючие ткани, мировые тренды, уличные ткани outdoor, Trevira CS с нитью из полиэстера, шенилл, ткани с рисунком, букле, шерсть, лен, хлопок, бархат, мех, ткани с сертификатом AVIO/IMO, блэкаут, тюль и многие другие с широким спектром цветов. 
@@ -73,5 +90,4 @@ const seoData = {
 			color: #fff;
 		}
 	}
-	
 </style>
