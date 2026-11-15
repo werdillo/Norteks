@@ -1,6 +1,6 @@
 import type { SliderSlide } from "#/components/slider";
-import homeImage from "./assets/homeImage.jpg";
-import textileImage from "./assets/textile.jpg";
+import homeImage from "./homeImage.jpg";
+import textileImage from "./textile.jpg";
 
 /** The hero slides of the home page. */
 export const heroSlides: SliderSlide[] = [
