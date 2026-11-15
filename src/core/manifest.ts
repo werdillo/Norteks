@@ -1,3 +1,6 @@
+/** The path segment of the fallback pages; no record may use it. */
+export const RESERVED_SEGMENT = "item";
+
 /** The record pages the build made, from /paths.json (see src/pages/paths.json.ts). */
 export interface BuiltPaths {
   types: string[];

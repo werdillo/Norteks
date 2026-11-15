@@ -6,22 +6,19 @@ import { expect, test } from "vitest";
 /**
  * The layers of the site, checked against the imports of every `src` file:
  *
- *   core ← components ← domains (catalog, blog, company) ← app ← pages
+ *   core ← components ← site ← app ← pages
  *
- * Each layer may import itself and the layers listed for it; a domain imports
- * only itself. A box (a folder of a domain, or a folder of components) is reached
- * from outside only through its `index.ts` door. A domain's `shared/` is read by
- * that domain's boxes alone.
+ * `site` is one domain: its boxes never import each other's insides, and a box is
+ * reached from outside only through its `index.ts` door. `site/shared/` is read by
+ * the domain's boxes alone.
  */
 const SRC = resolve(fileURLToPath(new URL("../..", import.meta.url)));
 
-const DOMAINS = ["catalog", "blog", "company"];
+const DOMAINS = ["site"];
 const ALLOWED: Record<string, string[]> = {
   core: [],
   components: ["core"],
-  catalog: ["core", "components"],
-  blog: ["core", "components"],
-  company: ["core", "components"],
+  site: ["core", "components"],
   app: ["core", "components", ...DOMAINS],
   pages: ["core", "components", "app", ...DOMAINS],
 };
@@ -53,11 +50,11 @@ function imports(file: string): { spec: string; target: string }[] {
   });
 }
 
-/** The box a `src`-relative path belongs to, if any. */
+/** The box a `src`-relative path belongs to, if any. `shared` is not a box. */
 function boxOf(path: string): string | undefined {
   const s = path.split("/");
-  if (DOMAINS.includes(s[0]!) && s.length > 2 && s[1] !== "shared") return `${s[0]}/${s[1]}`;
   if (s[0] === "components" && s.length > 2) return `components/${s[1]}`;
+  if (DOMAINS.includes(s[0]!) && s.length > 2 && s[1] !== "shared") return `${s[0]}/${s[1]}`;
   return undefined;
 }
 

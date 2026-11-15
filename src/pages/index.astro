@@ -1,7 +1,8 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { HomePage } from "#/company/home";
-import { TypesGrid } from "#/catalog/textile";
+import { TypesGrid } from "#/site/catalog";
+import { Advantages } from "#/site/company";
+import { HomePage } from "#/site/home";
 
 const seoData = {
   title: "Нортекс - Оптовый поставщик декоративных тканей | Ткани для мебели и штор",
@@ -11,6 +12,7 @@ const seoData = {
 
 <BaseLayout {...seoData}>
   <HomePage>
+    <Advantages slot="advantages" />
     <TypesGrid slot="catalog" heading="h2" />
   </HomePage>
 </BaseLayout>

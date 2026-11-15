@@ -1,5 +1,6 @@
-import { listBlogPosts } from "#/blog/posts";
-import { listCollections, listTypes } from "#/catalog/textile";
+import { listBlogPosts } from "#/site/blog";
+import { listCollections, listTypes } from "#/site/catalog";
+import { RESERVED_SEGMENT } from "#/core/manifest";
 
 /**
  * The record pages the build makes: one per type, collection and post PocketBase
@@ -23,31 +24,28 @@ export interface BuiltPost {
   description: string;
 }
 
-export interface BuiltPaths {
+export interface BuiltPages {
   types: BuiltType[];
   collections: BuiltCollection[];
   posts: BuiltPost[];
 }
 
-/** The fallback pages (/textile/item/, /post/item/) take the path `item`, so a record may not use it. */
-const RESERVED = "item";
-
-let cache: Promise<BuiltPaths> | undefined;
+let cache: Promise<BuiltPages> | undefined;
 
 /** Read once per build. */
-export function builtPaths(): Promise<BuiltPaths> {
+export function builtPaths(): Promise<BuiltPages> {
   cache ??= read();
   return cache;
 }
 
-async function read(): Promise<BuiltPaths> {
+async function read(): Promise<BuiltPages> {
   if (!import.meta.env.PUBLIC_POCKETBASE_URL) {
     throw new Error("PUBLIC_POCKETBASE_URL is not set: the build reads the record pages from PocketBase.");
   }
   const [types, collections, posts] = await Promise.all([listTypes(), listCollections(), listBlogPosts()]);
   const paths = [...types, ...collections, ...posts].map((record) => record.path);
-  if (paths.includes(RESERVED)) {
-    throw new Error(`A record uses the reserved path "${RESERVED}": rename it in PocketBase.`);
+  if (paths.includes(RESERVED_SEGMENT)) {
+    throw new Error(`A record uses the reserved path "${RESERVED_SEGMENT}": rename it in PocketBase.`);
   }
   for (const [what, list] of [
     ["types", types],

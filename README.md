@@ -16,19 +16,15 @@ src/
     container/          page column in three widths
     image-tile/         picture with a caption, as a link or a tile
     slider/             hero slider (Swiper web component)
-  catalog/              the fabric catalog
-    textile/            fabric types and the collections inside them; links, route and build-time lists
+  site/                 the whole public site, one matrix of boxes
+    catalog/            fabric types, their collections and the header search over them
     furniture/          furniture fittings page
-    search/             header search over types and collections
-    cleaning/           fabric care advice page
-  blog/
-    posts/              blog list and single post page; links, route and build-time list
-  company/              the company itself
-    home/               landing page: hero slider and introduction
-    about/              about page
-    contacts/           contacts page
-    advantages/         advantages list
-    shared/             icons used by more than one company box
+    care/               fabric care advice page
+    blog/               blog list and single post page; links, route and build-time list
+    company/            the company profile and its advantages
+    contacts/           contacts page, and the phones and e-mails the frame shows
+    home/               landing page: hero slider, introduction and closing copy
+    shared/             icons used by more than one box (not a box)
   app/                  composition root: layout, frame, styles, assets, tests, the list of built record pages
   pages/                Astro routes, thin: they compose boxes through their doors
     textile/[type]/     one page per type, and one per collection under it (built from PocketBase)
