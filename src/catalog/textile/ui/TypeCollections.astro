@@ -1,40 +1,79 @@
 ---
-import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
 import { ImageTile } from "#/components/image-tile";
-import { Title } from "#/components/title";
-import { getImageUrl } from "#/core/pocketbase";
+import { H2, P1 } from "#/components/typography";
+import { Skeleton } from "#/components/skeleton";
 
-interface Props {
-  type: string;
-  category: RecordModel;
-  collections: RecordModel[];
-}
-
-const { type, category, collections } = Astro.props;
+const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid-cols-[1fr_1fr] max-1024:gap-10";
 ---
 
+<!-- The page of one type (/textile/<type>): the browser reads the type from the address. -->
 <Container>
-  <Title>{category.name}</Title>
-  <div class="mt-2 max-w-[1800px] font-medium text-26 max-1024:text-16">{category.description}</div>
-
-  <div class="mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid-cols-[1fr_1fr] max-1024:gap-10">
-    {
-      collections.map((item) => (
-        <ImageTile
-          href={`/textile/${type}/${item.path}`}
-          src={getImageUrl(item)}
-          alt={item.name}
-          label={item.name}
-          ratio="7/6"
-        />
-      ))
-    }
+  <div class="flex w-full flex-col" data-type-page aria-busy="true">
+    <div class="flex w-full flex-col" data-status="loading">
+      <span class="sr-only">Загрузка…</span>
+      <H2 as="div" class="m-0"><Skeleton variant="text" width="45%" /></H2>
+      <P1 as="div" class="mt-2 max-w-[1800px]"><Skeleton variant="text" lines={2} width="70%" /></P1>
+      <div class={grid}>
+        {Array.from({ length: 8 }, () => <Skeleton variant="tile" ratio="7/6" />)}
+      </div>
+    </div>
+    <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
+    <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
+    <div class="flex w-full flex-col" data-status="ready" hidden>
+      <H2 as="h1" class="m-0" data-field="title"></H2>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
+      <div class={grid} data-field="collections"></div>
+      <P1 as="div" data-field="extended"></P1>
+    </div>
+    <template data-tile>
+      <ImageTile src="" alt="" label="" ratio="7/6" />
+    </template>
   </div>
-
-  {
-    category.description_extended && (
-      <div class="text-18 max-768:text-14" set:html={category.description_extended} />
-    )
-  }
 </Container>
+
+<script>
+  import { getImageUrl, isNotFound } from "#/core/pocketbase";
+  import { field, pathParts, setStatus } from "#/core/dom";
+  import { setBreadcrumb, setPageMeta } from "#/core/seo";
+  import { tileFrom } from "#/components/image-tile";
+  import { getTypeWithCollections } from "../api";
+
+  const root = document.querySelector<HTMLElement>("[data-type-page]");
+  if (root) {
+    const type = pathParts()[1] ?? "";
+    const template = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
+
+    getTypeWithCollections(type)
+      .then(({ collections, category }) => {
+        field(root, "title").textContent = category.name;
+        field(root, "description").textContent = category.description ?? "";
+        field(root, "collections").replaceChildren(
+          ...collections.items.map((item) =>
+            tileFrom(template, {
+              href: `/textile/${type}/${item.path}`,
+              src: getImageUrl(item),
+              alt: item.name,
+              label: item.name,
+            }),
+          ),
+        );
+        const extended = field(root, "extended");
+        if (category.description_extended) extended.innerHTML = String(category.description_extended);
+        else extended.remove();
+
+        setPageMeta({
+          title: `${category.name} - Коллекции тканей | Нортекс`,
+          description: category.description || `Коллекции ${category.name} от компании Нортекс`,
+          image: getImageUrl(category),
+        });
+        setBreadcrumb([
+          ["Главная", "/"],
+          ["Коллекции", "/textile"],
+          [category.name, `/textile/${type}`],
+        ]);
+        setStatus(root, "ready");
+      })
+      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+  }
+</script>

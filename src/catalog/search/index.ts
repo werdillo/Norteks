@@ -1,1 +1,1 @@
-export { default as SearchComponent } from "./ui/SearchComponent";
+export { default as Search } from "./ui/Search.astro";

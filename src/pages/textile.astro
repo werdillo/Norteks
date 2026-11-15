@@ -1,17 +1,13 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { TypesGrid, getTypes } from "#/catalog/textile";
+import { TypesGrid } from "#/catalog/textile";
 
 const seoData = {
   title: "Коллекции декоративных тканей | Каталог тканей Нортекс",
   description: "Широкий выбор декоративных тканей: велюр, замша, микрофибра, экокожа, рогожка, шенилл, букле. Ткани для мебели и штор от надежного поставщика с 20-летним опытом.",
-  keywords: "коллекции тканей, каталог тканей, велюр, замша, микрофибра, экокожа, рогожка, шенилл, букле, мебельные ткани, шторные ткани"
 };
-
-// SSR - загружаем категории
-const categories = await getTypes();
 ---
 
 <BaseLayout {...seoData}>
-  <TypesGrid categories={categories} />
+  <TypesGrid />
 </BaseLayout>

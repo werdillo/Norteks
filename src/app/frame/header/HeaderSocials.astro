@@ -6,7 +6,7 @@ import { socialLinks } from "../social";
 <div class="flex gap-24 max-1400:gap-20 max-1200:gap-16 max-768:hidden">
   {
     socialLinks.map((social) => (
-      <a href={social.href}>
+      <a href={social.href} rel={social.href.startsWith("http") ? "noopener" : undefined}>
         <Image
           class="h-24 w-auto cursor-pointer max-1200:h-22 max-768:h-20"
           src={social.icon}

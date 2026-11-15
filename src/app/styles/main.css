@@ -1,11 +1,17 @@
 /*
- * Global plain CSS, kept on purpose: the one rule that styles a bare element.
+ * Global plain CSS, kept on purpose: the rules that style a bare element.
  * Everything else is utilities on the markup (uno.config.ts, tokens.css).
- *
- * Links inherit the colour of their text: a bare <a> must not pick its own
- * colour from the browser, and classed links set theirs with utilities.
  */
+
+/* Links inherit the colour of their text: a bare <a> must not pick its own
+   colour from the browser, and classed links set theirs with utilities. */
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* The site has no preflight, so `hidden` is restored here: a utility such as
+   `flex` must not bring back an element that a script hid. */
+[hidden] {
+  display: none !important;
 }

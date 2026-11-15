@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import { P1 } from "#/components/typography";
 
 interface Props {
   icon: ImageMetadata;
@@ -19,12 +20,9 @@ const iconClass = { phone: "h-auto w-18", email: "h-22 w-auto" };
   <div class="flex flex-col gap-10">
     {
       items.map((item) => (
-        <a
-          class="text-20 max-768:text-17 text-on-dark hover:text-highlight-soft"
-          href={item.href}
-        >
+        <P1 as="a" class="text-on-dark hover:text-highlight-soft" href={item.href}>
           {item.text}
-        </a>
+        </P1>
       ))
     }
   </div>

@@ -11,3 +11,6 @@ export const getImageUrl = (item: { image?: unknown; collectionId: string; id: s
   if (!item.image) return "";
   return fileUrl(item.collectionId, item.id, String(item.image));
 };
+
+/** Whether PocketBase answered that the record does not exist. */
+export const isNotFound = (error: unknown): boolean => (error as { status?: number })?.status === 404;

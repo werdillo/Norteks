@@ -34,6 +34,10 @@ const siteBreakpoint: Variant = {
   multiPass: true,
 };
 
+/** A text style of src/components/typography/typography.css, as a shortcut. */
+const textStyle = (style: string) =>
+  `[font-family:var(--text-${style}-family)] [font-size:var(--text-${style}-size)] [font-weight:var(--text-${style}-weight)] [line-height:var(--text-${style}-line-height)]`;
+
 export default defineConfig({
   presets: [
     // The site has its own reset (the browser defaults plus main.css), so the
@@ -42,8 +46,8 @@ export default defineConfig({
   ],
   variants: [siteBreakpoint],
   // The tokens in src/app/styles/tokens.css, exposed as utilities. The keys
-  // follow presetWind4's namespaces: `text` sizes, `radius`, `shadow`, `font`,
-  // `container` (max-w-*) and `spacing` (sizes and margins).
+  // follow presetWind4's namespaces: `radius`, `container` (max-w-*), `font`
+  // and `spacing` (sizes and margins).
   theme: {
     // One spacing unit is 1px, so `p-25` is 25px, the value the site uses.
     spacing: {
@@ -55,17 +59,12 @@ export default defineConfig({
       chrome: "var(--color-chrome)",
       surface: "var(--color-surface)",
       "on-dark": "var(--color-on-dark)",
-      "on-accent": "var(--color-on-accent)",
       "on-dark-muted": "var(--color-on-dark-muted)",
       "on-dark-faint": "var(--color-on-dark-faint)",
       menu: "var(--color-menu)",
       heading: "var(--color-heading)",
       copy: "var(--color-copy)",
-      "copy-soft": "var(--color-copy-soft)",
-      body: "var(--color-body)",
       muted: "var(--color-muted)",
-      label: "var(--color-label)",
-      caption: "var(--color-caption)",
       placeholder: "var(--color-placeholder)",
       divider: "var(--color-divider)",
       line: "var(--color-line)",
@@ -74,44 +73,15 @@ export default defineConfig({
       rule: "var(--color-rule)",
       frame: "var(--color-frame)",
       field: "var(--color-field)",
-      panel: "var(--color-panel)",
       track: "var(--color-track)",
       accent: "var(--color-accent)",
       gold: "var(--color-gold)",
       highlight: "var(--color-highlight)",
       "highlight-soft": "var(--color-highlight-soft)",
-      cyan: "var(--color-cyan)",
       black: "var(--color-black)",
     },
     font: {
       body: "var(--typeface-body)",
-      display: "var(--typeface-display)",
-    },
-    // Each size is a font-size with its line-height left to `leading-*`, or to normal.
-    text: {
-      "9": { fontSize: "var(--text-9)", lineHeight: "normal" },
-      "10": { fontSize: "var(--text-10)", lineHeight: "normal" },
-      "11": { fontSize: "var(--text-11)", lineHeight: "normal" },
-      "12": { fontSize: "var(--text-12)", lineHeight: "normal" },
-      "13": { fontSize: "var(--text-13)", lineHeight: "normal" },
-      "14": { fontSize: "var(--text-14)", lineHeight: "normal" },
-      "15": { fontSize: "var(--text-15)", lineHeight: "normal" },
-      "16": { fontSize: "var(--text-16)", lineHeight: "normal" },
-      "17": { fontSize: "var(--text-17)", lineHeight: "normal" },
-      "17-6": { fontSize: "var(--text-17-6)", lineHeight: "normal" },
-      "18": { fontSize: "var(--text-18)", lineHeight: "normal" },
-      "19-2": { fontSize: "var(--text-19-2)", lineHeight: "normal" },
-      "20": { fontSize: "var(--text-20)", lineHeight: "normal" },
-      "22": { fontSize: "var(--text-22)", lineHeight: "normal" },
-      "24": { fontSize: "var(--text-24)", lineHeight: "normal" },
-      "26": { fontSize: "var(--text-26)", lineHeight: "normal" },
-      "28": { fontSize: "var(--text-28)", lineHeight: "normal" },
-      "32": { fontSize: "var(--text-32)", lineHeight: "normal" },
-      "36": { fontSize: "var(--text-36)", lineHeight: "normal" },
-      "40": { fontSize: "var(--text-40)", lineHeight: "normal" },
-      "42": { fontSize: "var(--text-42)", lineHeight: "normal" },
-      "48": { fontSize: "var(--text-48)", lineHeight: "normal" },
-      "80": { fontSize: "var(--text-80)", lineHeight: "normal" },
     },
     radius: {
       field: "var(--corner-field)",
@@ -126,9 +96,20 @@ export default defineConfig({
       offset: "var(--page-offset)",
     },
   },
-  // Box shadows as shortcuts: presetWind4's own shadow utility layers ring and
-  // inset shadows, which would change the computed value of the site's shadows.
+  // The matrix of text styles, one definition in typography.css: `text-h1` ... `text-p3`.
+  // Components use these classes; the sizes themselves are the variables.
   shortcuts: {
+    "text-h1": textStyle("h1"),
+    "text-h2": textStyle("h2"),
+    "text-h3": textStyle("h3"),
+    "text-h4": textStyle("h4"),
+    "text-h5": textStyle("h5"),
+    "text-h6": textStyle("h6"),
+    "text-p1": textStyle("p1"),
+    "text-p2": textStyle("p2"),
+    "text-p3": textStyle("p3"),
+    // Box shadows as shortcuts: presetWind4's own shadow utility layers ring and
+    // inset shadows, which would change the computed value of the site's shadows.
     "elevation-card": "[box-shadow:var(--elevation-card)]",
     "elevation-panel": "[box-shadow:var(--elevation-panel)]",
     "elevation-tile": "[box-shadow:var(--elevation-tile)]",

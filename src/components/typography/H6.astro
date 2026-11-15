@@ -1,0 +1,14 @@
+---
+import "./typography.css";
+
+// Heading 6: 18px bold, 16px up to 768px. Renders the tag given in `as`, so the look and the meaning can differ.
+interface Props {
+  as?: string;
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { as: Tag = "h6", class: extra, ...rest } = Astro.props;
+---
+
+<Tag class:list={["text-h6", extra]} {...rest}><slot /></Tag>

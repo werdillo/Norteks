@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { Container } from "#/components/container";
+import { H1, H5, P1, P2 } from "#/components/typography";
 import interior1 from "./assets/img6.jpg";
 import interior2 from "./assets/img5.jpg";
 import { aboutLead, aboutParagraphs } from "./data";
@@ -9,19 +10,13 @@ const picture = "h-auto w-full elevation-image";
 ---
 
 <div class="mx-10 bg-surface">
-  <h1 class="mb-16 text-48 max-768:text-40 font-bold text-gold">Нортекс</h1>
-  <p class="text-24 max-768:text-19-2 text-muted">Оптовый поставщик декоративных тканей</p>
+  <H1 class="mb-16 text-gold">Нортекс</H1>
+  <H5 as="p" class="text-muted">Оптовый поставщик декоративных тканей</H5>
   <Container width="min">
     <div class="grid grid-cols-[1fr_1fr] gap-40 [align-items:start] max-768:grid-cols-[1fr]">
       <div class="flex flex-col gap-24 max-768:gap-14">
-        <p class="my-4 text-19-2 max-768:text-17-6 leading-[1.6] text-heading">{aboutLead}</p>
-        {
-          aboutParagraphs.map((paragraph) => (
-            <div class="text-16 leading-[1.7] text-copy">
-              <p>{paragraph}</p>
-            </div>
-          ))
-        }
+        <P1 class="my-4 text-heading">{aboutLead}</P1>
+        {aboutParagraphs.map((paragraph) => <P2 class="text-copy">{paragraph}</P2>)}
       </div>
 
       <div class="grid gap-20">

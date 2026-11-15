@@ -1,15 +1,17 @@
 ---
 import { Image } from "astro:assets";
+import { P3 } from "#/components/typography";
 import { isCurrent, mobileNav } from "./navigation";
 
 const path = Astro.url.pathname;
-const link = "group flex min-w-[50px] flex-col items-center gap-2 rounded-[12px] px-6 py-4 text-on-dark-muted hover:bg-on-dark-faint hover:text-cyan [transition:all_0.3s_ease]";
+const link = "group flex min-w-[50px] flex-col items-center gap-2 rounded-[12px] px-6 py-4 text-on-dark-muted hover:bg-on-dark-faint hover:text-highlight [transition:all_0.3s_ease]";
 const linkCurrent = "group flex min-w-[50px] flex-col items-center gap-2 rounded-[12px] px-6 py-4 text-on-dark hover:bg-on-dark-faint hover:text-on-dark [transition:all_0.3s_ease]";
 const icon = "h-20 w-20 opacity-60 group-hover:opacity-100 [transition:all_0.3s_ease]";
 const iconCurrent = "h-20 w-20 opacity-100 [transition:all_0.3s_ease]";
 ---
 
 <nav
+  aria-label="Нижнее меню"
   class="fixed right-0 bottom-0 left-0 z-[var(--z-overlay)] min-768:hidden [border-top:1px_solid_var(--color-on-dark-faint)] bg-menu backdrop-blur-[10px]"
 >
   <div class="flex max-w-full items-center justify-around px-8 py-2">
@@ -17,17 +19,13 @@ const iconCurrent = "h-20 w-20 opacity-100 [transition:all_0.3s_ease]";
       mobileNav.map((item) => {
         const current = isCurrent(item, path);
         return (
-          <a href={item.href} class={current ? linkCurrent : link}>
+          <a href={item.href} class={current ? linkCurrent : link} aria-current={current ? "page" : undefined}>
             <div class="flex h-24 w-24 items-center justify-center">
-              <Image
-                class={current ? iconCurrent : icon}
-                src={item.icon}
-                alt={item.text}
-              />
+              <Image class={current ? iconCurrent : icon} src={item.icon} alt="" />
             </div>
-            <span class="text-center text-10 max-380:text-9 leading-[1.2] font-medium">
+            <P3 as="span" class="text-center">
               {item.text}
-            </span>
+            </P3>
           </a>
         );
       })

@@ -1,45 +1,117 @@
 ---
-import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
 import { ImageTile } from "#/components/image-tile";
-import { Title } from "#/components/title";
-import { fileUrl } from "#/core/pocketbase";
-import { collectionImages, collectionSpecs } from "../services";
+import { H3, H6, P1, P3 } from "#/components/typography";
+import { Skeleton } from "#/components/skeleton";
 
-interface Props {
-  collection: RecordModel;
-}
-
-const { collection } = Astro.props;
-const items = collectionImages(collection);
-const specs = collectionSpecs(collection);
+const specRow = "mb-8 flex max-w-[300px] flex-col gap-6 [border-bottom:1px_solid_var(--color-black)] pb-12";
+const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1200:grid-cols-[1fr_1fr_1fr] max-1200:gap-5";
 ---
 
+<!-- One collection (/textile/<type>/<collection>): the browser reads the collection from the address. -->
 <Container>
-  <Title size="s">{collection.name}</Title>
-  <div class="mt-2 max-w-[1800px] font-medium text-26 max-1024:text-16">{collection.description}</div>
-  <div class="mt-2 max-w-[1800px] font-medium text-22 max-1024:text-14">{collection.description_type}</div>
-  <br />
-
-  {
-    specs.map((spec) => (
-      <div class="mb-8 flex max-w-[300px] flex-col gap-6 [border-bottom:1px_solid_var(--color-black)] pb-12">
-        <div class="text-14 max-1024:text-12 font-normal text-label">{spec.name}</div>
-        <div class="text-20 max-1024:text-14 font-semibold">{spec.value}</div>
+  <div class="flex w-full flex-col" data-collection-page aria-busy="true">
+    <div class="flex w-full flex-col" data-status="loading">
+      <span class="sr-only">Загрузка…</span>
+      <H3 as="div" class="m-0"><Skeleton variant="text" width="50%" /></H3>
+      <P1 as="div" class="mt-2 max-w-[1800px]"><Skeleton variant="text" width="60%" /></P1>
+      <P1 as="div" class="mt-2 max-w-[1800px]"><Skeleton variant="text" width="40%" /></P1>
+      <br />
+      <div class="flex flex-col">
+        {Array.from({ length: 3 }, () => (
+          <div class={specRow}>
+            <P3 as="div" class="text-muted"><Skeleton variant="text" width="30%" /></P3>
+            <H6 as="div"><Skeleton variant="text" width="50%" /></H6>
+          </div>
+        ))}
       </div>
-    ))
-  }
-
-  <div class="mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1200:grid-cols-[1fr_1fr_1fr] max-1200:gap-5">
-    {
-      items.map((item) => (
-        <ImageTile
-          src={fileUrl(collection.collectionId, collection.id, item.img)}
-          alt={item.textile}
-          label={item.textile}
-          ratio="1/1"
-        />
-      ))
-    }
+      <div class={grid}>
+        {Array.from({ length: 6 }, () => <Skeleton variant="tile" ratio="1/1" />)}
+      </div>
+    </div>
+    <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
+    <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
+    <div class="flex w-full flex-col" data-status="ready" hidden>
+      <H3 as="h1" class="m-0" data-field="name"></H3>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="type"></P1>
+      <br />
+      <div class="flex flex-col" data-field="specs"></div>
+      <div class={grid} data-field="pictures"></div>
+    </div>
+    <template data-spec>
+      <div class={specRow}>
+        <P3 as="div" class="text-muted" data-field="label"></P3>
+        <H6 as="div" data-field="value"></H6>
+      </div>
+    </template>
+    <template data-tile>
+      <ImageTile src="" alt="" label="" ratio="1/1" />
+    </template>
   </div>
 </Container>
+
+<script>
+  import { collectionImages, collectionSpecs } from "../services";
+  import { fileUrl, getImageUrl, isNotFound } from "#/core/pocketbase";
+  import { field, fromTemplate, pathParts, setStatus } from "#/core/dom";
+  import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
+  import { tileFrom } from "#/components/image-tile";
+  import { getCollection } from "../api";
+
+  const root = document.querySelector<HTMLElement>("[data-collection-page]");
+  if (root) {
+    const [, type = "", path = ""] = pathParts();
+    const specTemplate = root.querySelector<HTMLTemplateElement>("template[data-spec]")!;
+    const tileTemplate = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
+
+    getCollection(path)
+      .then((collection) => {
+        field(root, "name").textContent = collection.name;
+        field(root, "description").textContent = collection.description ?? "";
+        field(root, "type").textContent = collection.description_type ?? "";
+
+        field(root, "specs").replaceChildren(
+          ...collectionSpecs(collection).map((spec) => {
+            const row = fromTemplate(specTemplate);
+            field(row, "label").textContent = spec.name;
+            field(row, "value").textContent = String(spec.value);
+            return row;
+          }),
+        );
+        field(root, "pictures").replaceChildren(
+          ...collectionImages(collection).map((item) =>
+            tileFrom(tileTemplate, {
+              src: fileUrl(collection.collectionId, collection.id, item.img),
+              alt: item.textile,
+              label: item.textile,
+            }),
+          ),
+        );
+
+        const category = ([] as { name: string; path: string }[]).concat(collection.expand?.category ?? [])[0];
+        const description = collection.description || `Ткани из коллекции ${collection.name}`;
+        setPageMeta({
+          title: `${collection.name} - Ткани коллекции | Нортекс`,
+          description,
+          image: getImageUrl(collection),
+        });
+        const trail: [string, string][] = [
+          ["Главная", "/"],
+          ["Коллекции", "/textile"],
+        ];
+        if (category) trail.push([category.name, `/textile/${type}`]);
+        trail.push([collection.name, `/textile/${type}/${path}`]);
+        setBreadcrumb(trail);
+        setJsonLd("ld-product", {
+          "@type": "Product",
+          name: collection.name,
+          description: collection.description || undefined,
+          image: getImageUrl(collection) || undefined,
+          brand: { "@type": "Brand", name: "Нортекс" },
+        });
+        setStatus(root, "ready");
+      })
+      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+  }
+</script>

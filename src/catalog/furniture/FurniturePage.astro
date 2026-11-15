@@ -1,49 +1,96 @@
 ---
-import type { RecordModel } from "pocketbase";
 import { Card } from "#/components/card";
 import { Container } from "#/components/container";
-import { getImageUrl } from "#/core/pocketbase";
-
-interface Props {
-  items: RecordModel[];
-}
-
-const { items } = Astro.props;
+import { H1, H6, P2, P3 } from "#/components/typography";
+import { Skeleton } from "#/components/skeleton";
 
 const row = "mx-8 mb-4 flex flex-row items-center justify-between pb-8";
-const name = "text-12 max-1024:text-11 font-normal text-label";
-const value = "text-14 max-1024:text-12 font-semibold";
+const grid =
+  "grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8";
 ---
 
 <Container>
-  <div class="grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8">
-    {
-      items.map((item) => (
-        <Card variant="outlined">
-          <div>
-            <img
-              src={getImageUrl(item)}
-              class="h-auto w-full rounded-[8px_8px_0_0] aspect-[9/8] max-768:object-cover"
-              alt={item.title}
-              loading="lazy"
-            />
-            <div class="mt-12 text-20 max-768:text-16 font-bold text-center">{item.name}</div>
-          </div>
-          <br />
-          <div class={row}>
-            <div class={name}>Высота</div>
-            <div class={value}>{item.height}</div>
-          </div>
-          <div class={row}>
-            <div class={name}>Материал</div>
-            <div class={value}>{item.material}</div>
-          </div>
-          <div class={row}>
-            <div class={name}>Цвет</div>
-            <div class={value}>{item.color}</div>
-          </div>
-        </Card>
-      ))
-    }
+  <H1 class="sr-only">Мебельная фурнитура</H1>
+  <div class="flex w-full flex-col" data-furniture aria-busy="true">
+    <div data-status="loading">
+      <span class="sr-only">Загрузка…</span>
+      <div class={grid}>
+        {
+          Array.from({ length: 6 }, () => (
+            <Card variant="outlined">
+              <div>
+                <Skeleton variant="tile" ratio="9/8" class="rounded-[8px_8px_0_0]" />
+                <H6 as="div" class="m-0 mt-12 text-center"><Skeleton variant="text" width="70%" /></H6>
+              </div>
+              <br />
+              {["40%", "40%", "40%"].map(() => (
+                <div class={row}>
+                  <P3 as="div" class="text-muted"><Skeleton variant="text" width="40%" /></P3>
+                  <P3 as="div"><Skeleton variant="text" width="30%" /></P3>
+                </div>
+              ))}
+            </Card>
+          ))
+        }
+      </div>
+    </div>
+    <P2 as="div" class="text-muted" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
+    <div class={grid} data-status="ready" hidden></div>
+    <template data-item>
+      <Card variant="outlined">
+        <div>
+          <img
+            data-field="image"
+            class="h-auto w-full rounded-[8px_8px_0_0] aspect-[9/8] max-768:object-cover"
+            alt=""
+            loading="lazy"
+          />
+          <H6 as="h2" class="m-0 mt-12 text-center" data-field="name"></H6>
+        </div>
+        <br />
+        <div class={row}>
+          <P3 as="div" class="text-muted">Высота</P3>
+          <P3 as="div" data-field="height"></P3>
+        </div>
+        <div class={row}>
+          <P3 as="div" class="text-muted">Материал</P3>
+          <P3 as="div" data-field="material"></P3>
+        </div>
+        <div class={row}>
+          <P3 as="div" class="text-muted">Цвет</P3>
+          <P3 as="div" data-field="color"></P3>
+        </div>
+      </Card>
+    </template>
   </div>
 </Container>
+
+<script>
+  import { getImageUrl } from "#/core/pocketbase";
+  import { field, fromTemplate, setStatus } from "#/core/dom";
+  import { getFurniture } from "./api";
+
+  const root = document.querySelector<HTMLElement>("[data-furniture]");
+  if (root) {
+    const grid = root.querySelector<HTMLElement>('[data-status="ready"]')!;
+    const template = root.querySelector<HTMLTemplateElement>("template[data-item]")!;
+    getFurniture()
+      .then((items) => {
+        grid.replaceChildren(
+          ...items.map((item) => {
+            const card = fromTemplate(template);
+            const image = field<HTMLImageElement>(card, "image");
+            image.src = getImageUrl(item);
+            image.alt = item.title;
+            field(card, "name").textContent = item.name;
+            field(card, "height").textContent = item.height;
+            field(card, "material").textContent = item.material;
+            field(card, "color").textContent = item.color;
+            return card;
+          }),
+        );
+        setStatus(root, "ready");
+      })
+      .catch(() => setStatus(root, "error"));
+  }
+</script>

@@ -1,0 +1,49 @@
+---
+import { H5 } from "#/components/typography";
+import type { SliderSlide } from "./types";
+
+interface Props {
+  slides: SliderSlide[];
+}
+
+const { slides } = Astro.props;
+
+const frame = "flex h-[750px] max-768:h-[400px] w-full items-center justify-start bg-cover bg-center";
+const content = "ml-60 flex max-w-[800px] flex-col gap-24 max-768:ml-20";
+// Exception to the type matrix (listed in src/app/tests/typography.test.ts): the 80px hero title, once per page.
+const title = "m-0 text-[80px] max-768:text-[40px] font-normal leading-[1.3] text-accent";
+const button =
+  "flex h-60 w-[280px] max-768:w-[200px] cursor-pointer items-center justify-center rounded-pill text-on-dark bg-accent [transition:200ms] hover:elevation-accent-hover hover:[transform:translateY(-2px)] active:elevation-accent-press active:[transform:translateY(1px)]";
+---
+
+<!-- Swiper's web component, with the options of the old island: one slide, a loop, autoplay every 5 s. -->
+<swiper-container
+  class="w-full max-w-[100vw]"
+  slides-per-view="1"
+  pagination="true"
+  pagination-clickable="true"
+  speed="500"
+  loop="true"
+  autoplay-delay="5000"
+>
+  {
+    slides.map((slide) => (
+      <swiper-slide>
+        <div class={frame} style={`background-image: url(${slide.image})`}>
+          <div class={content}>
+            <h2 class={title}>{slide.title}</h2>
+            <a href={slide.href} class={button}>
+              <H5 as="span">{slide.label}</H5>
+            </a>
+          </div>
+        </div>
+      </swiper-slide>
+    ))
+  }
+</swiper-container>
+
+<script>
+  import { register } from "swiper/element/bundle";
+
+  register();
+</script>

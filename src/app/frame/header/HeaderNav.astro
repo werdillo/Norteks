@@ -1,25 +1,31 @@
 ---
+import { P3 } from "#/components/typography";
 import { headerNav, isCurrent } from "../navigation";
 
 const path = Astro.url.pathname;
-const base = "text-14 max-1400:text-13 max-1300:text-12 hover:text-highlight";
+const base = "hover:text-highlight";
 const current = "text-highlight";
 ---
 
-<div class="flex flex-wrap gap-30 max-1600:gap-25 max-1400:gap-20 max-1200:hidden">
+<nav aria-label="Разделы" class="flex flex-wrap gap-30 max-1600:gap-25 max-1400:gap-20 max-1200:hidden">
   {
-    headerNav.map((item) => (
-      <a href={item.href} class={isCurrent(item, path) ? `${base} ${current}` : `${base} text-on-dark`}>
-        {item.text}
-      </a>
-    ))
+    headerNav.map((item) => {
+      const now = isCurrent(item, path);
+      return (
+        <P3 as="a" href={item.href} aria-current={now ? "page" : undefined} class={now ? `${base} ${current}` : `${base} text-on-dark`}>
+          {item.text}
+        </P3>
+      );
+    })
   }
-</div>
-<div class="text-12 min-1200:hidden max-385:hidden">
-  <a
+</nav>
+<div class="min-1200:hidden max-385:hidden">
+  <P3
+    as="a"
     href="/contacts"
-    class={path.includes("/contacts") ? `text-11 hover:text-highlight ${current}` : "text-11 text-on-dark hover:text-highlight"}
+    aria-current={path.includes("/contacts") ? "page" : undefined}
+    class={path.includes("/contacts") ? "hover:text-highlight text-highlight" : "hover:text-highlight text-on-dark"}
   >
     Контакты
-  </a>
+  </P3>
 </div>

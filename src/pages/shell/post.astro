@@ -1,0 +1,15 @@
+---
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { PostPage } from "#/blog/posts";
+
+// Shell of /post/<path>: deploy/nginx.conf serves this file for every post.
+const seoData = {
+  title: "Статья | Блог Нортекс",
+  description: "Статья блога Нортекс о тканях, уходе за текстилем и дизайне интерьера.",
+  canonical: "/blog",
+};
+---
+
+<BaseLayout {...seoData}>
+  <PostPage />
+</BaseLayout>

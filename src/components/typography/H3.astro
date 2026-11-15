@@ -1,0 +1,14 @@
+---
+import "./typography.css";
+
+// Heading 3: 32px bold. Renders the tag given in `as`, so the look and the meaning can differ.
+interface Props {
+  as?: string;
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { as: Tag = "h3", class: extra, ...rest } = Astro.props;
+---
+
+<Tag class:list={["text-h3", extra]} {...rest}><slot /></Tag>

@@ -16,4 +16,4 @@ export const getTypeWithCollections = (type: string) =>
 
 /** One collection by its path, for /textile/[type]/[collection]. */
 export const getCollection = (collectionPath: string) =>
-  client.collection("collections").getFirstListItem(`path="${collectionPath}"`);
+  client.collection("collections").getFirstListItem(`path="${collectionPath}"`, { expand: "category" });

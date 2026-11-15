@@ -1,0 +1,16 @@
+---
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { TypeCollections } from "#/catalog/textile";
+
+// Shell of /textile/<type>: deploy/nginx.conf serves this file for every type. The
+// browser loads the type and sets the real title, description and canonical.
+const seoData = {
+  title: "Коллекции тканей | Нортекс",
+  description: "Коллекции декоративных тканей от компании Нортекс: типы тканей и коллекции внутри них.",
+  canonical: "/textile",
+};
+---
+
+<BaseLayout {...seoData}>
+  <TypeCollections />
+</BaseLayout>

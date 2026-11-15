@@ -4,101 +4,83 @@ import Footer from "../frame/Footer.astro";
 import MobileMenu from "../frame/MobileMenu.astro";
 import "../styles/tokens.css";
 import "../styles/main.css";
+import "../styles/animations.css";
 
 export interface Props {
-    title?: string;
-    description?: string;
-    keywords?: string;
-    ogImage?: string;
+  title: string;
+  description: string;
+  /** Path of the page the metadata is about. The default is the page itself. */
+  canonical?: string;
+  /** Picture of the page for social cards, a path on the site. */
+  ogImage?: string;
 }
 
-const {
-    title = "Нортекс - Оптовый поставщик декоративных тканей",
-    description = "Компания Нортекс - ваш надежный партнер в мире декоративных тканей. Более 20 лет опыта, широкий ассортимент тканей для мебели и штор.",
-    keywords = "ткани, декоративные ткани, мебельные ткани, шторы, велюр, замша, экокожа, рогожка, дизайнерские ткани, оптом",
-    ogImage = "/logo.png",
-} = Astro.props;
+const { title, description, canonical, ogImage = "/logo.png" } = Astro.props;
+const url = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
+const image = new URL(ogImage, Astro.site).href;
 ---
 
+<!doctype html>
 <html lang="ru">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
 
-        <!-- SEO Meta Tags -->
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="keywords" content={keywords} />
-        <meta name="author" content="Нортекс" />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={Astro.url.href} />
-        <link rel="sitemap" href="/sitemap.xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Нортекс" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={url} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={Astro.url.href} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta
-            property="og:image"
-            content={new URL(ogImage, Astro.site || "https://tkani-nortex.ru")
-                .href}
-        />
-        <meta property="og:site_name" content="Нортекс" />
-        <meta property="og:locale" content="ru_RU" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Нортекс" />
+    <meta property="og:locale" content="ru_RU" />
 
-        <!-- Twitter -->
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-        <meta
-            property="twitter:image"
-            content={new URL(ogImage, Astro.site || "https://tkani-nortex.ru")
-                .href}
-        />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
 
-        <!-- Structured Data -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Нортекс",
-                "description": "Оптовый поставщик декоративных тканей",
-                "url": "https://tkani-nortex.ru",
-                "logo": "https://tkani-nortex.ru/logo.png",
-                "contactPoint": {
-                    "@type": "ContactPoint",
-                    "telephone": "+7-495-221-33-16",
-                    "contactType": "customer service",
-                    "areaServed": "RU",
-                    "availableLanguage": "Russian"
-                },
-                "address": {
-                    "@type": "PostalAddress",
-                    "streetAddress": "Дмитровское шоссе 71Б, Бизнес-центр 7ONE",
-                    "addressLocality": "Москва",
-                    "addressCountry": "RU"
-                },
-                "sameAs": [
-                    "https://www.instagram.com/tknortex/",
-                    "https://t.me/tknortex"
-                ]
-            }
-        </script>
-    </head>
-</html>
-<body class="m-0 font-body">
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Нортекс",
+        description: "Оптовый поставщик декоративных тканей",
+        url: "https://tkani-nortex.ru",
+        logo: "https://tkani-nortex.ru/logo.png",
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: "+7-495-221-33-16",
+          contactType: "customer service",
+          areaServed: "RU",
+          availableLanguage: "Russian",
+        },
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Дмитровское шоссе 71Б, Бизнес-центр 7ONE",
+          addressLocality: "Москва",
+          addressCountry: "RU",
+        },
+        sameAs: ["https://www.instagram.com/tknortex/", "https://t.me/tknortex"],
+      })}
+    />
+  </head>
+  <body class="m-0 font-body">
     <div id="main" class="flex min-h-screen flex-col">
-        <Header />
-        <article
-            id="content"
-            class="mt-header max-768:mt-header-mobile flex flex-1 flex-col items-center"
-        >
-            <slot />
-        </article>
-        <MobileMenu />
-        <Footer />
+      <Header />
+      <main id="content" class="mt-header max-768:mt-header-mobile flex flex-1 flex-col items-center">
+        <slot />
+      </main>
+      <MobileMenu />
+      <Footer />
     </div>
-</body>
-
+  </body>
+</html>

@@ -1,0 +1,41 @@
+---
+interface Props {
+  /**
+   * `text`: one or more lines of the type around it (the line box keeps the type's height).
+   * `block`: a box whose size comes from `class`. `tile`: a full-width box of an aspect ratio.
+   */
+  variant?: "text" | "block" | "tile";
+  /** Text: how many lines. */
+  lines?: number;
+  /** Text: the width of a single line, or of the first line when there are more. */
+  width?: string;
+  /** Tile: the aspect ratio of the picture it stands for. */
+  ratio?: "4/3" | "7/6" | "1/1" | "7/4" | "9/8";
+  /** On a dark surface. */
+  dark?: boolean;
+  class?: string;
+}
+
+const { variant = "block", lines = 1, width = "100%", ratio = "4/3", dark = false, class: extra } = Astro.props;
+
+const tone = dark ? "skeleton skeleton-dark" : "skeleton";
+// Varied lengths for paragraphs, so the placeholder reads as text.
+const widths = ["100%", "94%", "78%", "88%", "66%"];
+const ratios = { "4/3": "aspect-[4/3]", "7/6": "aspect-[7/6]", "1/1": "aspect-[1/1]", "7/4": "aspect-[7/4]", "9/8": "aspect-[9/8]" };
+const lineWidths = Array.from({ length: lines }, (_, i) => (i === 0 ? width : widths[i % widths.length]));
+---
+
+{
+  variant === "text" ? (
+    lineWidths.map((w, i) => (
+      <>
+        <span class={`${tone} inline-block h-[0.8em] rounded-field align-baseline`} style={`width: ${w}`} aria-hidden="true"></span>
+        {i < lines - 1 && <br />}
+      </>
+    ))
+  ) : variant === "tile" ? (
+    <div class={`${tone} block w-full ${ratios[ratio]} ${extra ?? ""}`} aria-hidden="true"></div>
+  ) : (
+    <div class={`${tone} block ${extra ?? ""}`} aria-hidden="true"></div>
+  )
+}

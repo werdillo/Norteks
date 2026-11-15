@@ -1,36 +1,36 @@
 ---
 import { Slider } from "#/components/slider";
 import { Container } from "#/components/container";
+import { H1, H5, P1 } from "#/components/typography";
 import { Advantages } from "#/company/advantages";
 import { heroSlides, homeParagraphs } from "../data";
 
-const body =
-  "mt-2 max-w-[1700px] text-18 leading-[32px] font-medium text-body max-768:text-12 max-768:leading-[22px]";
-const lead =
-  "mt-2 max-w-[1700px] text-22 leading-[32px] font-bold text-body max-768:text-14 max-768:leading-[22px]";
+const lead = "m-0 mt-2 max-w-[1700px] text-heading";
+const body = "m-0 mt-2 max-w-[1700px] text-heading";
 ---
 
-<Slider client:load slides={heroSlides} />
+<H1 class="sr-only">Нортекс - Оптовый поставщик декоративных тканей</H1>
+<Slider slides={heroSlides} />
 <Container noBottom>
-  <div class={lead}>
+  <H5 as="p" class={lead}>
     НОРТЕКС предлагает широкий выбор высококачественных и
     высокотехнологичных тканей от ведущих мировых производителей.<br />
     Уделяем особое внимание к соответствию цена/качество, предоставляем
     ткани разных ценовых категорий, экологичных, износостойких, с
     широким спектром цветов и применением новейших технологий при
     производстве.
-  </div>
-  <div class={body}><br />
+  </H5>
+  <P1 class={body}><br />
     Команда НОРТЕКС уже более 20 лет на рынке мебельных тканей. <br />Наша
     главная задача - соответствовать высочайшим стандартам качества и
     обслуживания, успешно реализовать даже самые сложные запросы
     клиентов.
-  </div>
+  </P1>
 </Container>
 <Advantages />
 
 <slot name="catalog" />
 
 <Container>
-  {homeParagraphs.map((paragraph) => <div class={body}>{paragraph}</div>)}
+  {homeParagraphs.map((paragraph) => <P1 class={body}>{paragraph}</P1>)}
 </Container>

@@ -1,30 +1,66 @@
 ---
-import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
-import { getImageUrl } from "#/core/pocketbase";
+import { H1, H5, P2 } from "#/components/typography";
+import { Skeleton } from "#/components/skeleton";
 
-interface Props {
-  posts: RecordModel[];
-}
-
-const { posts } = Astro.props;
+const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_1fr] max-768:gap-14";
 ---
 
 <Container>
-  <div class="grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_1fr] max-768:gap-14">
-    {
-      posts.map((item) => (
-        <a href={`/post/${item.path}`}>
-          <img
-            src={getImageUrl(item)}
-            class="h-auto w-full aspect-[7/4] object-cover"
-            alt={item.title}
-            loading="lazy"
-          />
-          <div class="mt-12 text-24 max-768:text-16 font-bold">{item.title}</div>
-          <div class="mt-6 text-16 max-768:text-14 font-medium">{item.description}</div>
-        </a>
-      ))
-    }
+  <H1 class="sr-only">Блог</H1>
+  <div class="flex w-full flex-col" data-posts aria-busy="true">
+    <div data-status="loading">
+      <span class="sr-only">Загрузка…</span>
+      <div class={grid}>
+        {
+          Array.from({ length: 6 }, () => (
+            <div>
+              <Skeleton variant="tile" ratio="7/4" />
+              <H5 as="div" class="m-0 mt-12"><Skeleton variant="text" width="80%" /></H5>
+              <P2 as="div" class="mt-6"><Skeleton variant="text" lines={2} width="95%" /></P2>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <P2 as="div" class="text-muted" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
+    <div class={grid} data-status="ready" hidden></div>
+    <template data-post>
+      <a>
+        <img data-field="image" class="h-auto w-full aspect-[7/4] object-cover" alt="" loading="lazy" />
+        <H5 as="h2" class="m-0 mt-12" data-field="title"></H5>
+        <P2 as="div" class="mt-6" data-field="description"></P2>
+      </a>
+    </template>
   </div>
 </Container>
+
+<script>
+  import { getImageUrl } from "#/core/pocketbase";
+  import { field, fromTemplate, setStatus } from "#/core/dom";
+  import { getPosts } from "../api";
+
+  const root = document.querySelector<HTMLElement>("[data-posts]");
+  if (root) {
+    const grid = root.querySelector<HTMLElement>('[data-status="ready"]')!;
+    const template = root.querySelector<HTMLTemplateElement>("template[data-post]")!;
+    getPosts()
+      .then((posts) => {
+        grid.replaceChildren(
+          ...posts.map((post) => {
+            const card = fromTemplate(template);
+            const link = card.firstElementChild as HTMLAnchorElement;
+            link.href = `/post/${post.path}`;
+            const image = field<HTMLImageElement>(card, "image");
+            image.src = getImageUrl(post);
+            image.alt = post.title;
+            field(card, "title").textContent = post.title;
+            field(card, "description").textContent = post.description ?? "";
+            return card;
+          }),
+        );
+        setStatus(root, "ready");
+      })
+      .catch(() => setStatus(root, "error"));
+  }
+</script>

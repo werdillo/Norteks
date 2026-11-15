@@ -2,9 +2,8 @@
 import { Image } from "astro:assets";
 import { Card } from "#/components/card";
 import { Container } from "#/components/container";
+import { H4, H5, H6, P2 } from "#/components/typography";
 import { intro, pictures, sections, tips, tipsTitle } from "./data";
-
-const paragraph = "my-[5px] text-15 max-768:text-14 leading-[1.6] text-copy-soft";
 ---
 
 <div class="mt-20 mb-40 flex w-full justify-between gap-5">
@@ -14,21 +13,21 @@ const paragraph = "my-[5px] text-15 max-768:text-14 leading-[1.6] text-copy-soft
 <Container width="offset">
   <div class="mb-20 flex flex-col gap-40">
     <Card variant="panel">
-      <h2 class="mb-16 pb-10 text-28 max-768:text-24 text-heading">{intro.title}</h2>
+      <H4 as="h1" class="mb-16 pb-10 text-heading">{intro.title}</H4>
       <div class="flex flex-col gap-15">
-        {intro.paragraphs.map((text) => <p class={paragraph}>{text}</p>)}
+        {intro.paragraphs.map((text) => <P2 class="my-[5px] text-copy">{text}</P2>)}
       </div>
     </Card>
 
     <Card variant="panel">
-      <h3 class="mb-20 text-22 max-768:text-20 text-copy">{tipsTitle}</h3>
+      <H5 as="h2" class="mb-20 text-copy">{tipsTitle}</H5>
       <div class="mt-20 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-30 max-768:grid-cols-[1fr]">
         {
           tips.map((tip) => (
             <div>
-              <h4 class="mt-0 pl-24 text-18 max-768:text-16 text-muted">{tip.title}</h4>
+              <H6 as="h3" class="mt-0 pl-24 text-muted">{tip.title}</H6>
               <div class="[border-left:2px_solid_var(--color-rule)] pl-20">
-                {tip.items.map((text) => <p>{text}</p>)}
+                {tip.items.map((text) => <P2>{text}</P2>)}
               </div>
             </div>
           ))
@@ -39,9 +38,9 @@ const paragraph = "my-[5px] text-15 max-768:text-14 leading-[1.6] text-copy-soft
     {
       sections.map((section) => (
         <Card variant="panel">
-          <h3 class="mb-20 text-22 max-768:text-20 text-copy">{section.title}</h3>
+          <H5 as="h2" class="mb-20 text-copy">{section.title}</H5>
           <div class="flex flex-col gap-15">
-            {section.paragraphs.map((text) => <p class={paragraph}>{text}</p>)}
+            {section.paragraphs.map((text) => <P2 class="my-[5px] text-copy">{text}</P2>)}
           </div>
         </Card>
       ))

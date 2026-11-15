@@ -1,17 +1,13 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { BlogList, getPosts } from "#/blog/posts";
+import { BlogList } from "#/blog/posts";
 
 const seoData = {
   title: "Блог о тканях и дизайне | Советы от экспертов Нортекс",
   description: "Полезные статьи о выборе тканей, уходе за текстилем, модных тенденциях в дизайне интерьера. Экспертные советы от компании Нортекс.",
-  keywords: "блог о тканях, советы по выбору тканей, уход за тканями, дизайн интерьера, текстиль в интерьере, модные ткани"
 };
-
-// SSR - загружаем посты
-const posts = await getPosts();
 ---
 
 <BaseLayout {...seoData}>
-  <BlogList posts={posts} />
+  <BlogList />
 </BaseLayout>

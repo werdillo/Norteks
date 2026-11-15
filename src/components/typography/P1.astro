@@ -1,0 +1,14 @@
+---
+import "./typography.css";
+
+// Paragraph 1: 18px, 16px up to 768px, line height 1.6. Renders the tag given in `as`, so the look and the meaning can differ.
+interface Props {
+  as?: string;
+  class?: string;
+  [attribute: string]: unknown;
+}
+
+const { as: Tag = "p", class: extra, ...rest } = Astro.props;
+---
+
+<Tag class:list={["text-p1", extra]} {...rest}><slot /></Tag>

@@ -1,19 +1,65 @@
 ---
-import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
-import { getImageUrl } from "#/core/pocketbase";
-
-interface Props {
-  post: RecordModel;
-}
-
-const { post } = Astro.props;
+import { H3, P1, P2 } from "#/components/typography";
+import { Skeleton } from "#/components/skeleton";
 ---
 
-<img src={getImageUrl(post)} class="h-[500px] w-full object-cover max-768:h-[30vh]" alt={post.title} />
-<Container>
-  <div class="p-20 max-768:p-10">
-    <div class="text-32 font-bold">{post.title}</div>
-    <div class="text-18" set:html={post.content}></div>
+<!-- One post (/post/<path>): the browser reads the post from the address. -->
+<div data-post-page aria-busy="true">
+  <div data-status="loading">
+    <span class="sr-only">Загрузка…</span>
+    <Skeleton variant="block" class="h-[500px] w-full max-768:h-[30vh]" />
+    <Container>
+      <div class="p-20 max-768:p-10">
+        <H3 as="div" class="m-0"><Skeleton variant="text" width="60%" /></H3>
+        <P1 as="div"><Skeleton variant="text" lines={5} width="100%" /></P1>
+      </div>
+    </Container>
   </div>
-</Container>
+  <Container>
+    <P2 as="div" class="p-20" data-status="empty" hidden>Ничего не найдено</P2>
+    <P2 as="div" class="p-20" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
+  </Container>
+  <div data-status="ready" hidden>
+    <img data-field="image" class="h-[500px] w-full object-cover max-768:h-[30vh]" alt="" fetchpriority="high" />
+    <Container>
+      <div class="p-20 max-768:p-10">
+        <H3 as="h1" class="m-0" data-field="title"></H3>
+        <P1 as="div" data-field="content"></P1>
+      </div>
+    </Container>
+  </div>
+</div>
+
+<script>
+  import { getImageUrl, isNotFound } from "#/core/pocketbase";
+  import { field, pathParts, setStatus } from "#/core/dom";
+  import { setBreadcrumb, setPageMeta } from "#/core/seo";
+  import { getPostByPath } from "../api";
+
+  const root = document.querySelector<HTMLElement>("[data-post-page]");
+  if (root) {
+    const path = pathParts()[1] ?? "";
+    getPostByPath(path)
+      .then((post) => {
+        field(root, "title").textContent = post.title;
+        const image = field<HTMLImageElement>(root, "image");
+        image.src = getImageUrl(post);
+        image.alt = post.title;
+        // The content is HTML written in PocketBase by the site's editors.
+        field(root, "content").innerHTML = String(post.content ?? "");
+        setPageMeta({
+          title: `${post.title} | Блог Нортекс`,
+          description: post.description || post.title,
+          image: getImageUrl(post),
+        });
+        setBreadcrumb([
+          ["Главная", "/"],
+          ["Блог", "/blog"],
+          [post.title, `/post/${path}`],
+        ]);
+        setStatus(root, "ready");
+      })
+      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+  }
+</script>

@@ -1,4 +1,5 @@
 ---
+import { P2 } from "#/components/typography";
 import { emails, phones } from "#/company/contacts";
 import mail from "../assets/icons/mail.svg";
 import phone from "../assets/icons/phone.svg";
@@ -11,8 +12,8 @@ import FooterSocial from "./footer/FooterSocial.astro";
   class="flex min-h-[120px] flex-wrap items-center justify-between gap-20 border-0 bg-chrome px-100 py-20 text-on-dark max-700:flex-col max-700:items-start max-700:px-20 max-700:pb-80"
 >
   <div class="flex w-[160px] flex-col gap-12">
-    <img src="/logo.png" alt="" class="h-auto w-full" />
-    Стильный гардероб вашей мебели
+    <img src="/logo.png" alt="" width="501" height="222" class="h-auto w-full" />
+    <P2 as="div" class="text-on-dark">Стильный гардероб вашей мебели</P2>
   </div>
   <FooterAddress />
   <FooterContacts

@@ -1,0 +1,115 @@
+/*
+ * The site's text styles. Each style is a set of variables (size, weight, line
+ * height, family). The components in this box and the shortcuts in uno.config.ts
+ * (text-h1, text-p2, ...) read them, so a size is written once. The sizes change
+ * at the site's breakpoints, which are inclusive max-width rules.
+ *
+ * The matrix: headings h1-h6 and paragraphs p1-p3, nine styles and no others.
+ */
+:root {
+
+  --text-h1-size: 48px;
+  --text-h1-weight: 700;
+  --text-h1-line-height: 1.3;
+  --text-h1-family: var(--typeface-body);
+
+  --text-h2-size: 42px;
+  --text-h2-weight: 700;
+  --text-h2-line-height: 1.3;
+  --text-h2-family: var(--typeface-body);
+
+  --text-h3-size: 32px;
+  --text-h3-weight: 700;
+  --text-h3-line-height: 1.3;
+  --text-h3-family: var(--typeface-body);
+
+  --text-h4-size: 28px;
+  --text-h4-weight: 700;
+  --text-h4-line-height: 1.3;
+  --text-h4-family: var(--typeface-body);
+
+  --text-h5-size: 22px;
+  --text-h5-weight: 700;
+  --text-h5-line-height: 1.3;
+  --text-h5-family: var(--typeface-body);
+
+  --text-h6-size: 18px;
+  --text-h6-weight: 700;
+  --text-h6-line-height: 1.3;
+  --text-h6-family: var(--typeface-body);
+
+  --text-p1-size: 18px;
+  --text-p1-weight: 400;
+  --text-p1-line-height: 1.6;
+  --text-p1-family: var(--typeface-body);
+
+  --text-p2-size: 16px;
+  --text-p2-weight: 400;
+  --text-p2-line-height: 1.6;
+  --text-p2-family: var(--typeface-body);
+
+  --text-p3-size: 14px;
+  --text-p3-weight: 400;
+  --text-p3-line-height: 1.5;
+  --text-p3-family: var(--typeface-body);
+
+
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --text-h2-size: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+      --text-h1-size: 40px;
+    --text-h4-size: 24px;
+    --text-h5-size: 20px;
+    --text-h6-size: 16px;
+    --text-p1-size: 16px;
+  }
+}
+
+/*
+ * The element defaults: a bare <h2> already has its style. `:where` keeps them at
+ * zero specificity, so a class (an H3 rendered as an h2) always wins over them.
+ * Paragraphs have no default: a <p> inside CMS HTML keeps the size of its wrapper.
+ */
+:where(html) h1 {
+  font-family: var(--text-h1-family);
+  font-size: var(--text-h1-size);
+  font-weight: var(--text-h1-weight);
+  line-height: var(--text-h1-line-height);
+}
+:where(html) h2 {
+  font-family: var(--text-h2-family);
+  font-size: var(--text-h2-size);
+  font-weight: var(--text-h2-weight);
+  line-height: var(--text-h2-line-height);
+}
+:where(html) h3 {
+  font-family: var(--text-h3-family);
+  font-size: var(--text-h3-size);
+  font-weight: var(--text-h3-weight);
+  line-height: var(--text-h3-line-height);
+}
+:where(html) h4 {
+  font-family: var(--text-h4-family);
+  font-size: var(--text-h4-size);
+  font-weight: var(--text-h4-weight);
+  line-height: var(--text-h4-line-height);
+}
+:where(html) h5 {
+  font-family: var(--text-h5-family);
+  font-size: var(--text-h5-size);
+  font-weight: var(--text-h5-weight);
+  line-height: var(--text-h5-line-height);
+}
+:where(html) h6 {
+  font-family: var(--text-h6-family);
+  font-size: var(--text-h6-size);
+  font-weight: var(--text-h6-weight);
+  line-height: var(--text-h6-line-height);
+}

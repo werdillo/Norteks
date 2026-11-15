@@ -1,38 +1,39 @@
 ---
 import { Image } from "astro:assets";
+import { H5, P1 } from "#/components/typography";
 import phone from "../shared/assets/icons/dark/phone.svg";
 import mail from "../shared/assets/icons/dark/mail.svg";
 import location from "../shared/assets/icons/dark/location.svg";
 import { emails, phones } from "./data";
 
-const row = "flex items-start gap-16 mb-16 text-18 max-768:flex-col";
+const row = "flex items-start gap-16 mb-16 max-768:flex-col";
 const link = "text-heading hover:text-gold";
 ---
 
 <div class="mx-auto my-32 grid max-w-narrow grid-cols-[1fr_1fr] gap-32 px-16 max-768:grid-cols-[1fr]">
   <div class="p-16">
-    <h2 class="mt-0 text-heading">НОРТЕКС</h2>
+    <H5 as="h1" class="mt-0 text-heading">НОРТЕКС</H5>
 
     <div class={row}>
-      <Image src={location} alt="Адрес" width="24" height="24" />
-      <p class="text-20 max-768:text-16">
+      <Image src={location} alt="" width="24" height="24" />
+      <P1>
         127238 г. Москва, Дмитровское шоссе 71Б, Западное Дегунино, Северный (САО)<br />
         Бизнес-Центр "ONE"<br />
         Метро: Верхние Лихоборы<br />
-      </p>
+      </P1>
     </div>
 
     <div class={row}>
-      <Image src={phone} alt="Телефон" width="24" height="24" />
+      <Image src={phone} alt="" width="24" height="24" />
       {phones.map((item) => (
-        <a class={link} href={`tel:${item.number}`}>{item.display}</a>
+        <P1 as="a" class={link} href={`tel:${item.number}`}>{item.display}</P1>
       ))}
     </div>
 
     <div class={row}>
-      <Image src={mail} alt="Email" width="24" height="24" />
+      <Image src={mail} alt="" width="24" height="24" />
       {emails.map((address) => (
-        <a class={link} href={`mailto:${address}`}>{address}</a>
+        <P1 as="a" class={link} href={`mailto:${address}`}>{address}</P1>
       ))}
     </div>
   </div>
@@ -40,6 +41,7 @@ const link = "text-heading hover:text-gold";
   <div class="h-[450px] w-full">
     <iframe
       src="https://yandex.ru/map-widget/v1/?ll=37.541722,55.857771&z=16&text=Нортекс%2C%20магазин%20тканей%2C%20Москва%2C%20Дмитровское%20шоссе%2C%2071Б"
+      title="Нортекс на карте"
       width="100%"
       height="450"
       allowfullscreen="true"

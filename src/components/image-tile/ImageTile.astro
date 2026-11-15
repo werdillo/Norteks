@@ -13,8 +13,9 @@ const { href, src, alt, label, ratio } = Astro.props;
 
 const Wrapper = href ? "a" : "div";
 const tile = "relative block overflow-hidden text-center [transition:300ms]";
+// Exception to the type matrix (listed in src/app/tests/typography.test.ts): a 36px caption over the picture.
 const caption =
-  "absolute top-[75%] left-1/2 w-[85%] font-display text-36 max-550:text-16 text-on-dark [transform:translate(-50%,-50%)]";
+  "absolute top-[75%] left-1/2 w-[85%] text-[36px] max-550:text-[16px] font-normal leading-[1.3] text-on-dark [transform:translate(-50%,-50%)]";
 const ratios = {
   "4/3": "aspect-[4/3]",
   "7/6": "aspect-[7/6]",
@@ -22,9 +23,10 @@ const ratios = {
 };
 ---
 
+<!-- data-field marks what a template fills in the browser (see core/dom.ts). -->
 <Wrapper href={href}>
   <div class={tile}>
-    <div class={caption}>{label}</div>
-    <img src={src} alt={alt} loading="lazy" class:list={["w-full h-auto object-cover", ratios[ratio]]} />
+    <div class={caption} data-field="label">{label}</div>
+    <img data-field="image" src={src} alt={alt} loading="lazy" class:list={["w-full h-auto object-cover", ratios[ratio]]} />
   </div>
 </Wrapper>

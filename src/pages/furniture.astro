@@ -1,19 +1,14 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { FurniturePage, getFurniture } from "#/catalog/furniture";
+import { FurniturePage } from "#/catalog/furniture";
 
 const seoData = {
   title: "Мебельная фурнитура | Каталог комплектующих для мебели Нортекс",
   description:
     "Широкий выбор мебельной фурнитуры и комплектующих. Качественные детали для производства и ремонта мебели от надежного поставщика.",
-  keywords:
-    "мебельная фурнитура, комплектующие для мебели, фурнитура оптом, детали для мебели, мебельные аксессуары",
 };
-
-// SSR - загружаем фурнитуру
-const furniture = await getFurniture();
 ---
 
 <BaseLayout {...seoData}>
-  <FurniturePage items={furniture} />
+  <FurniturePage />
 </BaseLayout>

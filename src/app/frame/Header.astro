@@ -1,5 +1,5 @@
 ---
-import { SearchComponent } from "#/catalog/search";
+import { Search } from "#/catalog/search";
 import HeaderContacts from "./header/HeaderContacts.astro";
 import HeaderNav from "./header/HeaderNav.astro";
 import HeaderSocials from "./header/HeaderSocials.astro";
@@ -7,13 +7,19 @@ import HeaderSocials from "./header/HeaderSocials.astro";
 const row = "flex flex-wrap items-center gap-35 max-1600:gap-25 max-1400:gap-20 max-1200:gap-15";
 ---
 
-<nav class="fixed top-0 z-[var(--z-header)] h-header max-768:h-header-mobile w-full border-0 bg-chrome text-on-dark">
+<header class="fixed top-0 z-[var(--z-header)] h-header max-768:h-header-mobile w-full border-0 bg-chrome text-on-dark">
   <div
     class="flex h-header max-768:h-header-mobile items-center justify-between gap-10 px-100 max-1600:px-50 max-1400:px-20 max-1200:px-10"
   >
     <div class={row}>
       <a href="/">
-        <img src="/logo.png" class="mt-2 h-auto w-[120px] cursor-pointer max-768:mt-4 max-768:w-[100px]" alt="" />
+        <img
+          src="/logo.png"
+          width="501"
+          height="222"
+          class="mt-2 h-auto w-[120px] cursor-pointer max-768:mt-4 max-768:w-[100px]"
+          alt="Нортекс"
+        />
       </a>
       <HeaderNav />
     </div>
@@ -21,7 +27,7 @@ const row = "flex flex-wrap items-center gap-35 max-1600:gap-25 max-1400:gap-20 
     <div class={row}>
       <HeaderSocials />
       <HeaderContacts />
-      <SearchComponent client:load />
+      <Search />
     </div>
   </div>
-</nav>
+</header>
