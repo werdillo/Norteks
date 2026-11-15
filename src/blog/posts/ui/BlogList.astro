@@ -1,0 +1,29 @@
+---
+import type { RecordModel } from "pocketbase";
+import { getImageUrl } from "#/core/pocketbase";
+
+interface Props {
+	posts: RecordModel[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="container">
+	<div class="blog">
+		{
+			posts.map((item) => (
+				<a href={`/post/${item.path}`}>
+					<img
+						src={getImageUrl(item)}
+						class="-img"
+						alt={item.title}
+						loading="lazy"
+					/>
+					<div class="-title">{item.title}</div>
+					<div class="-description">{item.description}</div>
+				</a>
+			))
+		}
+	</div>
+</div>

@@ -1,1 +1,5 @@
 /// <reference types="astro/client" />
+
+interface ImportMetaEnv {
+	readonly PUBLIC_POCKETBASE_URL: string;
+}

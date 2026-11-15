@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { client, getImageUrl } from "../../lib/pocketbase";
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { PostPage, getPostByPath } from "#/blog/posts";
 
 const { post: postPath } = Astro.params;
 
@@ -9,9 +9,7 @@ if (!postPath) {
 }
 
 // SSR - загружаем данные на лету
-const post = await client.collection("blog").getFirstListItem(
-	`path="${postPath}"`
-);
+const post = await getPostByPath(postPath);
 
 const seoData = {
 	title: `${post.title} | Блог Нортекс`,
@@ -20,11 +18,5 @@ const seoData = {
 ---
 
 <BaseLayout {...seoData}>
-	<img src={getImageUrl(post)} class="post-image" alt={post.title} />
-	<div class="container">
-		<div class="post">
-			<div class="-title">{post.title}</div>
-			<div class="-text" set:html={post.content}></div>
-		</div>
-	</div>
+	<PostPage post={post} />
 </BaseLayout>

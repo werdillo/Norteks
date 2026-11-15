@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { client, getImageUrl } from "../../../lib/pocketbase";
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { TypeCollections, getTypeWithCollections } from "#/catalog/textile";
 
 const { type } = Astro.params;
 
@@ -9,15 +9,7 @@ if (!type) {
 }
 
 // SSR - загружаем данные на лету
-const [collections, category] = await Promise.all([
-	client.collection("collections").getList(1, 50, { 
-		filter: `category.path?="${type}"` 
-	}),
-	client.collection("categories").getFirstListItem(
-		`path="${type}"`,
-		{ fields: "name, description, rich_description, description_extended" }
-	)
-]);
+const { collections, category } = await getTypeWithCollections(type);
 
 const seoData = {
 	title: `${category.name} - Коллекции тканей | Нортекс`,
@@ -26,28 +18,5 @@ const seoData = {
 ---
 
 <BaseLayout {...seoData}>
-	<div class="container">
-		<div class="title">{category.name}</div>
-		<div class="text small-width">{category.description}</div>
-		
-		<div class="product-list collection">
-			{collections.items.map((item) => (
-				<a href={`/textile/${type}/${item.path}`}>
-					<div class="-item">
-						<div class="-text">{item.name}</div>
-						<img
-							class="-img collection"
-							src={getImageUrl(item)}
-							alt={item.name}
-							loading="lazy"
-						/>
-					</div>
-				</a>
-			))}
-		</div>
-		
-		{category.description_extended && (
-			<div class="rich-editor" set:html={category.description_extended}></div>
-		)}
-	</div>
+	<TypeCollections type={type} category={category} collections={collections.items} />
 </BaseLayout>

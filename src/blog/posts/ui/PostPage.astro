@@ -1,0 +1,18 @@
+---
+import type { RecordModel } from "pocketbase";
+import { getImageUrl } from "#/core/pocketbase";
+
+interface Props {
+	post: RecordModel;
+}
+
+const { post } = Astro.props;
+---
+
+<img src={getImageUrl(post)} class="post-image" alt={post.title} />
+<div class="container">
+	<div class="post">
+		<div class="-title">{post.title}</div>
+		<div class="-text" set:html={post.content}></div>
+	</div>
+</div>

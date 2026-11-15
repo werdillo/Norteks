@@ -1,0 +1,47 @@
+---
+import type { RecordModel } from "pocketbase";
+import { fileUrl } from "#/core/pocketbase";
+import { collectionImages, collectionSpecs } from "../services";
+
+interface Props {
+	collection: RecordModel;
+}
+
+const { collection } = Astro.props;
+const items = collectionImages(collection);
+const specs = collectionSpecs(collection);
+---
+
+<div class="container">
+	<div class="title s">{collection.name}</div>
+	<div class="text small-width">{collection.description}</div>
+	<div class="text small-width s">{collection.description_type}</div>
+	<br />
+
+	{
+		specs.map((spec) => (
+			<div class="spec">
+				<div class="-name">{spec.name}</div>
+				<div class="-value">{spec.value}</div>
+			</div>
+		))
+	}
+
+	<div class="product-list colors">
+		{
+			items.map((item) => (
+				<div class="-item">
+					<div>
+						<div class="-text">{item.textile}</div>
+						<img
+							class="-img product"
+							src={fileUrl(collection.collectionId, collection.id, item.img)}
+							alt={item.textile}
+							loading="lazy"
+						/>
+					</div>
+				</div>
+			))
+		}
+	</div>
+</div>

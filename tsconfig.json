@@ -1,7 +1,12 @@
 {
-  "extends": "astro/tsconfigs/base",
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "jsx": "preserve",
-    "jsxImportSource": "solid-js"
-  }
+    "jsxImportSource": "solid-js",
+    // No `baseUrl`: TypeScript 6 deprecates it; these `paths` are relative to this file.
+    "paths": {
+      "#/*": ["./src/*"]
+    }
+  },
+  "exclude": ["dist", ".vercel", "node_modules"]
 }

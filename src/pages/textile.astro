@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { client, getImageUrl } from "../lib/pocketbase";
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { TypesGrid, getTypes } from "#/catalog/textile";
 
 const seoData = {
 	title: "Коллекции декоративных тканей | Каталог тканей Нортекс",
@@ -9,21 +9,9 @@ const seoData = {
 };
 
 // SSR - загружаем категории
-const categories = await client.collection("categories").getList(1, 50);
+const categories = await getTypes();
 ---
 
 <BaseLayout {...seoData}>
-	<div class="container">
-		<div class="title xs">Широкий выбор тканей</div>
-		<div class="product-list">
-			{categories.items.map((item) => (
-				<a href={`/textile/${item.path}`}>
-					<div class="-item">
-						<div class="-text">{item.name}</div>
-						<img class="-img" src={getImageUrl(item)} alt={item.name} loading="lazy" />
-					</div>
-				</a>
-			))}
-		</div>
-	</div>
+	<TypesGrid categories={categories} />
 </BaseLayout>

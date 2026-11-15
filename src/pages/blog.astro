@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { client, getImageUrl } from "../lib/pocketbase";
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { BlogList, getPosts } from "#/blog/posts";
 
 const seoData = {
 	title: "Блог о тканях и дизайне | Советы от экспертов Нортекс",
@@ -9,27 +9,9 @@ const seoData = {
 };
 
 // SSR - загружаем посты
-const posts = await client.collection("blog").getFullList(50, {
-	fields: "id, collectionId, image, path, title, description:excerpt(200, true)",
-	sort: "-created"
-});
+const posts = await getPosts();
 ---
 
 <BaseLayout {...seoData}>
-	<div class="container">
-		<div class="blog">
-			{posts.map((item) => (
-				<a href={`/post/${item.path}`}>
-					<img
-						src={getImageUrl(item)}
-						class="-img"
-						alt={item.title}
-						loading="lazy"
-					/>
-					<div class="-title">{item.title}</div>
-					<div class="-description">{item.description}</div>
-				</a>
-			))}
-		</div>
-	</div>
+	<BlogList posts={posts} />
 </BaseLayout>

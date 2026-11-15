@@ -1,0 +1,41 @@
+---
+import type { RecordModel } from "pocketbase";
+import { getImageUrl } from "#/core/pocketbase";
+
+interface Props {
+	type: string;
+	category: RecordModel;
+	collections: RecordModel[];
+}
+
+const { type, category, collections } = Astro.props;
+---
+
+<div class="container">
+	<div class="title">{category.name}</div>
+	<div class="text small-width">{category.description}</div>
+
+	<div class="product-list collection">
+		{
+			collections.map((item) => (
+				<a href={`/textile/${type}/${item.path}`}>
+					<div class="-item">
+						<div class="-text">{item.name}</div>
+						<img
+							class="-img collection"
+							src={getImageUrl(item)}
+							alt={item.name}
+							loading="lazy"
+						/>
+					</div>
+				</a>
+			))
+		}
+	</div>
+
+	{
+		category.description_extended && (
+			<div class="rich-editor" set:html={category.description_extended} />
+		)
+	}
+</div>
