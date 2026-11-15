@@ -11,8 +11,3 @@ export const getImageUrl = (item: { image?: unknown; collectionId: string; id: s
   if (!item.image) return "";
   return fileUrl(item.collectionId, item.id, String(item.image));
 };
-
-export async function fetchItems() {
-  const resultList = await client.collection("types").getList(1, 50);
-  return resultList.items;
-}

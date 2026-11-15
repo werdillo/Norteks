@@ -1,0 +1,11 @@
+---
+import { Image } from "astro:assets";
+import location from "../../assets/icons/location.svg";
+---
+
+<div class="relative ml-26 flex flex-col gap-6 max-768:mt-12">
+  <Image class="absolute top-[-20px] left-[-24px]" src={location} alt="" />
+  <div class="text-14 max-768:text-12 text-on-dark">Москва</div>
+  <div class="text-18 max-768:text-15 text-on-dark">Дмитровское шоссе 71Б</div>
+  <div class="text-18 max-768:text-15 text-on-dark">Бизнес-центр 7ONE, ООО "Нортекс"</div>
+</div>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  /** `raised`: a rounded card with padding. `panel`: a square card with padding. `outlined`: a bordered tile, no padding. */
+  variant?: "raised" | "panel" | "outlined";
+  class?: string;
+}
+
+const { variant = "raised", class: extra } = Astro.props;
+
+const variants = {
+  raised: "rounded-card bg-surface p-30 max-768:p-20 elevation-card",
+  panel: "bg-surface p-30 max-768:p-20 elevation-panel",
+  outlined: "rounded-tile border border-solid border-hairline elevation-tile",
+};
+---
+
+<div class:list={[variants[variant], extra]}>
+  <slot />
+</div>

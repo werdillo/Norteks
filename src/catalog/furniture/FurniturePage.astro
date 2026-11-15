@@ -1,43 +1,49 @@
 ---
 import type { RecordModel } from "pocketbase";
+import { Card } from "#/components/card";
+import { Container } from "#/components/container";
 import { getImageUrl } from "#/core/pocketbase";
 
 interface Props {
-	items: RecordModel[];
+  items: RecordModel[];
 }
 
 const { items } = Astro.props;
+
+const row = "mx-8 mb-4 flex flex-row items-center justify-between pb-8";
+const name = "text-12 max-1024:text-11 font-normal text-label";
+const value = "text-14 max-1024:text-12 font-semibold";
 ---
 
-<div class="container">
-	<div class="furniture">
-		{
-			items.map((item) => (
-				<div class="-card">
-					<div>
-						<img
-							src={getImageUrl(item)}
-							class="-img"
-							alt={item.title}
-							loading="lazy"
-						/>
-						<div class="-title">{item.name}</div>
-					</div>
-					<br />
-					<div class="spec horizontal no-border">
-						<div class="-name s">Высота</div>
-						<div class="-value s">{item.height}</div>
-					</div>
-					<div class="spec horizontal no-border">
-						<div class="-name s">Материал</div>
-						<div class="-value s">{item.material}</div>
-					</div>
-					<div class="spec horizontal no-border">
-						<div class="-name s">Цвет</div>
-						<div class="-value s">{item.color}</div>
-					</div>
-				</div>
-			))
-		}
-	</div>
-</div>
+<Container>
+  <div class="grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8">
+    {
+      items.map((item) => (
+        <Card variant="outlined">
+          <div>
+            <img
+              src={getImageUrl(item)}
+              class="h-auto w-full rounded-[8px_8px_0_0] aspect-[9/8] max-768:object-cover"
+              alt={item.title}
+              loading="lazy"
+            />
+            <div class="mt-12 text-20 max-768:text-16 font-bold text-center">{item.name}</div>
+          </div>
+          <br />
+          <div class={row}>
+            <div class={name}>Высота</div>
+            <div class={value}>{item.height}</div>
+          </div>
+          <div class={row}>
+            <div class={name}>Материал</div>
+            <div class={value}>{item.material}</div>
+          </div>
+          <div class={row}>
+            <div class={name}>Цвет</div>
+            <div class={value}>{item.color}</div>
+          </div>
+        </Card>
+      ))
+    }
+  </div>
+</Container>

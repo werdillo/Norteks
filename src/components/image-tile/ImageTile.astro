@@ -1,0 +1,30 @@
+---
+interface Props {
+  /** A link when given, a plain tile otherwise. */
+  href?: string;
+  src: string;
+  alt: string;
+  /** Text laid over the lower part of the picture. */
+  label: string;
+  ratio: "4/3" | "7/6" | "1/1";
+}
+
+const { href, src, alt, label, ratio } = Astro.props;
+
+const Wrapper = href ? "a" : "div";
+const tile = "relative block overflow-hidden text-center [transition:300ms]";
+const caption =
+  "absolute top-[75%] left-1/2 w-[85%] font-display text-36 max-550:text-16 text-on-dark [transform:translate(-50%,-50%)]";
+const ratios = {
+  "4/3": "aspect-[4/3]",
+  "7/6": "aspect-[7/6]",
+  "1/1": "aspect-[1/1]",
+};
+---
+
+<Wrapper href={href}>
+  <div class={tile}>
+    <div class={caption}>{label}</div>
+    <img src={src} alt={alt} loading="lazy" class:list={["w-full h-auto object-cover", ratios[ratio]]} />
+  </div>
+</Wrapper>

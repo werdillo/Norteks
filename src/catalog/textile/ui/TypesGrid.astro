@@ -1,26 +1,30 @@
 ---
 import type { RecordModel } from "pocketbase";
+import { Container } from "#/components/container";
+import { ImageTile } from "#/components/image-tile";
+import { Title } from "#/components/title";
 import { getImageUrl } from "#/core/pocketbase";
 
 interface Props {
-	categories: RecordModel[];
+  categories: RecordModel[];
 }
 
 const { categories } = Astro.props;
 ---
 
-<div class="container">
-	<div class="title xs">Широкий выбор тканей</div>
-	<div class="product-list">
-		{
-			categories.map((item) => (
-				<a href={`/textile/${item.path}`}>
-					<div class="-item">
-						<div class="-text">{item.name}</div>
-						<img class="-img" src={getImageUrl(item)} alt={item.name} loading="lazy" />
-					</div>
-				</a>
-			))
-		}
-	</div>
-</div>
+<Container>
+  <Title size="xs">Широкий выбор тканей</Title>
+  <div class="mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid-cols-[1fr_1fr] max-1024:gap-10">
+    {
+      categories.map((item) => (
+        <ImageTile
+          href={`/textile/${item.path}`}
+          src={getImageUrl(item)}
+          alt={item.name}
+          label={item.name}
+          ratio="4/3"
+        />
+      ))
+    }
+  </div>
+</Container>

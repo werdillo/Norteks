@@ -1,3 +1,93 @@
+/*
+ * Design tokens. Every value is the exact value the site used before the
+ * UnoCSS refactor; names describe the role. They are exposed to utilities in
+ * uno.config.ts (text-muted, bg-chrome, rounded-card, h-header, ...).
+ */
+
 :root {
-	--swiper-pagination-color: #fc7604;
+  /* Colours */
+  --color-chrome: #363636; /* header and footer bar */
+  --color-surface: #fff; /* page and card background */
+  --color-on-dark: #fff; /* text on the bar and the slider */
+  --color-on-accent: aliceblue; /* text on the call to action */
+  --color-on-dark-muted: rgba(255, 255, 255, 0.6); /* inactive mobile menu item */
+  --color-on-dark-faint: rgba(255, 255, 255, 0.1); /* social circle, mobile menu border */
+  --color-menu: rgba(47, 47, 47, 0.95); /* mobile menu background */
+  --color-heading: #333;
+  --color-copy: #444;
+  --color-copy-soft: #555;
+  --color-body: rgb(40, 40, 40);
+  --color-muted: #666;
+  --color-label: #5f5f5f;
+  --color-caption: #aaa;
+  --color-placeholder: #bbb;
+  --color-divider: #555;
+  --color-line: #666; /* search and results border, scrollbar thumb */
+  --color-line-strong: #888; /* scrollbar thumb on hover */
+  --color-hairline: #f1f1f1; /* outlined card border */
+  --color-rule: rgb(172, 172, 172); /* quote-like rule beside care advice */
+  --color-frame: #ccc; /* map frame */
+  --color-field: #4a4a4a; /* search input and hovered result */
+  --color-panel: #3a3a3a; /* search results panel */
+  --color-track: #2a2a2a; /* scrollbar track */
+  --color-accent: #fc7604; /* call to action, hero title */
+  --color-gold: #b8995e; /* brand accent: headings, icons, hover */
+  --color-highlight: #0ff; /* active and hovered header link, search focus */
+  --color-highlight-soft: #7fffd4; /* hovered contact link on dark */
+  --color-cyan: #00d4ff; /* hovered icon on the dark bars */
+  --color-black: #000; /* rule under a spec row */
+  --swiper-pagination-color: var(--color-accent); /* read by swiper's bullets */
+
+  /* Type */
+  --typeface-body: Arial, sans-serif;
+  --typeface-display: "Avenir", sans-serif;
+  --text-9: 9px;
+  --text-10: 10px;
+  --text-11: 11px;
+  --text-12: 12px;
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17-6: 17.6px; /* 1.1rem */
+  --text-17: 17px;
+  --text-18: 18px;
+  --text-19-2: 19.2px; /* 1.2rem */
+  --text-20: 20px;
+  --text-22: 22px;
+  --text-24: 24px;
+  --text-26: 26px;
+  --text-28: 28px;
+  --text-32: 32px;
+  --text-36: 36px;
+  --text-40: 40px;
+  --text-42: 42px;
+  --text-48: 48px;
+  --text-80: 80px;
+
+  /* Shape */
+  --corner-field: 4px;
+  --corner-panel: 6px;
+  --corner-tile: 8px;
+  --corner-card: 10px;
+  --corner-pill: 40px;
+  --elevation-card: 0 0 16px rgba(0, 0, 0, 0.08);
+  --elevation-panel: 0 0 20px rgba(0, 0, 0, 0.07);
+  --elevation-tile: 0 2px 18px rgba(0, 0, 0, 0.02);
+  --elevation-image: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --elevation-image-small: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --elevation-menu: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --elevation-focus: 0 0 5px rgba(0, 255, 255, 0.3);
+  --elevation-accent-hover: 0 6px 12px rgba(252, 118, 4, 0.3);
+  --elevation-accent-press: 0 2px 4px rgba(252, 118, 4, 0.2);
+
+  /* Layout */
+  --header-height: 80px;
+  --header-height-mobile: 70px;
+  --page-wide: 1940px;
+  --page-narrow: 1200px;
+  --page-offset: 1340px;
+  --z-header: 10;
+  --z-overlay: 1000;
+
 }

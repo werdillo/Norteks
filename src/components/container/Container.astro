@@ -1,0 +1,26 @@
+---
+interface Props {
+  /** `default` is the page width, `min` a narrower one, `offset` a column with gaps. */
+  width?: "default" | "min" | "offset";
+  /** Drops the bottom padding, so the next block sits right under this one. */
+  noBottom?: boolean;
+}
+
+const { width = "default", noBottom = false } = Astro.props;
+
+const widths = {
+  default: "max-w-wide",
+  min: "max-w-narrow",
+  offset: "max-w-offset gap-16 max-768:gap-12",
+};
+
+const padding = noBottom
+  ? "pt-16 px-5 pb-0"
+  : width === "offset"
+    ? "py-25 px-5 max-1024:py-16 max-768:py-25 max-768:px-0"
+    : "py-25 px-5 max-1024:py-16";
+---
+
+<div class:list={["flex w-[96%] flex-col", widths[width], padding]}>
+  <slot />
+</div>

@@ -1,0 +1,26 @@
+---
+import { Image } from "astro:assets";
+import { socialLinks } from "../social";
+
+const circle =
+  "flex h-40 w-40 cursor-pointer items-center justify-center rounded-[50%] bg-on-dark-faint [transition:all_0.3s] hover:bg-cyan hover:[transform:translateY(-2px)]";
+const icon = "h-20 w-20 max-768:h-18 max-768:w-18";
+---
+
+<div class="flex items-center">
+  <div class="flex items-center gap-15 max-768:gap-12">
+    {
+      socialLinks.map((social) =>
+        social.href !== "#" ? (
+          <a href={social.href} class={circle}>
+            <Image class={icon} src={social.icon} alt={social.alt} />
+          </a>
+        ) : (
+          <div class={circle}>
+            <Image class={icon} src={social.icon} alt={social.alt} />
+          </div>
+        ),
+      )
+    }
+  </div>
+</div>

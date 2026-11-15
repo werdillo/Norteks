@@ -1,41 +1,40 @@
 ---
 import type { RecordModel } from "pocketbase";
+import { Container } from "#/components/container";
+import { ImageTile } from "#/components/image-tile";
+import { Title } from "#/components/title";
 import { getImageUrl } from "#/core/pocketbase";
 
 interface Props {
-	type: string;
-	category: RecordModel;
-	collections: RecordModel[];
+  type: string;
+  category: RecordModel;
+  collections: RecordModel[];
 }
 
 const { type, category, collections } = Astro.props;
 ---
 
-<div class="container">
-	<div class="title">{category.name}</div>
-	<div class="text small-width">{category.description}</div>
+<Container>
+  <Title>{category.name}</Title>
+  <div class="mt-2 max-w-[1800px] font-medium text-26 max-1024:text-16">{category.description}</div>
 
-	<div class="product-list collection">
-		{
-			collections.map((item) => (
-				<a href={`/textile/${type}/${item.path}`}>
-					<div class="-item">
-						<div class="-text">{item.name}</div>
-						<img
-							class="-img collection"
-							src={getImageUrl(item)}
-							alt={item.name}
-							loading="lazy"
-						/>
-					</div>
-				</a>
-			))
-		}
-	</div>
+  <div class="mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid-cols-[1fr_1fr] max-1024:gap-10">
+    {
+      collections.map((item) => (
+        <ImageTile
+          href={`/textile/${type}/${item.path}`}
+          src={getImageUrl(item)}
+          alt={item.name}
+          label={item.name}
+          ratio="7/6"
+        />
+      ))
+    }
+  </div>
 
-	{
-		category.description_extended && (
-			<div class="rich-editor" set:html={category.description_extended} />
-		)
-	}
-</div>
+  {
+    category.description_extended && (
+      <div class="text-18 max-768:text-14" set:html={category.description_extended} />
+    )
+  }
+</Container>

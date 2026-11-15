@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import { emails, phones } from "#/company/contacts";
+import mail from "../../assets/icons/mail.svg";
+import phone from "../../assets/icons/phone.svg";
+
+const column = "flex flex-col gap-8 max-1200:gap-6";
+const wrap = "flex justify-center gap-12 max-1400:gap-8 max-1200:gap-6";
+const icon = "h-auto w-[14px] max-1200:w-[12px]";
+const list = "flex flex-col gap-8 max-1200:gap-4";
+const text = "text-12 max-1400:text-11 max-1200:text-10 hover:text-highlight-soft";
+---
+
+<div class="flex items-start gap-20 max-1400:gap-15 max-1200:gap-10 max-768:hidden">
+  <div class={column}>
+    <div class={wrap}>
+      <Image class={icon} src={phone} alt="" />
+      <div class={list}>
+        {phones.map((item) => <a class={text} href={`tel:${item.number}`}>{item.display}</a>)}
+      </div>
+    </div>
+  </div>
+
+  <div class={column}>
+    <div class={`${wrap} max-1640:hidden`}>
+      <Image class={icon} src={mail} alt="" />
+      <div class={list}>
+        {emails.map((address) => <a class={text} href={`mailto:${address}`}>{address}</a>)}
+      </div>
+    </div>
+  </div>
+</div>

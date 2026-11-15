@@ -1,29 +1,30 @@
 ---
 import type { RecordModel } from "pocketbase";
+import { Container } from "#/components/container";
 import { getImageUrl } from "#/core/pocketbase";
 
 interface Props {
-	posts: RecordModel[];
+  posts: RecordModel[];
 }
 
 const { posts } = Astro.props;
 ---
 
-<div class="container">
-	<div class="blog">
-		{
-			posts.map((item) => (
-				<a href={`/post/${item.path}`}>
-					<img
-						src={getImageUrl(item)}
-						class="-img"
-						alt={item.title}
-						loading="lazy"
-					/>
-					<div class="-title">{item.title}</div>
-					<div class="-description">{item.description}</div>
-				</a>
-			))
-		}
-	</div>
-</div>
+<Container>
+  <div class="grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_1fr] max-768:gap-14">
+    {
+      posts.map((item) => (
+        <a href={`/post/${item.path}`}>
+          <img
+            src={getImageUrl(item)}
+            class="h-auto w-full aspect-[7/4] object-cover"
+            alt={item.title}
+            loading="lazy"
+          />
+          <div class="mt-12 text-24 max-768:text-16 font-bold">{item.title}</div>
+          <div class="mt-6 text-16 max-768:text-14 font-medium">{item.description}</div>
+        </a>
+      ))
+    }
+  </div>
+</Container>

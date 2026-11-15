@@ -4,4 +4,4 @@ No subject: the PocketBase client and the image URL helpers every box uses. Logi
 
 Boxes: none. Modules:
 
-- `pocketbase.ts`: `client`, `url`, `fileUrl`, `getImageUrl`, `fetchItems`.
+- `pocketbase.ts`: `client`, `url`, `fileUrl`, `getImageUrl`.

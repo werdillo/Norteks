@@ -1,10 +1,13 @@
 ---
 import type { RecordModel } from "pocketbase";
+import { Container } from "#/components/container";
+import { ImageTile } from "#/components/image-tile";
+import { Title } from "#/components/title";
 import { fileUrl } from "#/core/pocketbase";
 import { collectionImages, collectionSpecs } from "../services";
 
 interface Props {
-	collection: RecordModel;
+  collection: RecordModel;
 }
 
 const { collection } = Astro.props;
@@ -12,36 +15,31 @@ const items = collectionImages(collection);
 const specs = collectionSpecs(collection);
 ---
 
-<div class="container">
-	<div class="title s">{collection.name}</div>
-	<div class="text small-width">{collection.description}</div>
-	<div class="text small-width s">{collection.description_type}</div>
-	<br />
+<Container>
+  <Title size="s">{collection.name}</Title>
+  <div class="mt-2 max-w-[1800px] font-medium text-26 max-1024:text-16">{collection.description}</div>
+  <div class="mt-2 max-w-[1800px] font-medium text-22 max-1024:text-14">{collection.description_type}</div>
+  <br />
 
-	{
-		specs.map((spec) => (
-			<div class="spec">
-				<div class="-name">{spec.name}</div>
-				<div class="-value">{spec.value}</div>
-			</div>
-		))
-	}
+  {
+    specs.map((spec) => (
+      <div class="mb-8 flex max-w-[300px] flex-col gap-6 [border-bottom:1px_solid_var(--color-black)] pb-12">
+        <div class="text-14 max-1024:text-12 font-normal text-label">{spec.name}</div>
+        <div class="text-20 max-1024:text-14 font-semibold">{spec.value}</div>
+      </div>
+    ))
+  }
 
-	<div class="product-list colors">
-		{
-			items.map((item) => (
-				<div class="-item">
-					<div>
-						<div class="-text">{item.textile}</div>
-						<img
-							class="-img product"
-							src={fileUrl(collection.collectionId, collection.id, item.img)}
-							alt={item.textile}
-							loading="lazy"
-						/>
-					</div>
-				</div>
-			))
-		}
-	</div>
-</div>
+  <div class="mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1200:grid-cols-[1fr_1fr_1fr] max-1200:gap-5">
+    {
+      items.map((item) => (
+        <ImageTile
+          src={fileUrl(collection.collectionId, collection.id, item.img)}
+          alt={item.textile}
+          label={item.textile}
+          ratio="1/1"
+        />
+      ))
+    }
+  </div>
+</Container>

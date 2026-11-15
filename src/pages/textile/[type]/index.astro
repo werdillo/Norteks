@@ -5,18 +5,18 @@ import { TypeCollections, getTypeWithCollections } from "#/catalog/textile";
 const { type } = Astro.params;
 
 if (!type) {
-	return Astro.redirect("/textile");
+  return Astro.redirect("/textile");
 }
 
 // SSR - загружаем данные на лету
 const { collections, category } = await getTypeWithCollections(type);
 
 const seoData = {
-	title: `${category.name} - Коллекции тканей | Нортекс`,
-	description: category.description || `Коллекции ${category.name} от компании Нортекс`,
+  title: `${category.name} - Коллекции тканей | Нортекс`,
+  description: category.description || `Коллекции ${category.name} от компании Нортекс`,
 };
 ---
 
 <BaseLayout {...seoData}>
-	<TypeCollections type={type} category={category} collections={collections.items} />
+  <TypeCollections type={type} category={category} collections={collections.items} />
 </BaseLayout>

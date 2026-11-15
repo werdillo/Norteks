@@ -88,10 +88,13 @@ const {
         </script>
     </head>
 </html>
-<body>
-    <div id="main">
+<body class="m-0 font-body">
+    <div id="main" class="flex min-h-screen flex-col">
         <Header />
-        <article id="content">
+        <article
+            id="content"
+            class="mt-header max-768:mt-header-mobile flex flex-1 flex-col items-center"
+        >
             <slot />
         </article>
         <MobileMenu />
@@ -99,37 +102,3 @@ const {
     </div>
 </body>
 
-<style scoped>
-    /* @style {
-	@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
-} */
-
-    body {
-        padding: 0;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        /* font-family: "Open Sans", sans-serif; */
-        a:hover,
-        a:visited,
-        a:link,
-        a:active {
-            text-decoration: none;
-            color: inherit;
-        }
-    }
-    #main {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-    }
-    #content {
-        margin-top: 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-        @media (max-width: 768px) {
-            margin-top: 70px;
-        }
-    }
-</style>

@@ -1,126 +1,33 @@
 ---
 import { Image } from "astro:assets";
+import { Container } from "#/components/container";
 import interior1 from "./assets/img6.jpg";
 import interior2 from "./assets/img5.jpg";
+import { aboutLead, aboutParagraphs } from "./data";
+
+const picture = "h-auto w-full elevation-image";
 ---
 
-  <div class="about-page">
-    
-    
-      <h1 class="title">Нортекс</h1>
-      <p class="subtitle">Оптовый поставщик декоративных тканей</p>
-      <div class="container min">
-        <div class="grid">
-          <div class="text-content">
-            <p class="lead">
-              Компания Нортекс в индустрии более 20 лет и заслужила доверие клиентов. Имеем большой опыт работы с крупными производствами, частные дизайнерами и декораторами, дизайнерскими студиями, архитектурными бюро, а также участвовать в выполнении государственных заказов. 
-            </p>
-
-            <div class="specialization">
-              <p>
-                Предлагаем широких выбор тканей для мебели и штор: велюр, замша, микрофибра, экокожа, рогожка, негорючие ткани, мировые тренды, уличные ткани outdoor, Trevira CS с нитью из полиэстера, шенилл, ткани с рисунком, букле, шерсть, лен, хлопок, бархат, мех, ткани с сертификатом AVIO/IMO, блэкаут, тюль и многие другие в широком цветовом диапазоне.
-                Работаем как на заказ, так и с тканями в наличии на нашем складе в Москве. Обеспечиваем гибкую доставку в зависимости от запросов и нужд клиента, продаем рулонами или в необходимом метраже под индивидуальный заказ. Прилагаем все усилия чтобы обеспечить доставку как можно быстрее по приятным ценам.
-              </p>
+<div class="mx-10 bg-surface">
+  <h1 class="mb-16 text-48 max-768:text-40 font-bold text-gold">Нортекс</h1>
+  <p class="text-24 max-768:text-19-2 text-muted">Оптовый поставщик декоративных тканей</p>
+  <Container width="min">
+    <div class="grid grid-cols-[1fr_1fr] gap-40 [align-items:start] max-768:grid-cols-[1fr]">
+      <div class="flex flex-col gap-24 max-768:gap-14">
+        <p class="my-4 text-19-2 max-768:text-17-6 leading-[1.6] text-heading">{aboutLead}</p>
+        {
+          aboutParagraphs.map((paragraph) => (
+            <div class="text-16 leading-[1.7] text-copy">
+              <p>{paragraph}</p>
             </div>
-
-            <div class="custom-order">
-              <p>
-                Торгуем только высококачественными и высокотехнологичными тканями с гарантией качества и безопасности в использовании, что подтверждает наше многолетнее и плодотворное сотрудничество с клиентами по всей России. Являемся регулярными участниками текстильных выставок и позиционируем себя как лидеры индустрии с инновационным и современным взглядом на выбор тканей от лучших мировых производителей, стараемся регулярно обновлять коллекции самыми лучшими и прогрессивными материалами. 
-              </p>
-            </div>
-          </div>
-
-          <div class="image-content">
-            <Image src={interior1} alt="Интерьер с текстилем" class="main-image" />
-            <Image src={interior2} alt="Дизайн интерьера" class="secondary-image" />
-          </div>
-        </div>
+          ))
+        }
       </div>
-  </div>
 
-<style scoped>
-.about-page {
-  background: #fff;
-  margin: 0 10px;
-}
-
-.hero {
-  background-color: #f8f8f8;
-  padding: 60px 0;
-}
-
-
-.title {
-  color: #B8995E;
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.subtitle {
-  font-size: 1.5rem;
-  color: #666;
-}
-
-
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: start;
-}
-
-.text-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.lead {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: #333;
-  margin: 4px 0;
-}
-
-.specialization, .custom-order {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #444;
-}
-
-.image-content {
-  display: grid;
-  gap: 20px;
-}
-
-.main-image, .secondary-image {
-  width: 100%;
-  height: auto;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding: 40px 0;
-  }
-
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-  }
-  .text-content {
-    gap: 14px;
-  }
-
-  .lead {
-    font-size: 1.1rem;
-  }
-}
-</style>
+      <div class="grid gap-20">
+        <Image class={picture} src={interior1} alt="Интерьер с текстилем" />
+        <Image class={picture} src={interior2} alt="Дизайн интерьера" />
+      </div>
+    </div>
+  </Container>
+</div>

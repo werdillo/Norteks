@@ -1,0 +1,25 @@
+---
+import { headerNav, isCurrent } from "../navigation";
+
+const path = Astro.url.pathname;
+const base = "text-14 max-1400:text-13 max-1300:text-12 hover:text-highlight";
+const current = "text-highlight";
+---
+
+<div class="flex flex-wrap gap-30 max-1600:gap-25 max-1400:gap-20 max-1200:hidden">
+  {
+    headerNav.map((item) => (
+      <a href={item.href} class={isCurrent(item, path) ? `${base} ${current}` : `${base} text-on-dark`}>
+        {item.text}
+      </a>
+    ))
+  }
+</div>
+<div class="text-12 min-1200:hidden max-385:hidden">
+  <a
+    href="/contacts"
+    class={path.includes("/contacts") ? `text-11 hover:text-highlight ${current}` : "text-11 text-on-dark hover:text-highlight"}
+  >
+    Контакты
+  </a>
+</div>
