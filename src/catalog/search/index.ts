@@ -1,1 +1,1 @@
-export { default as Search } from "./ui/Search.astro";
+export { default as Search } from "./Search.astro";
