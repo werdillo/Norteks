@@ -2,6 +2,8 @@ import PocketBase from "pocketbase";
 
 export const url: string = import.meta.env.PUBLIC_POCKETBASE_URL;
 export const client = new PocketBase(url);
+// The pages and the build make parallel requests on purpose: the SDK must not cancel one of them.
+client.autoCancellation(false);
 
 /** URL of a file stored on a record. */
 export const fileUrl = (collectionId: string, recordId: string, fileName: string): string =>

@@ -2,12 +2,12 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://tkani-nortex.ru/sitemap-index.xml
+Sitemap: https://tkani-nortex.ru/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
 
-# The pages are rendered in the browser: the bundles in /_astro/ must stay crawlable.
+# The bundles in /_astro/ must stay crawlable: the pages load their records in the browser.
 
 # Disallow admin areas and build files
 Disallow: /admin/

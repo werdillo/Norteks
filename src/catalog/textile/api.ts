@@ -17,3 +17,33 @@ export const getTypeWithCollections = (type: string) =>
 /** One collection by its path, for /textile/[type]/[collection]. */
 export const getCollection = (collectionPath: string) =>
   client.collection("collections").getFirstListItem(`path="${collectionPath}"`, { expand: "category" });
+
+/** Build time: every type with its name, for the pages made at build (see src/app/paths.ts). */
+export const listTypes = async () =>
+  (await client.collection("categories").getFullList(500, { fields: "id, path, name, description" })).map((type) => ({
+    path: String(type.path),
+    name: String(type.name ?? ""),
+    description: String(type.description ?? ""),
+  }));
+
+/** Build time: every collection with the path of its type. A collection without a type gets no page. */
+export async function listCollections() {
+  const [collections, categories] = await Promise.all([
+    client.collection("collections").getFullList(500, { fields: "id, path, name, description, category" }),
+    client.collection("categories").getFullList(500, { fields: "id, path" }),
+  ]);
+  const typeOf = new Map(categories.map((category) => [category.id, String(category.path)]));
+  return collections.flatMap((collection) => {
+    const categoryId = Array.isArray(collection.category) ? collection.category[0] : collection.category;
+    const type = typeOf.get(categoryId);
+    if (!type) return [];
+    return [
+      {
+        type,
+        path: String(collection.path),
+        name: String(collection.name ?? ""),
+        description: String(collection.description ?? ""),
+      },
+    ];
+  });
+}

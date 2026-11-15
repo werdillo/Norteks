@@ -1,0 +1,19 @@
+---
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { CollectionPage, TypeCollections } from "#/catalog/textile";
+
+// Fallback for a type or a collection that came after the last build:
+// /textile/item/?type=<type>[&collection=<collection>]. The page loads what the address
+// names, sets its canonical to the record's own address, and is not indexed.
+const seoData = {
+  title: "Коллекции тканей | Нортекс",
+  description: "Коллекции декоративных тканей от компании Нортекс.",
+  canonical: "/textile/",
+  robots: "noindex, follow",
+};
+---
+
+<BaseLayout {...seoData}>
+  <TypeCollections titleTag="h2" />
+  <CollectionPage titleTag="h2" />
+</BaseLayout>

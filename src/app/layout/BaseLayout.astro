@@ -13,9 +13,11 @@ export interface Props {
   canonical?: string;
   /** Picture of the page for social cards, a path on the site. */
   ogImage?: string;
+  /** `noindex` on the fallback pages. */
+  robots?: string;
 }
 
-const { title, description, canonical, ogImage = "/logo.png" } = Astro.props;
+const { title, description, canonical, ogImage = "/logo.png", robots = "index, follow" } = Astro.props;
 const url = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 const image = new URL(ogImage, Astro.site).href;
 ---
@@ -30,9 +32,9 @@ const image = new URL(ogImage, Astro.site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Нортекс" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
     <link rel="canonical" href={url} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={url} />

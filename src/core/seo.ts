@@ -1,5 +1,5 @@
 /**
- * Page metadata set by the browser once a record is loaded. The static shell
+ * Page metadata set by the browser once a record is loaded. The static page
  * carries the site's defaults; these replace them for the page the record is about.
  */
 
@@ -10,9 +10,12 @@ const setMeta = (selector: string, value: string | undefined): void => {
   document.querySelector(selector)?.setAttribute("content", value);
 };
 
-/** Title, description, canonical URL, Open Graph and Twitter values of the current page. */
-export function setPageMeta(meta: { title: string; description?: string; image?: string }): void {
-  const url = new URL(location.pathname, SITE).href;
+/**
+ * Title, description, canonical URL, Open Graph and Twitter values of the current page.
+ * `canonicalPath` names the page's own address when the current one is a fallback.
+ */
+export function setPageMeta(meta: { title: string; description?: string; image?: string; canonicalPath?: string }): void {
+  const url = new URL(meta.canonicalPath ?? location.pathname, SITE).href;
   document.title = meta.title;
   setMeta('meta[name="description"]', meta.description);
   setMeta('meta[property="og:title"]', meta.title);

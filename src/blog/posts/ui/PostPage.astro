@@ -33,13 +33,14 @@ import { Skeleton } from "#/components/skeleton";
 
 <script>
   import { getImageUrl, isNotFound } from "#/core/pocketbase";
-  import { field, pathParts, setStatus } from "#/core/dom";
+  import { field, setStatus } from "#/core/dom";
   import { setBreadcrumb, setPageMeta } from "#/core/seo";
   import { getPostByPath } from "../api";
+  import { postRoute } from "../route";
 
   const root = document.querySelector<HTMLElement>("[data-post-page]");
   if (root) {
-    const path = pathParts()[1] ?? "";
+    const path = postRoute();
     getPostByPath(path)
       .then((post) => {
         field(root, "title").textContent = post.title;
@@ -52,11 +53,12 @@ import { Skeleton } from "#/components/skeleton";
           title: `${post.title} | Блог Нортекс`,
           description: post.description || post.title,
           image: getImageUrl(post),
+          canonicalPath: `/post/${path}/`,
         });
         setBreadcrumb([
           ["Главная", "/"],
-          ["Блог", "/blog"],
-          [post.title, `/post/${path}`],
+          ["Блог", "/blog/"],
+          [post.title, `/post/${path}/`],
         ]);
         setStatus(root, "ready");
       })

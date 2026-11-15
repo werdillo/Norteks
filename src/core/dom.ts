@@ -32,6 +32,15 @@ export function field<T extends HTMLElement = HTMLElement>(root: ParentNode, nam
   return element;
 }
 
+/** Replaces an element by one of another tag with the same attributes and content: a heading's level, not its look. */
+export function retag<T extends Element = HTMLElement>(element: Element, tag: string): T {
+  const next = document.createElement(tag);
+  for (const { name, value } of Array.from(element.attributes)) next.setAttribute(name, value);
+  next.append(...Array.from(element.childNodes));
+  element.replaceWith(next);
+  return next as unknown as T;
+}
+
 /** The first element of a fragment that was cloned from a template. */
 export const firstElement = <T extends Element = HTMLElement>(fragment: DocumentFragment): T =>
   fragment.firstElementChild as T;

@@ -1,4 +1,5 @@
 import { client } from "#/core/pocketbase";
+import { collectionHref, typeHref } from "#/catalog/textile";
 import type { SearchResult } from "./types";
 
 /**
@@ -28,23 +29,24 @@ export async function searchCatalog(searchTerm: string): Promise<SearchResult[]>
     categories.forEach((cat) => categoryMap.set(cat.id, cat.path));
   }
 
-  // Объединяем результаты
-  return [
+  // Объединяем результаты: адреса — свои страницы или запасные, если записи нет в сборке
+  const results: SearchResult[] = await Promise.all([
     // Категории
-    ...categoriesRes.items.map((item) => ({
+    ...categoriesRes.items.map(async (item) => ({
       ...item,
       type: "category" as const,
-      url: `/textile/${item.path}`,
+      url: await typeHref(item.path),
     })),
     // Коллекции
-    ...collectionsRes.items.map((item) => {
+    ...collectionsRes.items.map(async (item) => {
       const categoryId = Array.isArray(item.category) ? item.category[0] : item.category;
       const categoryPath = categoryMap.get(categoryId);
       return {
         ...item,
         type: "collection" as const,
-        url: categoryPath ? `/textile/${categoryPath}/${item.path}` : "#",
+        url: categoryPath ? await collectionHref(categoryPath, item.path) : "#",
       };
     }),
-  ];
+  ]);
+  return results;
 }

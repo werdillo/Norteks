@@ -4,6 +4,12 @@ import { ImageTile } from "#/components/image-tile";
 import { H3, H6, P1, P3 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
 
+interface Props {
+  /** `h1` on a collection's page; the fallback page starts with h2 and the script makes it h1 when it shows a collection. */
+  titleTag?: "h1" | "h2";
+}
+
+const { titleTag = "h1" } = Astro.props;
 const specRow = "mb-8 flex max-w-[300px] flex-col gap-6 [border-bottom:1px_solid_var(--color-black)] pb-12";
 const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1200:grid-cols-[1fr_1fr_1fr] max-1200:gap-5";
 ---
@@ -32,7 +38,7 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
     <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
     <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
     <div class="flex w-full flex-col" data-status="ready" hidden>
-      <H3 as="h1" class="m-0" data-field="name"></H3>
+      <H3 as={titleTag} class="m-0" data-field="name"></H3>
       <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
       <P1 as="div" class="mt-2 max-w-[1800px]" data-field="type"></P1>
       <br />
@@ -54,64 +60,72 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
 <script>
   import { collectionImages, collectionSpecs } from "../services";
   import { fileUrl, getImageUrl, isNotFound } from "#/core/pocketbase";
-  import { field, fromTemplate, pathParts, setStatus } from "#/core/dom";
+  import { field, fromTemplate, retag, setStatus } from "#/core/dom";
   import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { tileFrom } from "#/components/image-tile";
   import { getCollection } from "../api";
+  import { isTextileFallback, textileRoute } from "../route";
 
   const root = document.querySelector<HTMLElement>("[data-collection-page]");
   if (root) {
-    const [, type = "", path = ""] = pathParts();
-    const specTemplate = root.querySelector<HTMLTemplateElement>("template[data-spec]")!;
-    const tileTemplate = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
+    const { type, collection: path } = textileRoute();
+    // On the fallback page a type is asked for: the type page takes it.
+    if (!path) root.parentElement?.remove();
+    else {
+      if (isTextileFallback()) retag(field(root, "name"), "h1");
+      const specTemplate = root.querySelector<HTMLTemplateElement>("template[data-spec]")!;
+      const tileTemplate = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
 
-    getCollection(path)
-      .then((collection) => {
-        field(root, "name").textContent = collection.name;
-        field(root, "description").textContent = collection.description ?? "";
-        field(root, "type").textContent = collection.description_type ?? "";
+      getCollection(path)
+        .then((collection) => {
+          field(root, "name").textContent = collection.name;
+          field(root, "description").textContent = collection.description ?? "";
+          field(root, "type").textContent = collection.description_type ?? "";
 
-        field(root, "specs").replaceChildren(
-          ...collectionSpecs(collection).map((spec) => {
-            const row = fromTemplate(specTemplate);
-            field(row, "label").textContent = spec.name;
-            field(row, "value").textContent = String(spec.value);
-            return row;
-          }),
-        );
-        field(root, "pictures").replaceChildren(
-          ...collectionImages(collection).map((item) =>
-            tileFrom(tileTemplate, {
-              src: fileUrl(collection.collectionId, collection.id, item.img),
-              alt: item.textile,
-              label: item.textile,
+          field(root, "specs").replaceChildren(
+            ...collectionSpecs(collection).map((spec) => {
+              const row = fromTemplate(specTemplate);
+              field(row, "label").textContent = spec.name;
+              field(row, "value").textContent = String(spec.value);
+              return row;
             }),
-          ),
-        );
+          );
+          field(root, "pictures").replaceChildren(
+            ...collectionImages(collection).map((item) =>
+              tileFrom(tileTemplate, {
+                src: fileUrl(collection.collectionId, collection.id, item.img),
+                alt: item.textile,
+                label: item.textile,
+              }),
+            ),
+          );
 
-        const category = ([] as { name: string; path: string }[]).concat(collection.expand?.category ?? [])[0];
-        const description = collection.description || `Ткани из коллекции ${collection.name}`;
-        setPageMeta({
-          title: `${collection.name} - Ткани коллекции | Нортекс`,
-          description,
-          image: getImageUrl(collection),
-        });
-        const trail: [string, string][] = [
-          ["Главная", "/"],
-          ["Коллекции", "/textile"],
-        ];
-        if (category) trail.push([category.name, `/textile/${type}`]);
-        trail.push([collection.name, `/textile/${type}/${path}`]);
-        setBreadcrumb(trail);
-        setJsonLd("ld-product", {
-          "@type": "Product",
-          name: collection.name,
-          description: collection.description || undefined,
-          image: getImageUrl(collection) || undefined,
-          brand: { "@type": "Brand", name: "Нортекс" },
-        });
-        setStatus(root, "ready");
-      })
-      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+          const category = ([] as { name: string; path: string }[]).concat(collection.expand?.category ?? [])[0];
+          const description = collection.description || `Ткани из коллекции ${collection.name}`;
+          const home = `/textile/${type}/${path}/`;
+          setPageMeta({
+            title: `${collection.name} - Ткани коллекции | Нортекс`,
+            description,
+            image: getImageUrl(collection),
+            canonicalPath: home,
+          });
+          const trail: [string, string][] = [
+            ["Главная", "/"],
+            ["Коллекции", "/textile/"],
+          ];
+          if (category) trail.push([category.name, `/textile/${type}/`]);
+          trail.push([collection.name, home]);
+          setBreadcrumb(trail);
+          setJsonLd("ld-product", {
+            "@type": "Product",
+            name: collection.name,
+            description: collection.description || undefined,
+            image: getImageUrl(collection) || undefined,
+            brand: { "@type": "Brand", name: "Нортекс" },
+          });
+          setStatus(root, "ready");
+        })
+        .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+    }
   }
 </script>

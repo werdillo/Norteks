@@ -36,17 +36,19 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid
   import { setStatus } from "#/core/dom";
   import { tileFrom } from "#/components/image-tile";
   import { getTypes } from "../api";
+  import { typeHref } from "../links";
 
   const root = document.querySelector<HTMLElement>("[data-types]");
   if (root) {
     const grid = root.querySelector<HTMLElement>('[data-status="ready"]')!;
     const template = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
     getTypes()
-      .then((types) => {
+      .then(async (types) => {
+        const hrefs = await Promise.all(types.map((type) => typeHref(type.path)));
         grid.replaceChildren(
-          ...types.map((type) =>
+          ...types.map((type, index) =>
             tileFrom(template, {
-              href: `/textile/${type.path}`,
+              href: hrefs[index],
               src: getImageUrl(type),
               alt: type.name,
               label: type.name,

@@ -39,18 +39,20 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
   import { getImageUrl } from "#/core/pocketbase";
   import { field, fromTemplate, setStatus } from "#/core/dom";
   import { getPosts } from "../api";
+  import { postHref } from "../links";
 
   const root = document.querySelector<HTMLElement>("[data-posts]");
   if (root) {
     const grid = root.querySelector<HTMLElement>('[data-status="ready"]')!;
     const template = root.querySelector<HTMLTemplateElement>("template[data-post]")!;
     getPosts()
-      .then((posts) => {
+      .then(async (posts) => {
+        const hrefs = await Promise.all(posts.map((post) => postHref(post.path)));
         grid.replaceChildren(
-          ...posts.map((post) => {
+          ...posts.map((post, index) => {
             const card = fromTemplate(template);
             const link = card.firstElementChild as HTMLAnchorElement;
-            link.href = `/post/${post.path}`;
+            link.href = hrefs[index];
             const image = field<HTMLImageElement>(card, "image");
             image.src = getImageUrl(post);
             image.alt = post.title;

@@ -12,7 +12,7 @@ export const heroSlides: SliderSlide[] = [
   },
   {
     title: "Широкий выбор тканей",
-    href: "/textile",
+    href: "/textile/",
     label: "Текстиль",
     image: textileImage.src,
   },

@@ -4,6 +4,12 @@ import { ImageTile } from "#/components/image-tile";
 import { H2, P1 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
 
+interface Props {
+  /** `h1` on the type's page; the fallback page starts with h2 and the script makes it h1 when it shows a type. */
+  titleTag?: "h1" | "h2";
+}
+
+const { titleTag = "h1" } = Astro.props;
 const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid-cols-[1fr_1fr] max-1024:gap-10";
 ---
 
@@ -21,59 +27,68 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid
     <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
     <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
     <div class="flex w-full flex-col" data-status="ready" hidden>
-      <H2 as="h1" class="m-0" data-field="title"></H2>
+      <H2 as={titleTag} class="m-0" data-field="title"></H2>
       <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
       <div class={grid} data-field="collections"></div>
       <P1 as="div" data-field="extended"></P1>
     </div>
     <template data-tile>
-      <ImageTile src="" alt="" label="" ratio="7/6" />
+      <ImageTile href="#" src="" alt="" label="" ratio="7/6" />
     </template>
   </div>
 </Container>
 
 <script>
   import { getImageUrl, isNotFound } from "#/core/pocketbase";
-  import { field, pathParts, setStatus } from "#/core/dom";
+  import { field, retag, setStatus } from "#/core/dom";
   import { setBreadcrumb, setPageMeta } from "#/core/seo";
   import { tileFrom } from "#/components/image-tile";
   import { getTypeWithCollections } from "../api";
+  import { collectionHref } from "../links";
+  import { isTextileFallback, textileRoute } from "../route";
 
   const root = document.querySelector<HTMLElement>("[data-type-page]");
   if (root) {
-    const type = pathParts()[1] ?? "";
-    const template = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
+    const { type, collection } = textileRoute();
+    // On the fallback page a collection is asked for: the collection page takes it.
+    if (collection) root.parentElement?.remove();
+    else {
+      if (isTextileFallback()) retag(field(root, "title"), "h1");
+      const template = root.querySelector<HTMLTemplateElement>("template[data-tile]")!;
 
-    getTypeWithCollections(type)
-      .then(({ collections, category }) => {
-        field(root, "title").textContent = category.name;
-        field(root, "description").textContent = category.description ?? "";
-        field(root, "collections").replaceChildren(
-          ...collections.items.map((item) =>
-            tileFrom(template, {
-              href: `/textile/${type}/${item.path}`,
-              src: getImageUrl(item),
-              alt: item.name,
-              label: item.name,
-            }),
-          ),
-        );
-        const extended = field(root, "extended");
-        if (category.description_extended) extended.innerHTML = String(category.description_extended);
-        else extended.remove();
+      getTypeWithCollections(type)
+        .then(async ({ collections, category }) => {
+          const hrefs = await Promise.all(collections.items.map((item) => collectionHref(type, item.path)));
+          field(root, "title").textContent = category.name;
+          field(root, "description").textContent = category.description ?? "";
+          field(root, "collections").replaceChildren(
+            ...collections.items.map((item, index) =>
+              tileFrom(template, {
+                href: hrefs[index],
+                src: getImageUrl(item),
+                alt: item.name,
+                label: item.name,
+              }),
+            ),
+          );
+          const extended = field(root, "extended");
+          if (category.description_extended) extended.innerHTML = String(category.description_extended);
+          else extended.remove();
 
-        setPageMeta({
-          title: `${category.name} - Коллекции тканей | Нортекс`,
-          description: category.description || `Коллекции ${category.name} от компании Нортекс`,
-          image: getImageUrl(category),
-        });
-        setBreadcrumb([
-          ["Главная", "/"],
-          ["Коллекции", "/textile"],
-          [category.name, `/textile/${type}`],
-        ]);
-        setStatus(root, "ready");
-      })
-      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+          setPageMeta({
+            title: `${category.name} - Коллекции тканей | Нортекс`,
+            description: category.description || `Коллекции ${category.name} от компании Нортекс`,
+            image: getImageUrl(category),
+            canonicalPath: `/textile/${type}/`,
+          });
+          setBreadcrumb([
+            ["Главная", "/"],
+            ["Коллекции", "/textile/"],
+            [category.name, `/textile/${type}/`],
+          ]);
+          setStatus(root, "ready");
+        })
+        .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+    }
   }
 </script>

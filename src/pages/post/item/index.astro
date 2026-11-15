@@ -2,11 +2,13 @@
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { PostPage } from "#/blog/posts";
 
-// Shell of /post/<path>: deploy/nginx.conf serves this file for every post.
+// Fallback for a post that came after the last build: /post/item/?post=<path>.
+// The page loads the post, sets its canonical to the post's own address, and is not indexed.
 const seoData = {
   title: "Статья | Блог Нортекс",
   description: "Статья блога Нортекс о тканях, уходе за текстилем и дизайне интерьера.",
-  canonical: "/blog",
+  canonical: "/blog/",
+  robots: "noindex, follow",
 };
 ---
 

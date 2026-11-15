@@ -1,0 +1,24 @@
+---
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { builtPaths } from "#/app/paths";
+import { TypeCollections } from "#/catalog/textile";
+
+// One page per type that PocketBase holds at build time. The browser loads the
+// collections; the title and description name the type as it was at build.
+export async function getStaticPaths() {
+  const { types } = await builtPaths();
+  return types.map((type) => ({ params: { type: type.path }, props: { name: type.name, description: type.description } }));
+}
+
+const { type = "" } = Astro.params;
+const { name, description } = Astro.props as { name: string; description: string };
+const label = name || type;
+const seoData = {
+  title: `${label} - Коллекции тканей | Нортекс`,
+  description: description || `Коллекции ${label} от компании Нортекс`,
+};
+---
+
+<BaseLayout {...seoData} canonical={`/textile/${type}/`}>
+  <TypeCollections />
+</BaseLayout>
