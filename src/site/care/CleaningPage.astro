@@ -2,48 +2,79 @@
 import { Image } from "astro:assets";
 import { Card } from "#/components/card";
 import { Container } from "#/components/container";
-import { H4, H5, H6, P2 } from "#/components/typography";
-import { intro, pictures, sections, tips, tipsTitle } from "./data";
+import { H1, H4, H5, P1 } from "#/components/typography";
+import CareCard from "./CareCard.astro";
+import { callToAction, important, intro, laundry, pictures, tips, tipsTitle } from "./data";
+import { PageColumn } from "#/components/page-column";
+
+const section = "py-40 max-768:py-24";
+// Cards fill the row, one per column; they wrap to one column on a phone.
+const cardGrid = "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-20 max-768:gap-16";
+const button =
+  "inline-flex h-54 shrink-0 items-center justify-center rounded-pill px-32 [transition:200ms] max-768:h-48 max-768:px-24";
 ---
-
-<div class="mt-20 mb-40 flex w-full justify-between gap-5">
-  {pictures.map((src) => <Image src={src} alt="" class="max-h-[18vw] w-auto elevation-image-small" />)}
-</div>
-
-<Container width="offset">
-  <div class="mb-20 flex flex-col gap-40">
-    <Card variant="panel">
-      <H4 as="h1" class="mb-16 pb-10 text-heading">{intro.title}</H4>
-      <div class="flex flex-col gap-15">
-        {intro.paragraphs.map((text) => <P2 class="my-[5px] text-copy">{text}</P2>)}
-      </div>
-    </Card>
-
-    <Card variant="panel">
-      <H5 as="h2" class="mb-20 text-copy">{tipsTitle}</H5>
-      <div class="mt-20 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-30 max-768:grid-cols-[1fr]">
-        {
-          tips.map((tip) => (
-            <div>
-              <H6 as="h3" class="mt-0 pl-24 text-muted">{tip.title}</H6>
-              <div class="[border-left:2px_solid_var(--color-rule)] pl-20">
-                {tip.items.map((text) => <P2>{text}</P2>)}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </Card>
-
-    {
-      sections.map((section) => (
-        <Card variant="panel">
-          <H5 as="h2" class="mb-20 text-copy">{section.title}</H5>
-          <div class="flex flex-col gap-15">
-            {section.paragraphs.map((text) => <P2 class="my-[5px] text-copy">{text}</P2>)}
-          </div>
-        </Card>
-      ))
-    }
-  </div>
+<PageColumn>
+<!-- The introduction: the page heading and what the advice is for. -->
+<Container>
+  <section class={section}>
+    <div class="flex max-w-[800px] flex-col gap-16">
+      <H1 class="m-0 text-heading">{intro.title}</H1>
+      {intro.paragraphs.map((text) => <P1 class="m-0 text-copy">{text}</P1>)}
+    </div>
+  </section>
 </Container>
+
+<!-- The three pictures, in a row of equal frames. -->
+<Container>
+  <section class="pb-40 max-768:pb-24">
+    <div class="grid grid-cols-3 gap-20 max-768:grid-cols-[1fr] max-768:gap-12">
+      {pictures.map((src) => <Image src={src} alt="" class="block aspect-[16/9] w-full rounded-card object-cover elevation-image max-768:aspect-[2/1]" />)}
+    </div>
+  </section>
+</Container>
+
+<!-- The care tips: a card per kind of care, the forbidden methods as a warning. -->
+<Container>
+  <section class={section}>
+    <H4 as="h2" class="m-0 mb-24 text-heading">{tipsTitle}</H4>
+    <div class={cardGrid}>
+      {tips.map((tip) => <CareCard icon={tip.icon} title={tip.title} items={tip.items} warning={tip.warning} />)}
+    </div>
+  </section>
+</Container>
+
+<!-- Washing and the rest of the care: a card per step. -->
+<Container>
+  <section class={section}>
+    <H4 as="h2" class="m-0 mb-24 text-heading">{laundry.title}</H4>
+    <div class={cardGrid}>
+      {laundry.steps.map((step) => <CareCard icon={step.icon} title={step.title} items={step.items} />)}
+    </div>
+  </section>
+</Container>
+
+<!-- The important information, as a warning note. -->
+<Container>
+  <section class={section}>
+    <CareCard icon={important.icon} title={important.title} items={important.items} as="h2" warning />
+  </section>
+</Container>
+
+<!-- The call to action: questions about the care go to the contacts. -->
+<Container>
+  <section class="pb-40 max-768:pb-24">
+    <Card variant="raised" class="flex items-center justify-between gap-30 max-1024:flex-col max-1024:items-start">
+      <div class="flex flex-col gap-8">
+        <H4 as="h2" class="m-0 text-heading">{callToAction.heading}</H4>
+        <P1 class="m-0 text-copy">{callToAction.text}</P1>
+      </div>
+      <a
+        href={callToAction.href}
+        class={`${button} bg-accent text-on-dark hover:elevation-accent-hover hover:[transform:translateY(-2px)]`}
+      >
+        <H5 as="span">{callToAction.label}</H5>
+      </a>
+    </Card>
+  </section>
+</Container>
+</PageColumn>

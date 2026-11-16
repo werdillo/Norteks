@@ -26,4 +26,22 @@ export const address = {
   geo: { latitude: 55.857771, longitude: 37.541722 },
   mapUrl:
     "https://yandex.ru/map-widget/v1/?ll=37.541722,55.857771&z=16&text=Нортекс%2C%20магазин%20тканей%2C%20Москва%2C%20Дмитровское%20шоссе%2C%2071Б",
+  /** The nearest metro station, as the page prints it. */
+  metro: "Верхние Лихоборы",
+  /** Opens Yandex Maps with a route to the company; the visitor's own place is the start. */
+  routeUrl: "https://yandex.ru/maps/?rtext=~55.857771,37.541722&rtt=auto",
+};
+
+/** The copy of the contacts page. */
+export const page = {
+  heading: "Контакты",
+  lead: "Позвоните, напишите на почту или в мессенджер — подскажем, какие ткани подойдут под ваш проект, и ответим на вопросы по заказу и доставке.",
+  address: "Адрес",
+  phones: "Телефоны",
+  mail: "Электронная почта",
+  social: "Мы в соцсетях",
+  metroLabel: "Метро",
+  route: "Как добраться",
+  mapHeading: "Как нас найти",
+  mapTitle: "Нортекс на карте",
 };

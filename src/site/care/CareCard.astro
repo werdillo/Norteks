@@ -1,0 +1,49 @@
+---
+import { H4, H6, P2 } from "#/components/typography";
+
+interface Props {
+  /** An UnoCSS icon class, such as `i-tabler-brush`. */
+  icon: string;
+  title: string;
+  items: string[];
+  /** `h2` for a section of its own (the important information), `h3` for a card of a section. */
+  as?: "h2" | "h3";
+  /** A warning: a beige note with the gold rule, not a white card. */
+  warning?: boolean;
+}
+
+const { icon, title, items, as = "h3", warning = false } = Astro.props;
+
+// Same surface as the raised Card, with a note's background and rule for a warning.
+const surface = warning
+  ? "rounded-card bg-note p-30 max-768:p-20 [border-left:3px_solid_var(--color-gold)]"
+  : "rounded-card bg-surface p-30 max-768:p-20 elevation-card";
+---
+
+<div class:list={["flex h-full flex-col gap-16", surface]}>
+  <div class="flex items-center gap-16">
+    <span
+      class:list={["flex h-48 w-48 shrink-0 items-center justify-center rounded-[50%]", warning ? "bg-surface" : "bg-note"]}
+      aria-hidden="true"
+    >
+      <span class:list={[icon, "block h-24 w-24 text-gold"]} />
+    </span>
+    {
+      as === "h2" ? (
+        <H4 as="h2" class="m-0 text-heading">{title}</H4>
+      ) : (
+        <H6 as="h3" class="m-0 text-heading">{title}</H6>
+      )
+    }
+  </div>
+  <ul class="m-0 flex list-none flex-col gap-12 p-0">
+    {
+      items.map((text) => (
+        <P2 as="li" class="relative m-0 pl-20 text-copy">
+          <span class="absolute left-0 top-9 h-6 w-6 rounded-pill bg-gold" aria-hidden="true" />
+          {text}
+        </P2>
+      ))
+    }
+  </ul>
+</div>

@@ -1,8 +1,12 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { TypesGrid } from "#/site/catalog";
+import { getTypes, TypesGrid } from "#/site/catalog";
+import { phones } from "#/site/contacts";
 import { Advantages } from "#/site/company";
 import { HomePage } from "#/site/home";
+
+// The types PocketBase holds at build: the catalog grid shows them, the home page counts and links them.
+const types = await getTypes();
 
 const seoData = {
   title: "Нортекс - Оптовый поставщик декоративных тканей | Ткани для мебели и штор",
@@ -11,8 +15,8 @@ const seoData = {
 ---
 
 <BaseLayout {...seoData}>
-  <HomePage>
+  <HomePage types={types.map((type) => ({ name: String(type.name), href: `/textile/${type.path}/` }))} phone={phones[0]}>
     <Advantages slot="advantages" />
-    <TypesGrid slot="catalog" heading="h2" />
+    <TypesGrid slot="catalog" heading="h2" types={types} />
   </HomePage>
 </BaseLayout>

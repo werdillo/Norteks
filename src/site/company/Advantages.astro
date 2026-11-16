@@ -1,14 +1,16 @@
 ---
 import { Container } from "#/components/container";
+import { H4, P1 } from "#/components/typography";
 import FeatureCard from "./FeatureCard.astro";
 import { features } from "./advantages";
 ---
 
 <Container>
-  <section class="py-80 max-768:py-40" aria-label="Преимущества">
-    <div
-      class="grid w-full grid-cols-[repeat(auto-fit,minmax(430px,1fr))] justify-items-center gap-20 max-768:grid-cols-[repeat(auto-fit,minmax(250px,1fr))]"
-    >
+  <section class="py-40 max-768:py-24" aria-labelledby="advantages-title">
+    <H4 as="h2" id="advantages-title" class="m-0 text-heading">Почему выбирают НОРТЕКС</H4>
+    <P1 class="m-0 mt-8 mb-24 text-muted max-768:mb-16">Работаем напрямую с фабриками и отвечаем за каждую поставку.</P1>
+    <!-- Four to a row, the last row centred: seven advantages leave no card alone. -->
+    <div class="flex flex-wrap justify-center gap-20 max-768:gap-12">
       {features.map((feature) => <FeatureCard {...feature} />)}
     </div>
   </section>

@@ -5,6 +5,7 @@ import { Skeleton } from "#/components/skeleton";
 import { getImageUrl } from "#/core/pocketbase";
 import { breadcrumbLd, jsonLd } from "#/core/seo";
 import type { BlogPost } from "../api";
+import { postContent } from "../content";
 import { postArticle, postDescription } from "../seo";
 
 interface Props {
@@ -65,7 +66,7 @@ const site = Astro.site!;
     <Container>
       <div class="p-20 max-768:p-10">
         <H3 as="h1" class="m-0" data-field="title">{post?.title}</H3>
-        <P1 as="div" data-field="content"><Fragment set:html={post?.content ?? ""} /></P1>
+        <P1 as="div" class="[&_img]:h-auto [&_img]:max-w-full" data-field="content"><Fragment set:html={postContent(post?.content ?? "", post?.title ?? "")} /></P1>
       </div>
     </Container>
   </div>
@@ -76,6 +77,7 @@ const site = Astro.site!;
   import { field, setStatus } from "#/core/dom";
   import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { getPostByPath } from "../api";
+  import { postContent } from "../content";
   import { postArticle, postDescription } from "../seo";
   import { postRoute } from "../route";
 
@@ -91,7 +93,7 @@ const site = Astro.site!;
         image.src = getImageUrl(post);
         image.alt = post.title;
         // The content is HTML written in PocketBase by the site's editors.
-        field(root, "content").innerHTML = String(post.content ?? "");
+        field(root, "content").innerHTML = postContent(String(post.content ?? ""), String(post.title ?? ""));
         const site = import.meta.env.SITE ?? location.origin;
         setPageMeta({
           title: `${post.title} | Блог Нортекс`,

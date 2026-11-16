@@ -12,8 +12,15 @@ interface Props {
 const { icon, title, text } = Astro.props;
 ---
 
-<Card variant="raised" class="max-w-[400px] text-center [transition:transform_0.3s_ease] hover:[transform:translateY(-5px)]">
-  <span class:list={[icon, "mx-auto mb-20 block h-40 w-40 text-gold"]} aria-hidden="true" />
-  <H6 as="h3" class="mb-15 text-heading">{title}</H6>
-  <P2 class="text-muted">{text}</P2>
+<Card
+  variant="raised"
+  class="box-border flex basis-[calc(25%_-_15px)] items-start gap-16 [transition:transform_0.3s_ease,box-shadow_0.3s_ease] hover:[transform:translateY(-4px)] max-1400:basis-[calc(50%_-_10px)] max-768:basis-full"
+>
+  <span class="flex h-48 w-48 shrink-0 items-center justify-center rounded-[50%] bg-note" aria-hidden="true">
+    <span class:list={[icon, "block h-24 w-24 text-gold"]} />
+  </span>
+  <div class="flex flex-col gap-6">
+    <H6 as="h3" class="m-0 text-heading">{title}</H6>
+    <P2 class="m-0 text-muted">{text}</P2>
+  </div>
 </Card>

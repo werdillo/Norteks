@@ -1,0 +1,10 @@
+---
+/**
+ * The column a content page sits in: at most 1560px wide, centred. Full-width bands (the hero, a call to
+ * action) stay outside it and put their own content in a PageColumn, so their text lines up with the page.
+ */
+---
+
+<div class="flex w-full max-w-[1560px] flex-col items-center">
+  <slot />
+</div>

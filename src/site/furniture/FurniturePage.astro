@@ -4,6 +4,18 @@ import { Container } from "#/components/container";
 import { H1, H6, P2, P3 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
 
+/** The terms above the legs: a bold label, then the text. */
+const notes = [
+  {
+    label: "Выбор цвета согласно каталогу:",
+    text: "Black Nikel, Matt Black, Aluminium Polished, Matt Gold, Polished Gold и другие.",
+  },
+  {
+    label: "Высота (H) опоры:",
+    text: "возможно изменение при условии введения опоры в складскую программу и ежемесячном потреблении.",
+  },
+];
+
 const row = "mx-8 mb-4 flex flex-row items-center justify-between pb-8";
 const grid =
   "grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8";
@@ -11,6 +23,16 @@ const grid =
 
 <Container>
   <H1 class="sr-only">Мебельная фурнитура</H1>
+  <!-- The terms of the legs: in the HTML, above the cards, so they show before the catalogue loads. -->
+  <div class="mb-24 box-border flex w-full flex-col gap-6 rounded-card bg-note px-20 py-14 [border-left:3px_solid_var(--color-gold)] max-768:mb-16 max-768:px-14 max-768:py-12">
+    {
+      notes.map((note) => (
+        <P2 as="p" class="m-0 text-copy">
+          <strong class="text-heading">{note.label}</strong> {note.text}
+        </P2>
+      ))
+    }
+  </div>
   <div class="flex w-full flex-col" data-furniture aria-busy="true">
     <div data-status="loading">
       <span class="sr-only">Загрузка…</span>

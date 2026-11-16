@@ -26,6 +26,7 @@
   --color-track: #2a2a2a; /* scrollbar track */
   --color-accent: #fc7604; /* call to action, hero title */
   --color-gold: #b8995e; /* brand accent: headings, icons, hover */
+  --color-note: #f6f3ec; /* background of a note on white (the terms above the legs) */
   --color-highlight: #d6b878; /* the gold on the dark bars: active and hovered link, search focus, column labels */
   --color-highlight-soft: #e8d3a6; /* hovered contact link on dark */
   --color-black: #000; /* rule under a spec row */

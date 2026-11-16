@@ -1,35 +1,132 @@
 ---
 import { Slider } from "#/components/slider";
 import { Container } from "#/components/container";
-import { H1, H5, P1 } from "#/components/typography";
-import { heroSlides, homeParagraphs } from "./data";
+import { H1, H4, H5, P1, P2, P3 } from "#/components/typography";
+import { about, callToAction, fabrics, heroSlides, intro, stats } from "./data";
+import { PageColumn } from "#/components/page-column";
 
-const lead = "m-0 mt-2 max-w-[1700px] text-heading";
-const body = "m-0 mt-2 max-w-[1700px] text-heading";
+interface Props {
+  /** The catalog's fabric types, read at build by the page: they count the types and link the fabric names. */
+  types?: { name: string; href: string }[];
+  /** The phone the call to action offers. */
+  phone?: { number: string; display: string };
+}
+
+const { types = [], phone } = Astro.props;
+
+// A fabric name links to the catalog type whose name starts like it (Велюр → /textile/velyur/).
+const typeHref = (name: string) => {
+  const key = name.toLowerCase().replace("ё", "е");
+  return types.find((type) => {
+    const typeKey = type.name.toLowerCase().replace("ё", "е");
+    return typeKey.startsWith(key) || key.startsWith(typeKey);
+  })?.href;
+};
+
+const section = "py-40 max-768:py-24";
+const chip =
+  "inline-flex items-center rounded-pill px-14 py-6 [border:1px_solid_var(--color-hairline)] bg-note text-copy [transition:color_0.2s,border-color_0.2s]";
+const button =
+  "inline-flex h-54 items-center justify-center rounded-pill px-32 [transition:200ms] max-768:h-48 max-768:px-24";
 ---
 
-<H1 class="sr-only">Нортекс - Оптовый поставщик декоративных тканей</H1>
+<H1 class="sr-only">Нортекс — оптовый поставщик декоративных тканей</H1>
 <Slider slides={heroSlides} />
-<Container noBottom>
-  <H5 as="p" class={lead}>
-    НОРТЕКС предлагает широкий выбор высококачественных и
-    высокотехнологичных тканей от ведущих мировых производителей.<br />
-    Уделяем особое внимание к соответствию цена/качество, предоставляем
-    ткани разных ценовых категорий, экологичных, износостойких, с
-    широким спектром цветов и применением новейших технологий при
-    производстве.
-  </H5>
-  <P1 class={body}><br />
-    Команда НОРТЕКС уже более 20 лет на рынке мебельных тканей. <br />Наша
-    главная задача - соответствовать высочайшим стандартам качества и
-    обслуживания, успешно реализовать даже самые сложные запросы
-    клиентов.
-  </P1>
+
+<!-- The middle of the page sits in the page column: the hero and the call to action stay full width. -->
+<PageColumn>
+<!-- The introduction: what the company does, beside a few figures. -->
+<Container>
+  <section class:list={[section, "grid grid-cols-[3fr_2fr] items-center gap-60 max-1024:grid-cols-[1fr] max-1024:gap-30"]}>
+    <div class="flex flex-col gap-16">
+      <H4 as="h2" class="m-0 text-heading">{intro.heading}</H4>
+      <P1 class="m-0 text-copy">{intro.lead}</P1>
+      <P1 class="m-0 text-muted">{intro.text}</P1>
+    </div>
+    <dl class="m-0 grid grid-cols-[1fr_1fr] gap-16 max-550:gap-10">
+      {
+        stats(types.length).map((stat) => (
+          <div class="flex flex-col gap-6 rounded-card bg-note px-20 py-18 [border-left:3px_solid_var(--color-gold)] max-550:px-14">
+            <dt class="order-2">
+              <P3 as="span" class="text-muted">{stat.label}</P3>
+            </dt>
+            <dd class="order-1 m-0">
+              <H5 as="span" class="text-heading">{stat.value}</H5>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
 </Container>
+
 <slot name="advantages" />
 
 <slot name="catalog" />
-
-<Container>
-  {homeParagraphs.map((paragraph) => <P1 class={body}>{paragraph}</P1>)}
+<Container noBottom>
+  <a href="/textile/" class="self-end text-gold [transition:opacity_0.2s] hover:opacity-75 max-768:self-start">
+    <P1 as="span">Все коллекции →</P1>
+  </a>
 </Container>
+
+<!-- About the company, with the range as links into the catalog. -->
+<Container>
+  <section class={section}>
+    <H4 as="h2" class="m-0 mb-24 text-heading">{about.heading}</H4>
+    <div class="grid grid-cols-[1fr_1fr] gap-40 max-1024:grid-cols-[1fr] max-1024:gap-20">
+      <div class="flex flex-col gap-16">
+        <P1 class="m-0 text-copy">{about.clients}</P1>
+        <P1 class="m-0 text-copy">{about.quality}</P1>
+        <P1 class="m-0 text-copy">{about.service}</P1>
+      </div>
+      <div class="flex flex-col gap-16">
+        <P1 class="m-0 text-copy">{about.rangeIntro}</P1>
+        <ul class="m-0 flex list-none flex-wrap gap-8 p-0">
+          {
+            fabrics.map((name) => {
+              const href = typeHref(name);
+              return (
+                <li>
+                  {href ? (
+                    <P2 as="a" href={href} class={`${chip} hover:text-gold hover:[border-color:var(--color-gold)]`}>{name}</P2>
+                  ) : (
+                    <P2 as="span" class={chip}>{name}</P2>
+                  )}
+                </li>
+              );
+            })
+          }
+          <li><P2 as="span" class={`${chip} text-muted`}>и многие другие</P2></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Container>
+
+</PageColumn>
+
+<!-- The call to action above the footer. -->
+<section class="mt-20 flex w-full justify-center bg-note">
+  <PageColumn>
+  <Container>
+    <div class="flex items-center justify-between gap-30 py-40 max-1024:flex-col max-1024:items-start max-768:py-24">
+      <div class="flex flex-col gap-8">
+        <H4 as="h2" class="m-0 text-heading">{callToAction.heading}</H4>
+        <P1 class="m-0 text-copy">{callToAction.text}</P1>
+      </div>
+      <div class="flex flex-wrap gap-14">
+        <a href={`mailto:${callToAction.mail}`} class={`${button} bg-accent text-on-dark hover:elevation-accent-hover hover:[transform:translateY(-2px)]`}>
+          <H5 as="span">{callToAction.label}</H5>
+        </a>
+        {
+          phone && (
+            <a href={`tel:${phone.number}`} class={`${button} [border:2px_solid_var(--color-heading)] text-heading hover:bg-chrome hover:text-on-dark`}>
+              <H5 as="span">{phone.display}</H5>
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </Container>
+  </PageColumn>
+</section>

@@ -21,8 +21,13 @@ const EXCEPTIONS: { file: string; fragment: string; reason: string }[] = [
   },
   {
     file: "components/image-tile/ImageTile.astro",
-    fragment: "text-[36px]",
-    reason: "image tile caption, 36px (16px up to 550px), laid over the picture",
+    fragment: "font-size: 36px",
+    reason: "image tile caption, 36px, laid over the picture",
+  },
+  {
+    file: "components/image-tile/ImageTile.astro",
+    fragment: ".tile-caption { font-size: 16px; }",
+    reason: "image tile caption up to 550px, 16px",
   },
 ];
 

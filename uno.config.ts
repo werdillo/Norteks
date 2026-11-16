@@ -81,6 +81,7 @@ export default defineConfig({
       track: "var(--color-track)",
       accent: "var(--color-accent)",
       gold: "var(--color-gold)",
+      note: "var(--color-note)",
       highlight: "var(--color-highlight)",
       "highlight-soft": "var(--color-highlight-soft)",
       black: "var(--color-black)",
