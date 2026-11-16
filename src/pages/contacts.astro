@@ -1,10 +1,6 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { ContactsPage } from "#/site/contacts";
-import { socialLinks } from "#/app/frame/social";
-
-// The accounts that have a page yet ("#" is a placeholder): the contacts page links them as messengers.
-const socials = socialLinks.filter((social) => social.href !== "#");
 
 const seoData = {
   title: "Контакты компании Нортекс | Свяжитесь с поставщиком тканей",
@@ -13,5 +9,5 @@ const seoData = {
 ---
 
 <BaseLayout {...seoData}>
-  <ContactsPage {socials} />
+  <ContactsPage />
 </BaseLayout>

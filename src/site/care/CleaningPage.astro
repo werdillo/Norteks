@@ -13,6 +13,11 @@ const cardGrid = "grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-20 max
 const button =
   "inline-flex h-54 shrink-0 items-center justify-center rounded-pill px-32 [transition:200ms] max-768:h-48 max-768:px-24";
 ---
+<!-- The three pictures, across the full width of the page, as before. -->
+<div class="mt-20 flex w-full justify-between gap-5">
+  {pictures.map((src) => <Image src={src} alt="" class="max-h-[18vw] w-auto elevation-image-small" />)}
+</div>
+
 <PageColumn>
 <!-- The introduction: the page heading and what the advice is for. -->
 <Container>
@@ -20,15 +25,6 @@ const button =
     <div class="flex max-w-[800px] flex-col gap-16">
       <H1 class="m-0 text-heading">{intro.title}</H1>
       {intro.paragraphs.map((text) => <P1 class="m-0 text-copy">{text}</P1>)}
-    </div>
-  </section>
-</Container>
-
-<!-- The three pictures, in a row of equal frames. -->
-<Container>
-  <section class="pb-40 max-768:pb-24">
-    <div class="grid grid-cols-3 gap-20 max-768:grid-cols-[1fr] max-768:gap-12">
-      {pictures.map((src) => <Image src={src} alt="" class="block aspect-[16/9] w-full rounded-card object-cover elevation-image max-768:aspect-[2/1]" />)}
     </div>
   </section>
 </Container>

@@ -1,93 +1,39 @@
 ---
 import { Image } from "astro:assets";
-import { Container } from "#/components/container";
-import { H1, H4, H5, P1, P3 } from "#/components/typography";
-import Advantages from "./Advantages.astro";
-import FeatureCard from "./FeatureCard.astro";
+import { H1, P1, P2, P3 } from "#/components/typography";
+import { PageColumn } from "#/components/page-column";
 import interior1 from "./assets/images/img6.jpg";
 import interior2 from "./assets/images/img5.jpg";
-import { aboutLead, aboutParagraphs, callToAction, intro, offers } from "./about";
-import { PageColumn } from "#/components/page-column";
+import { aboutFacts, aboutLead, aboutParagraphs } from "./about";
 
-const section = "py-40 max-768:py-24";
-const button =
-  "inline-flex h-54 items-center justify-center rounded-pill px-32 [transition:200ms] max-768:h-48 max-768:px-24";
-// The photos fill the column to the height of the text beside them (cropped, not stretched).
-const picture = "block h-full min-h-[320px] w-full rounded-card object-cover elevation-image max-1024:h-[300px] max-1024:min-h-0 max-550:h-[240px]";
+const picture = "block h-auto w-full elevation-image";
 ---
+
 <PageColumn>
-<!-- The introduction: what the company is, beside a few figures. -->
-<Container>
-  <section class:list={[section, "grid grid-cols-[3fr_2fr] items-center gap-60 max-1024:grid-cols-[1fr] max-1024:gap-30"]}>
-    <div class="flex flex-col gap-16">
-      <H1 class="m-0 text-heading">{intro.heading}</H1>
-      <P1 class="m-0 text-copy">{intro.lead}</P1>
-    </div>
-    <dl class="m-0 grid grid-cols-[1fr_1fr_1fr] gap-16 max-550:grid-cols-[1fr] max-550:gap-10">
-      {
-        intro.stats.map((stat) => (
-          <div class="flex flex-col gap-6 rounded-card bg-note px-20 py-18 [border-left:3px_solid_var(--color-gold)] max-550:px-14">
-            <dt class="order-2">
-              <P3 as="span" class="text-muted">{stat.label}</P3>
-            </dt>
-            <dd class="order-1 m-0">
-              <H5 as="span" class="text-heading">{stat.value}</H5>
-            </dd>
-          </div>
-        ))
-      }
-    </dl>
-  </section>
-</Container>
+  <div class="box-border grid w-[96%] max-w-wide grid-cols-[1fr_1fr] items-start gap-48 py-40 max-1024:gap-32 max-768:grid-cols-[1fr] max-768:gap-24 max-768:py-24">
+    <div class="flex flex-col">
+      <H1 class="m-0 mb-8 text-heading">О компании</H1>
+      <P1 class="m-0 text-muted">НОРТЕКС — оптовый поставщик декоративных тканей</P1>
 
-<!-- The story: who the company is, with the interior photos beside the text. -->
-<Container>
-  <section class={section} aria-labelledby="story-title">
-    <H4 as="h2" id="story-title" class="m-0 mb-24 text-heading">Кто мы</H4>
-    <div class="grid grid-cols-[3fr_2fr] gap-40 [align-items:stretch] max-1024:grid-cols-[1fr] max-1024:gap-30">
-      <div class="flex flex-col gap-16">
-        <P1 class="m-0 text-copy">{aboutLead}</P1>
-        {aboutParagraphs.map((paragraph) => <P1 class="m-0 text-copy">{paragraph}</P1>)}
-      </div>
-      <div class="grid grid-cols-[1fr_1fr] gap-20 max-550:grid-cols-[1fr]">
-        <Image class={picture} src={interior1} alt="Интерьер с текстилем" />
-        <Image class={picture} src={interior2} alt="Дизайн интерьера" />
-      </div>
-    </div>
-  </section>
-</Container>
+      <!-- A few facts from the text below, as a quiet row under the heading. -->
+      <ul class="m-0 mt-20 mb-24 flex list-none flex-wrap gap-x-24 gap-y-8 p-0 py-14 [border-top:1px_solid_var(--color-hairline)] [border-bottom:1px_solid_var(--color-hairline)]">
+        {
+          aboutFacts.map((fact) => (
+            <li class="flex items-center gap-8">
+              <span class="block h-6 w-6 shrink-0 rounded-[50%] bg-gold" aria-hidden="true" />
+              <P3 as="span" class="uppercase tracking-[0.5px] text-copy">{fact}</P3>
+            </li>
+          ))
+        }
+      </ul>
 
-<!-- What the company offers: fabrics, fittings, rolls and cuts, warehouse and delivery. -->
-<Container>
-  <section class={section} aria-labelledby="offers-title">
-    <H4 as="h2" id="offers-title" class="m-0 mb-24 text-heading max-768:mb-16">Что мы предлагаем</H4>
-    <div class="flex flex-wrap justify-center gap-20 max-768:gap-12">
-      {offers.map((offer) => <FeatureCard {...offer} />)}
+      <P1 class="m-0 text-heading">{aboutLead}</P1>
+      {aboutParagraphs.map((paragraph) => <P2 class="m-0 mt-16 text-copy">{paragraph}</P2>)}
     </div>
-  </section>
-</Container>
 
-<Advantages />
+    <div class="grid gap-20 max-768:gap-12">
+      <Image class={picture} src={interior1} alt="Интерьер с текстилем" />
+      <Image class={picture} src={interior2} alt="Дизайн интерьера" />
+    </div>
+  </div>
 </PageColumn>
-
-<!-- The call to action above the footer, as on the home page. -->
-<section class="mt-20 flex w-full justify-center bg-note">
-  <PageColumn>
-  <Container>
-    <div class="flex items-center justify-between gap-30 py-40 max-1024:flex-col max-1024:items-start max-768:py-24">
-      <div class="flex flex-col gap-8">
-        <H4 as="h2" class="m-0 text-heading">{callToAction.heading}</H4>
-        <P1 class="m-0 text-copy">{callToAction.text}</P1>
-      </div>
-      <div class="flex flex-wrap gap-14">
-        <a href={`mailto:${callToAction.mail}`} class={`${button} bg-accent text-on-dark hover:elevation-accent-hover hover:[transform:translateY(-2px)]`}>
-          <H5 as="span">{callToAction.label}</H5>
-        </a>
-        <a href={callToAction.contacts.href} class={`${button} [border:2px_solid_var(--color-heading)] text-heading hover:bg-chrome hover:text-on-dark`}>
-          <H5 as="span">{callToAction.contacts.label}</H5>
-        </a>
-      </div>
-    </div>
-  </Container>
-  </PageColumn>
-</section>
