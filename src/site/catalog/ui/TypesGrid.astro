@@ -43,7 +43,7 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid
 
 <script>
   import { getImageUrl } from "#/core/pocketbase";
-  import { setStatus } from "#/core/dom";
+  import { replaceChildrenIfChanged, setStatus } from "#/core/dom";
   import { tileFrom } from "#/components/image-tile";
   import { getTypes } from "../api";
   import { typeHref } from "../links";
@@ -55,7 +55,8 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid
     getTypes()
       .then(async (types) => {
         const hrefs = await Promise.all(types.map((type) => typeHref(type.path)));
-        grid.replaceChildren(
+        replaceChildrenIfChanged(
+          grid,
           ...types.map((type, index) =>
             tileFrom(template, {
               href: hrefs[index],

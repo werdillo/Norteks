@@ -98,7 +98,7 @@ const trail = record ? collectionTrail(String(category?.path ?? ""), String(reco
   import { categoryOf, collectionDescription, collectionTrail } from "../seo";
   import { collectionImages, collectionSpecs } from "../services";
   import { fileUrl, getImageUrl, isNotFound } from "#/core/pocketbase";
-  import { field, fromTemplate, retag, setStatus } from "#/core/dom";
+  import { replaceChildrenIfChanged, field, fromTemplate, retag, setStatus } from "#/core/dom";
   import { productLd, setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { tileFrom } from "#/components/image-tile";
   import { getCollection } from "../api";
@@ -126,7 +126,8 @@ const trail = record ? collectionTrail(String(category?.path ?? ""), String(reco
           field(root, "description").textContent = collection.description ?? "";
           field(root, "type").textContent = collection.description_type ?? "";
 
-          field(root, "specs").replaceChildren(
+          replaceChildrenIfChanged(
+            field(root, "specs"),
             ...collectionSpecs(collection).map((spec) => {
               const row = fromTemplate(specTemplate);
               field(row, "label").textContent = spec.name;
@@ -134,7 +135,8 @@ const trail = record ? collectionTrail(String(category?.path ?? ""), String(reco
               return row;
             }),
           );
-          field(root, "pictures").replaceChildren(
+          replaceChildrenIfChanged(
+            field(root, "pictures"),
             ...collectionImages(collection).map((item) =>
               tileFrom(tileTemplate, {
                 src: fileUrl(collection.collectionId, collection.id, item.img),

@@ -44,3 +44,25 @@ export function retag<T extends Element = HTMLElement>(element: Element, tag: st
 /** The first element of a fragment that was cloned from a template. */
 export const firstElement = <T extends Element = HTMLElement>(fragment: DocumentFragment): T =>
   fragment.firstElementChild as T;
+
+/** What a rendered item shows: its text, and the addresses of its links and pictures. */
+function shows(element: Element): string {
+  const urls = [element, ...element.querySelectorAll("a[href], img[src]")].map(
+    (node) => node.getAttribute("href") ?? node.getAttribute("src") ?? "",
+  );
+  return `${(element.textContent ?? "").replace(/\s+/g, " ").trim()}|${urls.join("|")}`;
+}
+
+/**
+ * Puts `nodes` in `parent` only when they show something else than what is there. A page built with its
+ * data refreshes it in the browser; when nothing changed, the built items stay, and their pictures are
+ * not loaded and painted again (which made the page twitch on iPhones).
+ */
+export function replaceChildrenIfChanged(parent: Element, ...nodes: Node[]): void {
+  const next = nodes.flatMap((node) =>
+    node instanceof DocumentFragment ? Array.from(node.children) : node instanceof Element ? [node] : [],
+  );
+  const current = Array.from(parent.children);
+  if (current.length === next.length && current.every((element, index) => shows(element) === shows(next[index]!))) return;
+  parent.replaceChildren(...nodes);
+}

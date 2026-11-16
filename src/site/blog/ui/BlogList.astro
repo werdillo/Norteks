@@ -79,7 +79,7 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
 
 <script>
   import { getImageUrl } from "#/core/pocketbase";
-  import { field, fromTemplate, setStatus } from "#/core/dom";
+  import { field, fromTemplate, replaceChildrenIfChanged, setStatus } from "#/core/dom";
   import { getPostsPage, type BlogPost } from "../api";
   import { postHref } from "../links";
 
@@ -110,7 +110,7 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
     // The first page: refreshed on each visit, four posts per request.
     getPostsPage(1)
       .then(async ({ posts, hasMore }) => {
-        grid.replaceChildren(...(await cards(posts)));
+        replaceChildrenIfChanged(grid, ...(await cards(posts)));
         more.hidden = !hasMore;
         setStatus(root, "ready");
       })

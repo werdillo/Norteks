@@ -62,7 +62,7 @@ const trail = category ? typeTrail(typePath, String(category.name)) : [];
 
 <script>
   import { getImageUrl, isNotFound } from "#/core/pocketbase";
-  import { field, retag, setStatus } from "#/core/dom";
+  import { replaceChildrenIfChanged, field, retag, setStatus } from "#/core/dom";
   import { setBreadcrumb, setPageMeta } from "#/core/seo";
   import { tileFrom } from "#/components/image-tile";
   import { getTypeWithCollections } from "../api";
@@ -84,7 +84,8 @@ const trail = category ? typeTrail(typePath, String(category.name)) : [];
           const hrefs = await Promise.all(collections.items.map((item) => collectionHref(type, item.path)));
           field(root, "title").textContent = category.name;
           field(root, "description").textContent = category.description ?? "";
-          field(root, "collections").replaceChildren(
+          replaceChildrenIfChanged(
+            field(root, "collections"),
             ...collections.items.map((item, index) =>
               tileFrom(template, {
                 href: hrefs[index],
