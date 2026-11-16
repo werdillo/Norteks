@@ -11,7 +11,8 @@
     "typecheck": "astro check",
     "lint": "oxlint -c configs/oxlint.config.mjs src",
     "test": "vitest run --config configs/vitest.config.ts",
-    "check": "bun run typecheck && bun run lint && bun run test"
+    "check": "bun run typecheck && bun run lint && bun run test",
+    "images": "bun scripts/compress-images.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.5",
