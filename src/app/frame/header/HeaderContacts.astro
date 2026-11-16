@@ -2,29 +2,24 @@
 import { P3 } from "#/components/typography";
 import { emails, phones } from "#/site/contacts";
 
-const column = "flex flex-col gap-8 max-1200:gap-6";
-const wrap = "flex justify-center gap-12 max-1400:gap-8 max-1200:gap-6";
-const icon = "h-14 w-14 shrink-0 max-1200:h-12 max-1200:w-12";
-const list = "flex flex-col gap-8 max-1200:gap-4";
-const text = "hover:text-highlight-soft";
+const group = "flex items-start gap-8";
+const icon = "mt-2 h-14 w-14 shrink-0 text-highlight";
+const list = "flex flex-col gap-4";
+const text = "text-on-dark whitespace-nowrap [transition:color_0.2s] hover:text-highlight-soft";
 ---
 
 <div class="flex items-start gap-20 max-1400:gap-15 max-1200:gap-10 max-768:hidden">
-  <div class={column}>
-    <div class={wrap}>
-      <span class:list={["i-tabler-phone", icon]} aria-hidden="true" />
-      <div class={list}>
-        {phones.map((item) => <P3 as="a" class={text} href={`tel:${item.number}`}>{item.display}</P3>)}
-      </div>
+  <div class={group}>
+    <span class:list={["i-tabler-phone", icon]} aria-hidden="true" />
+    <div class={list}>
+      {phones.map((item) => <P3 as="a" class={text} href={`tel:${item.number}`}>{item.display}</P3>)}
     </div>
   </div>
 
-  <div class={column}>
-    <div class={`${wrap} max-1640:hidden`}>
-      <span class:list={["i-tabler-mail", icon]} aria-hidden="true" />
-      <div class={list}>
-        {emails.map((address) => <P3 as="a" class={text} href={`mailto:${address}`}>{address}</P3>)}
-      </div>
+  <div class={`${group} max-1640:hidden`}>
+    <span class:list={["i-tabler-mail", icon]} aria-hidden="true" />
+    <div class={list}>
+      {emails.map((address) => <P3 as="a" class={text} href={`mailto:${address}`}>{address}</P3>)}
     </div>
   </div>
 </div>

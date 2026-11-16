@@ -26,8 +26,8 @@
   --color-track: #2a2a2a; /* scrollbar track */
   --color-accent: #fc7604; /* call to action, hero title */
   --color-gold: #b8995e; /* brand accent: headings, icons, hover */
-  --color-highlight: #0ff; /* active and hovered header link, search focus, hovered icon on dark */
-  --color-highlight-soft: #7fffd4; /* hovered contact link on dark */
+  --color-highlight: #d6b878; /* the gold on the dark bars: active and hovered link, search focus, column labels */
+  --color-highlight-soft: #e8d3a6; /* hovered contact link on dark */
   --color-black: #000; /* rule under a spec row */
   --color-skeleton: #ececec; /* loading placeholders on white */
   --color-skeleton-shine: #f7f7f7; /* the moving highlight over them */
@@ -51,7 +51,7 @@
   --elevation-image: 0 4px 6px rgba(0, 0, 0, 0.1);
   --elevation-image-small: 0 2px 4px rgba(0, 0, 0, 0.1);
   --elevation-menu: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --elevation-focus: 0 0 5px rgba(0, 255, 255, 0.3);
+  --elevation-focus: 0 0 0 3px rgba(214, 184, 120, 0.25);
   --elevation-accent-hover: 0 6px 12px rgba(252, 118, 4, 0.3);
   --elevation-accent-press: 0 2px 4px rgba(252, 118, 4, 0.2);
 

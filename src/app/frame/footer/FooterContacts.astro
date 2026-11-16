@@ -1,28 +1,25 @@
 ---
-import { P1 } from "#/components/typography";
+import { P2 } from "#/components/typography";
 
 interface Props {
-  /** A phone or an e-mail, which sets the icon and its size. */
+  /** A phone or an e-mail, which sets the icon. */
   variant: "phone" | "email";
   items: { href: string; text: string }[];
 }
 
 const { variant, items } = Astro.props;
 
-const icon = {
-  phone: "i-tabler-phone h-18 w-18",
-  email: "i-tabler-mail h-22 w-22",
-}[variant];
+const icon = { phone: "i-tabler-phone", email: "i-tabler-mail" }[variant];
 ---
 
-<div class="flex items-center gap-16">
-  <span class={icon} aria-hidden="true" />
-  <div class="flex flex-col gap-10">
+<div class="flex items-start gap-12">
+  <span class:list={[icon, "mt-2 h-18 w-18 shrink-0 text-highlight"]} aria-hidden="true" />
+  <div class="flex flex-col gap-6">
     {
       items.map((item) => (
-        <P1 as="a" class="text-on-dark hover:text-highlight-soft" href={item.href}>
+        <P2 as="a" class="text-on-dark [transition:color_0.2s] hover:text-highlight-soft" href={item.href}>
           {item.text}
-        </P1>
+        </P2>
       ))
     }
   </div>

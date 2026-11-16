@@ -23,7 +23,7 @@
   --text-h3-line-height: 1.3;
   --text-h3-family: var(--typeface-body);
 
-  --text-h4-size: 28px;
+  --text-h4-size: 26px;
   --text-h4-weight: 700;
   --text-h4-line-height: 1.3;
   --text-h4-family: var(--typeface-body);
@@ -40,12 +40,12 @@
 
   --text-p1-size: 18px;
   --text-p1-weight: 400;
-  --text-p1-line-height: 1.6;
+  --text-p1-line-height: 1.5;
   --text-p1-family: var(--typeface-body);
 
   --text-p2-size: 16px;
   --text-p2-weight: 400;
-  --text-p2-line-height: 1.6;
+  --text-p2-line-height: 1.5;
   --text-p2-family: var(--typeface-body);
 
   --text-p3-size: 14px;

@@ -38,7 +38,7 @@ const trail = category ? typeTrail(typePath, String(category.name)) : [];
     <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
     <div class="flex w-full flex-col" data-status="ready" hidden={!record}>
       <H2 as={titleTag} class="m-0" data-field="title">{category?.name}</H2>
-      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description">{category?.description}</P1>
+      <P1 as="div" class="text-[24px] lea mt-2 max-w-[1800px]" data-field="description">{category?.description}</P1>
       <div class={grid} data-field="collections">
         {record?.collections.map((collection) => (
           <ImageTile

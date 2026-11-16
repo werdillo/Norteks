@@ -1,10 +1,12 @@
 ---
-import { P1, P3 } from "#/components/typography";
+import { P2 } from "#/components/typography";
 import { address } from "#/site/contacts";
 ---
 
-<div class="relative ml-26 flex flex-col gap-6 max-768:mt-12">
-  <span class="i-tabler-map-pin absolute top-[-20px] left-[-24px] h-24 w-24" aria-hidden="true" />
-  <P3 as="div" class="text-on-dark">{address.city}</P3>
-  {address.lines.map((line) => <P1 as="div" class="text-on-dark">{line}</P1>) }
+<div class="flex items-start gap-12">
+  <span class="i-tabler-map-pin mt-2 h-18 w-18 shrink-0 text-highlight" aria-hidden="true" />
+  <address class="flex flex-col gap-6 not-italic">
+    <P2 as="div" class="text-on-dark">{address.city}</P2>
+    {address.lines.map((line) => <P2 as="div" class="text-on-dark opacity-85">{line}</P2>)}
+  </address>
 </div>

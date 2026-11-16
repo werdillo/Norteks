@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
-import { BlogList, getBlogPosts } from "#/site/blog";
+import { BlogList, getBlogPostsPage } from "#/site/blog";
 
-// The posts PocketBase holds at build: the list is in the HTML, the browser refreshes it.
-const posts = await getBlogPosts();
+// The first page of posts PocketBase holds at build: it is in the HTML, the browser refreshes it and loads the next ones.
+const { posts, hasMore } = await getBlogPostsPage(1);
 
 const seoData = {
   title: "Блог о тканях и дизайне | Советы от экспертов Нортекс",
@@ -12,5 +12,5 @@ const seoData = {
 ---
 
 <BaseLayout {...seoData}>
-  <BlogList posts={posts} />
+  <BlogList posts={posts} hasMore={hasMore} />
 </BaseLayout>

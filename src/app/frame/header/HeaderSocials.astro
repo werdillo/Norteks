@@ -1,15 +1,21 @@
 ---
 import { socialLinks } from "../social";
+
+// Only the accounts that have a page: a "#" link would lead nowhere.
+const links = socialLinks.filter((social) => social.href !== "#");
 ---
 
-<div class="flex gap-24 max-1400:gap-20 max-1200:gap-16 max-768:hidden">
+<div class="flex items-center gap-16 max-1200:gap-12 max-768:hidden">
   {
-    socialLinks.map((social) => (
-      <a href={social.href} aria-label={social.alt} rel={social.href.startsWith("http") ? "noopener" : undefined}>
-        <span
-          class:list={[social.icon, "block h-24 w-24 cursor-pointer max-1200:h-22 max-1200:w-22 max-768:h-20 max-768:w-20"]}
-          aria-hidden="true"
-        />
+    links.map((social) => (
+      <a
+        href={social.href}
+        aria-label={social.alt}
+        rel="noopener"
+        target="_blank"
+        class="flex text-on-dark opacity-80 [transition:opacity_0.2s,color_0.2s] hover:text-highlight hover:opacity-100"
+      >
+        <span class:list={[social.icon, "block h-20 w-20"]} aria-hidden="true" />
       </a>
     ))
   }

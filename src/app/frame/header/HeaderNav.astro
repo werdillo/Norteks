@@ -3,8 +3,11 @@ import { P3 } from "#/components/typography";
 import { headerNav, isCurrent } from "../navigation";
 
 const path = Astro.url.pathname;
-const base = "hover:text-highlight";
-const current = "text-highlight";
+// A gold rule under the link: it grows in on hover and stays under the current page.
+const link =
+  "relative py-6 text-on-dark [transition:color_0.2s] hover:text-highlight after:absolute after:bottom-0 after:left-0 after:h-2 after:w-full after:origin-left after:scale-x-0 after:rounded-[1px] after:bg-highlight after:content-[''] after:[transition:transform_0.25s_ease] hover:after:scale-x-100";
+const current = "text-highlight after:scale-x-100";
+const contactsNow = path.includes("/contacts");
 ---
 
 <nav aria-label="Разделы" class="flex flex-wrap gap-30 max-1600:gap-25 max-1400:gap-20 max-1200:hidden">
@@ -12,7 +15,7 @@ const current = "text-highlight";
     headerNav.map((item) => {
       const now = isCurrent(item, path);
       return (
-        <P3 as="a" href={item.href} aria-current={now ? "page" : undefined} class={now ? `${base} ${current}` : `${base} text-on-dark`}>
+        <P3 as="a" href={item.href} aria-current={now ? "page" : undefined} class:list={[link, now && current]}>
           {item.text}
         </P3>
       );
@@ -20,12 +23,7 @@ const current = "text-highlight";
   }
 </nav>
 <div class="min-1200:hidden max-385:hidden">
-  <P3
-    as="a"
-    href="/contacts/"
-    aria-current={path.includes("/contacts") ? "page" : undefined}
-    class={path.includes("/contacts") ? "hover:text-highlight text-highlight" : "hover:text-highlight text-on-dark"}
-  >
+  <P3 as="a" href="/contacts/" aria-current={contactsNow ? "page" : undefined} class:list={[link, contactsNow && current]}>
     Контакты
   </P3>
 </div>

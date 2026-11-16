@@ -2,19 +2,20 @@
 import { P2, P3 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
 
+// A fixed width: focus changes only the border and the ring, so nothing in the header moves.
 const input =
-  "text-p2 w-[150px] max-768:w-full max-768:max-w-[140px] rounded-field border border-solid border-line bg-field py-8 pr-12 pl-36 text-on-dark [transition:all_0.2s] placeholder:text-placeholder focus:w-[200px] focus:border-highlight focus:elevation-focus focus:[outline:none] max-768:focus:w-full max-768:focus:max-w-[160px]";
+  "text-p2 max-768:text-p3 box-border w-[180px] max-1200:w-[160px] max-768:w-[136px] rounded-pill border border-solid border-line bg-field py-7 pr-12 pl-34 text-on-dark [transition:border-color_0.2s,box-shadow_0.2s] placeholder:text-placeholder hover:border-line-strong focus:border-highlight focus:elevation-focus focus:[outline:none]";
 const panel =
-  "absolute top-[calc(100%_+_4px)] right-0 left-0 z-[var(--z-overlay)] max-h-[300px] max-768:max-h-[250px] min-w-[250px] max-768:min-w-[200px] overflow-y-auto rounded-panel border border-solid border-line bg-chrome elevation-menu [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-track [&::-webkit-scrollbar-thumb]:rounded-[3px] [&::-webkit-scrollbar-thumb]:bg-line [&::-webkit-scrollbar-thumb:hover]:bg-line-strong";
+  "absolute top-[calc(100%_+_6px)] right-0 z-[var(--z-overlay)] max-h-[320px] max-768:max-h-[250px] w-[300px] max-768:w-[min(260px,calc(100vw_-_20px))] overflow-y-auto rounded-panel border border-solid border-line bg-chrome elevation-menu [&::-webkit-scrollbar]:w-[6px] [&::-webkit-scrollbar-track]:bg-track [&::-webkit-scrollbar-thumb]:rounded-[3px] [&::-webkit-scrollbar-thumb]:bg-line [&::-webkit-scrollbar-thumb:hover]:bg-line-strong";
 const message = "text-p2 cursor-default px-12 py-10";
 const item =
   "block cursor-pointer px-12 py-10 [border-bottom:1px_solid_var(--color-divider)] [transition:background_0.2s] last:[border-bottom:none] hover:bg-field";
 ---
 
 <!-- The header search: type two letters, results after a short pause. Plain markup and a script; the script reads the data box's api.ts. -->
-<div class="relative flex items-center" data-search role="search">
+<div class="group relative flex shrink-0 items-center" data-search role="search">
   <svg
-    class="pointer-events-none absolute top-1/2 left-10 z-[1] h-16 w-16 [transform:translateY(-50%)] text-placeholder"
+    class="pointer-events-none absolute top-1/2 left-12 z-[1] h-16 w-16 [transform:translateY(-50%)] text-placeholder [transition:color_0.2s] group-focus-within:text-highlight"
     width="16"
     height="16"
     viewBox="0 0 24 24"

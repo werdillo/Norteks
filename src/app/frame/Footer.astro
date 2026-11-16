@@ -1,26 +1,56 @@
 ---
-import { P2 } from "#/components/typography";
+import { P2, P3 } from "#/components/typography";
 import { emails, phones } from "#/site/contacts";
+import { headerNav } from "./navigation";
 import FooterAddress from "./footer/FooterAddress.astro";
+import FooterColumn from "./footer/FooterColumn.astro";
 import FooterContacts from "./footer/FooterContacts.astro";
 import FooterSocial from "./footer/FooterSocial.astro";
+
+const year = new Date().getFullYear();
+const navLink = "text-on-dark opacity-85 [transition:color_0.2s,opacity_0.2s] hover:text-highlight hover:opacity-100";
+const side = "px-100 max-1600:px-50 max-1200:px-30 max-700:px-20";
 ---
 
-<footer
-  class="flex min-h-[120px] flex-wrap items-center justify-between gap-20 border-0 bg-chrome px-100 py-20 text-on-dark max-700:flex-col max-700:items-start max-700:px-20 max-700:pb-80"
->
-  <div class="flex w-[160px] flex-col gap-12">
-    <img src="/logo.png" alt="" width="501" height="222" class="h-auto w-full" />
-    <P2 as="div" class="text-on-dark">Стильный гардероб вашей мебели</P2>
+<footer class="bg-chrome text-on-dark max-768:pb-70">
+  <div
+    class:list={[
+      "grid grid-cols-[1.3fr_1fr_1.2fr_1.2fr] gap-40 py-50 max-1200:grid-cols-[1fr_1fr] max-1200:gap-30 max-700:grid-cols-[1fr] max-700:py-40",
+      side,
+    ]}
+  >
+    <div class="flex flex-col gap-16">
+      <a href="/" class="flex w-[150px]" aria-label="Нортекс — на главную">
+        <img src="/logo.png" alt="" width="501" height="222" class="h-auto w-full" loading="lazy" />
+      </a>
+      <P2 as="div" class="max-w-[260px] text-on-dark opacity-75">Стильный гардероб вашей мебели. Оптовые поставки декоративных тканей.</P2>
+      <FooterSocial />
+    </div>
+
+    <FooterColumn title="Разделы">
+      <nav aria-label="Разделы в подвале" class="flex flex-col gap-10">
+        {headerNav.map((item) => <P2 as="a" href={item.href} class={navLink}>{item.text}</P2>)}
+      </nav>
+    </FooterColumn>
+
+    <FooterColumn title="Связаться">
+      <div class="flex flex-col gap-16">
+        <FooterContacts variant="phone" items={phones.map((item) => ({ href: `tel:${item.number}`, text: item.display }))} />
+        <FooterContacts variant="email" items={emails.map((address) => ({ href: `mailto:${address}`, text: address }))} />
+      </div>
+    </FooterColumn>
+
+    <FooterColumn title="Адрес">
+      <FooterAddress />
+    </FooterColumn>
   </div>
-  <FooterAddress />
-  <FooterContacts
-    variant="phone"
-    items={phones.map((item) => ({ href: `tel:${item.number}`, text: item.display }))}
-  />
-  <FooterContacts
-    variant="email"
-    items={emails.map((address) => ({ href: `mailto:${address}`, text: address }))}
-  />
-  <FooterSocial />
+
+  <div class:list={["[border-top:1px_solid_var(--color-on-dark-faint)]", side]}>
+    <div class="flex flex-wrap items-center justify-between gap-10 py-20 max-700:flex-col max-700:items-start">
+      <P3 as="div" class="text-on-dark opacity-60">© {year} ООО «Нортекс». Все права защищены.</P3>
+      <P3 as="a" href="/contacts/" class="text-on-dark opacity-60 [transition:opacity_0.2s,color_0.2s] hover:text-highlight hover:opacity-100">
+        Как нас найти →
+      </P3>
+    </div>
+  </div>
 </footer>

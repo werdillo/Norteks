@@ -3,14 +3,16 @@ import { Container } from "#/components/container";
 import { H1, H5, P2 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
 import { getImageUrl } from "#/core/pocketbase";
-import type { BlogPost } from "../api";
+import { PAGE_SIZE, type BlogPost } from "../api";
 
 interface Props {
   /** The posts PocketBase held at build, newest first. Without them the browser fills the list. */
   posts?: BlogPost[];
+  /** Whether PocketBase held more posts than the first page at build: the «Показать ещё» button shows. */
+  hasMore?: boolean;
 }
 
-const { posts } = Astro.props;
+const { posts, hasMore = false } = Astro.props;
 const prerendered = posts !== undefined;
 const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_1fr] max-768:gap-14";
 ---
@@ -27,7 +29,7 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
       <span class="sr-only">Загрузка…</span>
       <div class={grid}>
         {
-          Array.from({ length: 6 }, () => (
+          Array.from({ length: PAGE_SIZE }, () => (
             <div>
               <Skeleton variant="tile" ratio="7/4" />
               <H5 as="div" class="m-0 mt-12"><Skeleton variant="text" width="80%" /></H5>
@@ -55,6 +57,16 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
         ))
       }
     </div>
+    <div class="mt-40 flex flex-col items-center gap-10" data-more hidden={!hasMore}>
+      <button
+        type="button"
+        class="text-p2 cursor-pointer rounded-pill border border-solid border-heading bg-surface px-32 py-12 text-heading [transition:background_0.2s,color_0.2s] hover:bg-chrome hover:text-on-dark disabled:cursor-wait disabled:opacity-60"
+        data-more-button
+      >
+        Показать ещё
+      </button>
+      <P2 as="div" class="text-muted" data-more-error hidden>Не удалось загрузить посты. Попробуйте ещё раз.</P2>
+    </div>
     <template data-post>
       <a>
         <img data-field="image" class="h-auto w-full aspect-[7/4] object-cover" alt="" loading="lazy" />
@@ -68,34 +80,59 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
 <script>
   import { getImageUrl } from "#/core/pocketbase";
   import { field, fromTemplate, setStatus } from "#/core/dom";
-  import { getPosts } from "../api";
+  import { getPostsPage, type BlogPost } from "../api";
   import { postHref } from "../links";
 
   const root = document.querySelector<HTMLElement>("[data-posts]");
   if (root) {
     const grid = root.querySelector<HTMLElement>('[data-status="ready"]')!;
     const template = root.querySelector<HTMLTemplateElement>("template[data-post]")!;
-    getPosts()
-      .then(async (posts) => {
-        const hrefs = await Promise.all(posts.map((post) => postHref(post.path)));
-        grid.replaceChildren(
-          ...posts.map((post, index) => {
-            const card = fromTemplate(template);
-            const link = card.firstElementChild as HTMLAnchorElement;
-            link.href = hrefs[index];
-            const image = field<HTMLImageElement>(card, "image");
-            image.src = getImageUrl(post);
-            image.alt = post.title;
-            field(card, "title").textContent = post.title;
-            field(card, "description").textContent = post.description ?? "";
-            return card;
-          }),
-        );
+    const more = root.querySelector<HTMLElement>("[data-more]")!;
+    const button = root.querySelector<HTMLButtonElement>("[data-more-button]")!;
+    const moreError = root.querySelector<HTMLElement>("[data-more-error]")!;
+    let page = 1;
+
+    const cards = async (posts: BlogPost[]) => {
+      const hrefs = await Promise.all(posts.map((post) => postHref(post.path)));
+      return posts.map((post, index) => {
+        const card = fromTemplate(template);
+        const link = card.firstElementChild as HTMLAnchorElement;
+        link.href = hrefs[index];
+        const image = field<HTMLImageElement>(card, "image");
+        image.src = getImageUrl(post);
+        image.alt = post.title;
+        field(card, "title").textContent = post.title;
+        field(card, "description").textContent = post.description ?? "";
+        return card;
+      });
+    };
+
+    // The first page: refreshed on each visit, four posts per request.
+    getPostsPage(1)
+      .then(async ({ posts, hasMore }) => {
+        grid.replaceChildren(...(await cards(posts)));
+        more.hidden = !hasMore;
         setStatus(root, "ready");
       })
       // Built with the list: a failed refresh keeps the built cards.
       .catch(() => {
         if (!root.hasAttribute("data-prerendered")) setStatus(root, "error");
       });
+
+    // The next page, appended under the cards already shown.
+    button.addEventListener("click", async () => {
+      button.disabled = true;
+      moreError.hidden = true;
+      try {
+        const { posts, hasMore } = await getPostsPage(page + 1);
+        grid.append(...(await cards(posts)));
+        page += 1;
+        more.hidden = !hasMore;
+      } catch {
+        moreError.hidden = false;
+      } finally {
+        button.disabled = false;
+      }
+    });
   }
 </script>

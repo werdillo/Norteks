@@ -1,25 +1,18 @@
 ---
 import { socialLinks } from "../social";
 
+// Only the accounts that have a page: a "#" link would lead nowhere.
+const links = socialLinks.filter((social) => social.href !== "#");
 const circle =
-  "flex h-40 w-40 cursor-pointer items-center justify-center rounded-[50%] bg-on-dark-faint [transition:all_0.3s] hover:bg-cyan hover:[transform:translateY(-2px)]";
-const icon = "h-20 w-20 max-768:h-18 max-768:w-18";
+  "flex h-38 w-38 items-center justify-center rounded-[50%] text-on-dark [border:1px_solid_var(--color-on-dark-faint)] bg-on-dark-faint [transition:all_0.25s] hover:border-highlight hover:text-highlight hover:[transform:translateY(-2px)]";
 ---
 
-<div class="flex items-center">
-  <div class="flex items-center gap-15 max-768:gap-12">
-    {
-      socialLinks.map((social) =>
-        social.href !== "#" ? (
-          <a href={social.href} class={circle} aria-label={social.alt}>
-            <span class:list={[social.icon, icon]} aria-hidden="true" />
-          </a>
-        ) : (
-          <div class={circle} role="img" aria-label={social.alt}>
-            <span class:list={[social.icon, icon]} aria-hidden="true" />
-          </div>
-        ),
-      )
-    }
-  </div>
+<div class="flex items-center gap-12">
+  {
+    links.map((social) => (
+      <a href={social.href} class={circle} aria-label={social.alt} rel="noopener" target="_blank">
+        <span class:list={[social.icon, "h-18 w-18"]} aria-hidden="true" />
+      </a>
+    ))
+  }
 </div>

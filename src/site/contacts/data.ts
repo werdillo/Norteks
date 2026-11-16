@@ -20,6 +20,10 @@ export const address = {
   lines: ["Дмитровское шоссе 71Б", "Бизнес-центр 7ONE, ООО \"Нортекс\""],
   /** The full line the map and the schema use. */
   full: "127238 г. Москва, Дмитровское шоссе 71Б, Западное Дегунино, Северный (САО), Бизнес-Центр \"ONE\"",
+  /** The postal index, the first number of `full`. */
+  postalCode: "127238",
+  /** The point the map centres on: the `ll=` of `mapUrl`, which Yandex writes longitude first. */
+  geo: { latitude: 55.857771, longitude: 37.541722 },
   mapUrl:
     "https://yandex.ru/map-widget/v1/?ll=37.541722,55.857771&z=16&text=Нортекс%2C%20магазин%20тканей%2C%20Москва%2C%20Дмитровское%20шоссе%2C%2071Б",
 };

@@ -4,15 +4,15 @@ import HeaderContacts from "./header/HeaderContacts.astro";
 import HeaderNav from "./header/HeaderNav.astro";
 import HeaderSocials from "./header/HeaderSocials.astro";
 
-const row = "flex flex-wrap items-center gap-35 max-1600:gap-25 max-1400:gap-20 max-1200:gap-15";
+const row = "flex flex-nowrap items-center gap-35 max-1600:gap-25 max-1400:gap-20 max-1200:gap-15";
 ---
 
-<header class="fixed top-0 z-[var(--z-header)] h-header max-768:h-header-mobile w-full border-0 bg-chrome text-on-dark">
+<header class="fixed top-0 z-[var(--z-header)] h-header max-768:h-header-mobile w-full border-0 bg-chrome text-on-dark [border-bottom:1px_solid_var(--color-on-dark-faint)] [box-shadow:0_2px_12px_rgba(0,0,0,0.18)]">
   <div
     class="flex h-header max-768:h-header-mobile items-center justify-between gap-10 px-100 max-1600:px-50 max-1400:px-20 max-1200:px-10"
   >
     <div class={row}>
-      <a href="/">
+      <a href="/" aria-label="Нортекс — на главную" class="flex shrink-0">
         <img
           src="/logo.png"
           width="501"
@@ -27,6 +27,7 @@ const row = "flex flex-wrap items-center gap-35 max-1600:gap-25 max-1400:gap-20 
     <div class={row}>
       <HeaderSocials />
       <HeaderContacts />
+      <span class="h-32 w-1 bg-on-dark-faint max-768:hidden" aria-hidden="true"></span>
       <Search />
     </div>
   </div>

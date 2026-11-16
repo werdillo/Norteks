@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { builtPaths } from "#/app/paths";
-import { getPostForBuild, PostPage, postDescription, type BlogPost } from "#/site/blog";
+import { getPostForBuild, isoDate, PostPage, postDescription, type BlogPost } from "#/site/blog";
 
 // One page per post that PocketBase holds at build time, with the post's record in the HTML.
 export async function getStaticPaths() {
@@ -21,6 +21,12 @@ const seoData = {
 };
 ---
 
-<BaseLayout {...seoData} canonical={`/post/${path}/`}>
+<BaseLayout
+  {...seoData}
+  canonical={`/post/${path}/`}
+  ogType="article"
+  publishedTime={isoDate(post.created)}
+  modifiedTime={isoDate(post.updated)}
+>
   <PostPage post={post} />
 </BaseLayout>
