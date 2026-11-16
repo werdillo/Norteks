@@ -1,22 +1,22 @@
 ---
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
 import { P1 } from "#/components/typography";
 
 interface Props {
-  icon: ImageMetadata;
-  /** A phone or an e-mail, which sets the icon size. */
+  /** A phone or an e-mail, which sets the icon and its size. */
   variant: "phone" | "email";
   items: { href: string; text: string }[];
 }
 
-const { icon, variant, items } = Astro.props;
+const { variant, items } = Astro.props;
 
-const iconClass = { phone: "h-auto w-18", email: "h-22 w-auto" };
+const icon = {
+  phone: "i-tabler-phone h-18 w-18",
+  email: "i-tabler-mail h-22 w-22",
+}[variant];
 ---
 
 <div class="flex items-center gap-16">
-  <Image class={iconClass[variant]} src={icon} alt="" />
+  <span class={icon} aria-hidden="true" />
   <div class="flex flex-col gap-10">
     {
       items.map((item) => (

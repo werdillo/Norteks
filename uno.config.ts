@@ -1,4 +1,4 @@
-import { defineConfig, presetWind4, type Variant } from "unocss";
+import { defineConfig, presetIcons, presetWind4, type Variant } from "unocss";
 
 /**
  * Breakpoints of the site, in px. The site's @media rules are inclusive
@@ -43,6 +43,11 @@ export default defineConfig({
     // The site has its own reset (the browser defaults plus main.css), so the
     // preset's preflight is off: an unstyled element must look as it did before.
     presetWind4({ preflights: { reset: false } }),
+    // Icons are Tabler, drawn from @iconify-json/tabler; a box names one as `i-tabler-…`.
+    presetIcons({
+      scale: 1,
+      extraProperties: { display: "inline-block", "vertical-align": "middle" },
+    }),
   ],
   variants: [siteBreakpoint],
   // The tokens in src/app/styles/tokens.css, exposed as utilities. The keys

@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { P3 } from "#/components/typography";
 import { isCurrent, mobileNav } from "./navigation";
 
@@ -21,7 +20,7 @@ const iconCurrent = "h-20 w-20 opacity-100 [transition:all_0.3s_ease]";
         return (
           <a href={item.href} class={current ? linkCurrent : link} aria-current={current ? "page" : undefined}>
             <div class="flex h-24 w-24 items-center justify-center">
-              <Image class={current ? iconCurrent : icon} src={item.icon} alt="" />
+              <span class:list={[item.icon, current ? iconCurrent : icon]} aria-hidden="true" />
             </div>
             <P3 as="span" class="text-center">
               {item.text}

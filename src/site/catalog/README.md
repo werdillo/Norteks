@@ -14,4 +14,4 @@ Slices:
 - `types.ts` — a search hit.
 
 Door (`index.ts`): `TypesGrid`, `TypeCollections`, `CollectionPage`, `Search`, `listTypes`,
-`listCollections` (read at build), `typeHref`, `collectionHref`.
+`listCollections` (read at build), `headerNav`, `mobileNav`.

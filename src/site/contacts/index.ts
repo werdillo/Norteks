@@ -1,2 +1,4 @@
 export { default as ContactsPage } from "./ContactsPage.astro";
-export { emails, phones } from "./data";
+export { address, emails, phones } from "./data";
+
+export { headerNav } from "./nav";

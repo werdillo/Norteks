@@ -1,8 +1,6 @@
 ---
 import { P2 } from "#/components/typography";
 import { emails, phones } from "#/site/contacts";
-import mail from "../assets/icons/mail.svg";
-import phone from "../assets/icons/phone.svg";
 import FooterAddress from "./footer/FooterAddress.astro";
 import FooterContacts from "./footer/FooterContacts.astro";
 import FooterSocial from "./footer/FooterSocial.astro";
@@ -17,12 +15,10 @@ import FooterSocial from "./footer/FooterSocial.astro";
   </div>
   <FooterAddress />
   <FooterContacts
-    icon={phone}
     variant="phone"
     items={phones.map((item) => ({ href: `tel:${item.number}`, text: item.display }))}
   />
   <FooterContacts
-    icon={mail}
     variant="email"
     items={emails.map((address) => ({ href: `mailto:${address}`, text: address }))}
   />

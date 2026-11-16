@@ -1,11 +1,10 @@
 ---
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
 import { Card } from "#/components/card";
 import { H6, P2 } from "#/components/typography";
 
 interface Props {
-  icon: ImageMetadata;
+  /** An UnoCSS icon class, such as `i-tabler-ship`. */
+  icon: string;
   title: string;
   text: string;
 }
@@ -14,7 +13,7 @@ const { icon, title, text } = Astro.props;
 ---
 
 <Card variant="raised" class="max-w-[400px] text-center [transition:transform_0.3s_ease] hover:[transform:translateY(-5px)]">
-  <Image class="mx-auto mb-20 block" src={icon} alt="" width="40" height="40" />
+  <span class:list={[icon, "mx-auto mb-20 block h-40 w-40 text-gold"]} aria-hidden="true" />
   <H6 as="h3" class="mb-15 text-heading">{title}</H6>
   <P2 class="text-muted">{text}</P2>
 </Card>

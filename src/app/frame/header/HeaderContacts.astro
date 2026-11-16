@@ -1,13 +1,10 @@
 ---
-import { Image } from "astro:assets";
 import { P3 } from "#/components/typography";
 import { emails, phones } from "#/site/contacts";
-import mail from "../../assets/icons/mail.svg";
-import phone from "../../assets/icons/phone.svg";
 
 const column = "flex flex-col gap-8 max-1200:gap-6";
 const wrap = "flex justify-center gap-12 max-1400:gap-8 max-1200:gap-6";
-const icon = "h-auto w-[14px] max-1200:w-[12px]";
+const icon = "h-14 w-14 shrink-0 max-1200:h-12 max-1200:w-12";
 const list = "flex flex-col gap-8 max-1200:gap-4";
 const text = "hover:text-highlight-soft";
 ---
@@ -15,7 +12,7 @@ const text = "hover:text-highlight-soft";
 <div class="flex items-start gap-20 max-1400:gap-15 max-1200:gap-10 max-768:hidden">
   <div class={column}>
     <div class={wrap}>
-      <Image class={icon} src={phone} alt="" />
+      <span class:list={["i-tabler-phone", icon]} aria-hidden="true" />
       <div class={list}>
         {phones.map((item) => <P3 as="a" class={text} href={`tel:${item.number}`}>{item.display}</P3>)}
       </div>
@@ -24,7 +21,7 @@ const text = "hover:text-highlight-soft";
 
   <div class={column}>
     <div class={`${wrap} max-1640:hidden`}>
-      <Image class={icon} src={mail} alt="" />
+      <span class:list={["i-tabler-mail", icon]} aria-hidden="true" />
       <div class={list}>
         {emails.map((address) => <P3 as="a" class={text} href={`mailto:${address}`}>{address}</P3>)}
       </div>

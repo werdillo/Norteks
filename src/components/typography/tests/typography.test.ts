@@ -9,7 +9,7 @@ import { expect, test } from "vitest";
  * a component or a `text-<style>` class. The global styles (app/styles) and the
  * tests are the only other places allowed to name these properties.
  */
-const SRC = resolve(fileURLToPath(new URL("../..", import.meta.url)));
+const SRC = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const ALLOWED = ["components/typography/", "app/styles/", "app/tests/"];
 
 /** Text outside the matrix. Each entry names a line by a fragment of it; the reason is in components/typography/README.md. */

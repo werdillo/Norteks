@@ -9,10 +9,10 @@ import { expect, test } from "vitest";
  *   core ← components ← site ← app ← pages
  *
  * `site` is one domain: its boxes never import each other's insides, and a box is
- * reached from outside only through its `index.ts` door. `site/shared/` is read by
- * the domain's boxes alone.
+ * reached from outside only through its `index.ts` door. A matrix's `shared/` is
+ * read by its own boxes alone.
  */
-const SRC = resolve(fileURLToPath(new URL("../..", import.meta.url)));
+const SRC = resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 const DOMAINS = ["site"];
 const ALLOWED: Record<string, string[]> = {

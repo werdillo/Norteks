@@ -10,4 +10,4 @@ Slices:
 - `links.ts` — the address of a post, its own page or the fallback.
 - `route.ts` — what the address asks for.
 
-Door (`index.ts`): `BlogList`, `PostPage`, `listBlogPosts` (read at build), `postHref`.
+Door (`index.ts`): `BlogList`, `PostPage`, `listBlogPosts` (read at build), `headerNav`, `mobileNav`.

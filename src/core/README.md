@@ -10,4 +10,5 @@ Modules:
   `field`, `retag`, `firstElement`.
 - `manifest.ts`: `RESERVED_SEGMENT` and `loadBuiltPaths`, the list of record pages the build made, read by
   the boxes that choose a record's address.
+- `nav.ts`: `NavItem`, `MobileNavItem` and `isCurrent`, the shape each box declares its menu entry in.
 - `seo.ts`: `setPageMeta`, `setJsonLd`, `setBreadcrumb`, for the metadata of pages filled in the browser.

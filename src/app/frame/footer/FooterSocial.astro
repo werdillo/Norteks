@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { socialLinks } from "../social";
 
 const circle =
@@ -12,12 +11,12 @@ const icon = "h-20 w-20 max-768:h-18 max-768:w-18";
     {
       socialLinks.map((social) =>
         social.href !== "#" ? (
-          <a href={social.href} class={circle}>
-            <Image class={icon} src={social.icon} alt={social.alt} />
+          <a href={social.href} class={circle} aria-label={social.alt}>
+            <span class:list={[social.icon, icon]} aria-hidden="true" />
           </a>
         ) : (
-          <div class={circle}>
-            <Image class={icon} src={social.icon} alt={social.alt} />
+          <div class={circle} role="img" aria-label={social.alt}>
+            <span class:list={[social.icon, icon]} aria-hidden="true" />
           </div>
         ),
       )

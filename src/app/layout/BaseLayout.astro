@@ -2,6 +2,7 @@
 import Header from "../frame/Header.astro";
 import Footer from "../frame/Footer.astro";
 import MobileMenu from "../frame/MobileMenu.astro";
+import { address, emails, phones } from "#/site/contacts";
 import "../styles/tokens.css";
 import "../styles/main.css";
 import "../styles/animations.css";
@@ -60,17 +61,18 @@ const image = new URL(ogImage, Astro.site).href;
         logo: "https://tkani-nortex.ru/logo.png",
         contactPoint: {
           "@type": "ContactPoint",
-          telephone: "+7-495-221-33-16",
+          telephone: phones[0]?.number ?? "",
           contactType: "customer service",
           areaServed: "RU",
           availableLanguage: "Russian",
         },
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Дмитровское шоссе 71Б, Бизнес-центр 7ONE",
-          addressLocality: "Москва",
+          streetAddress: address.lines.join(", "),
+          addressLocality: address.city,
           addressCountry: "RU",
         },
+        email: emails[0],
         sameAs: ["https://www.instagram.com/tknortex/", "https://t.me/tknortex"],
       })}
     />

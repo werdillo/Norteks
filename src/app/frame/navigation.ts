@@ -1,40 +1,15 @@
-import type { ImageMetadata } from "astro";
-import aboutIcon from "../assets/icons/mobile/about.svg";
-import blogIcon from "../assets/icons/mobile/blog.svg";
-import cleaningIcon from "../assets/icons/mobile/cleaning.svg";
-import furnitureIcon from "../assets/icons/mobile/furniture.svg";
-import textileIcon from "../assets/icons/mobile/textile.svg";
+import { isCurrent, type MobileNavItem, type NavItem } from "#/core/nav";
+import { mobileNav as blogMobile, headerNav as blog } from "#/site/blog";
+import { headerNav as care, mobileNav as careMobile } from "#/site/care";
+import { mobileNav as catalogMobile, headerNav as catalog } from "#/site/catalog";
+import { mobileNav as companyMobile, headerNav as company } from "#/site/company";
+import { headerNav as contacts } from "#/site/contacts";
+import { mobileNav as furnitureMobile, headerNav as furniture } from "#/site/furniture";
 
-export interface NavItem {
-  href: string;
-  text: string;
-  /** The item is the current one when the path contains one of these. */
-  match: string[];
-}
+/** The boxes declare their own menu entries; the frame only lists them in the order it shows them. */
+export const headerNav: NavItem[] = [catalog, furniture, blog, care, contacts, company];
 
-export interface MobileNavItem extends NavItem {
-  icon: ImageMetadata;
-}
+export const mobileNav: MobileNavItem[] = [catalogMobile, careMobile, furnitureMobile, blogMobile, companyMobile];
 
-/** Links of the header bar. */
-export const headerNav: NavItem[] = [
-  { href: "/textile/", text: "Коллекции", match: ["/textile", "/collection", "/product"] },
-  { href: "/furniture/", text: "Фурнитура", match: ["/furniture"] },
-  { href: "/blog/", text: "Блог", match: ["/blog", "/post"] },
-  { href: "/cleaning/", text: "Как очистить ткань", match: ["/cleaning"] },
-  { href: "/contacts/", text: "Контакты", match: ["/contacts"] },
-  { href: "/about-us/", text: "О нас", match: ["/about-us"] },
-];
-
-/** Tabs of the mobile menu at the bottom of the screen. */
-export const mobileNav: MobileNavItem[] = [
-  { href: "/textile/", text: "Коллекции", icon: textileIcon, match: ["/textile", "/collection", "/product"] },
-  { href: "/cleaning/", text: "Уход", icon: cleaningIcon, match: ["/cleaning"] },
-  { href: "/furniture/", text: "Фурнитура", icon: furnitureIcon, match: ["/furniture"] },
-  { href: "/blog/", text: "Блог", icon: blogIcon, match: ["/blog", "/post"] },
-  { href: "/about-us/", text: "О нас", icon: aboutIcon, match: ["/about-us"] },
-];
-
-/** Whether an item is the current page, judged by the request path. */
-export const isCurrent = (item: NavItem, path: string): boolean =>
-  item.match.some((part) => path.includes(part));
+export { isCurrent };
+export type { MobileNavItem, NavItem };
