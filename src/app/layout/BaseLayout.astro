@@ -3,6 +3,7 @@ import Header from "../frame/Header.astro";
 import Footer from "../frame/Footer.astro";
 import MobileMenu from "../frame/MobileMenu.astro";
 import { address, emails, phones } from "#/site/contacts";
+import { jsonLd } from "#/core/seo/jsonld";
 import "../styles/tokens.css";
 import "../styles/main.css";
 import "../styles/animations.css";
@@ -21,6 +22,9 @@ export interface Props {
 const { title, description, canonical, ogImage = "/logo.png", robots = "index, follow" } = Astro.props;
 const url = new URL(canonical ?? Astro.url.pathname, Astro.site).href;
 const image = new URL(ogImage, Astro.site).href;
+// The site's home address (with its trailing slash) and the organization's id in the graph.
+const home = new URL("/", Astro.site).href;
+const organizationId = `${home}#organization`;
 ---
 
 <!doctype html>
@@ -42,6 +46,7 @@ const image = new URL(ogImage, Astro.site).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
+    <meta property="og:image:alt" content={title} />
     <meta property="og:site_name" content="Нортекс" />
     <meta property="og:locale" content="ru_RU" />
 
@@ -52,13 +57,13 @@ const image = new URL(ogImage, Astro.site).href;
 
     <script
       type="application/ld+json"
-      set:html={JSON.stringify({
-        "@context": "https://schema.org",
+      set:html={jsonLd({
+        "@id": organizationId,
         "@type": "Organization",
         name: "Нортекс",
         description: "Оптовый поставщик декоративных тканей",
-        url: "https://tkani-nortex.ru",
-        logo: "https://tkani-nortex.ru/logo.png",
+        url: home,
+        logo: new URL("/logo.png", Astro.site).href,
         contactPoint: {
           "@type": "ContactPoint",
           telephone: phones[0]?.number ?? "",
@@ -76,6 +81,20 @@ const image = new URL(ogImage, Astro.site).href;
         sameAs: ["https://www.instagram.com/tknortex/", "https://t.me/tknortex"],
       })}
     />
+    {
+      Astro.url.pathname === "/" && (
+        <script
+          type="application/ld+json"
+          set:html={jsonLd({
+            "@type": "WebSite",
+            name: "Нортекс",
+            url: home,
+            inLanguage: "ru",
+            publisher: { "@id": organizationId },
+          })}
+        />
+      )
+    }
   </head>
   <body class="m-0 font-body">
     <div id="main" class="flex min-h-screen flex-col">

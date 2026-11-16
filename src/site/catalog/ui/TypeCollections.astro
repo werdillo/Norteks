@@ -3,20 +3,30 @@ import { Container } from "#/components/container";
 import { ImageTile } from "#/components/image-tile";
 import { H2, P1 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
+import { getImageUrl } from "#/core/pocketbase";
+import { breadcrumbLd, jsonLd } from "#/core/seo";
+import type { TypeRecord } from "../types";
+import { typeTrail } from "../seo";
 
 interface Props {
   /** `h1` on the type's page; the fallback page starts with h2 and the script makes it h1 when it shows a type. */
   titleTag?: "h1" | "h2";
+  /** The type and its collections, read at build. Without it the page is only filled by the browser (the fallback). */
+  record?: TypeRecord;
 }
 
-const { titleTag = "h1" } = Astro.props;
+const { titleTag = "h1", record } = Astro.props;
 const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid-cols-[1fr_1fr] max-1024:gap-10";
+const category = record?.category;
+const typePath = String(category?.path ?? "");
+const extended = category?.description_extended ? String(category.description_extended) : "";
+const trail = category ? typeTrail(typePath, String(category.name)) : [];
 ---
 
 <!-- The page of one type (/textile/<type>): the browser reads the type from the address. -->
 <Container>
-  <div class="flex w-full flex-col" data-type-page aria-busy="true">
-    <div class="flex w-full flex-col" data-status="loading">
+  <div class="flex w-full flex-col" data-type-page aria-busy={record ? "false" : "true"} data-prerendered={record ? true : undefined}>
+    <div class="flex w-full flex-col" data-status="loading" hidden={!!record}>
       <span class="sr-only">Загрузка…</span>
       <H2 as="div" class="m-0"><Skeleton variant="text" width="45%" /></H2>
       <P1 as="div" class="mt-2 max-w-[1800px]"><Skeleton variant="text" lines={2} width="70%" /></P1>
@@ -26,17 +36,29 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid
     </div>
     <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
     <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
-    <div class="flex w-full flex-col" data-status="ready" hidden>
-      <H2 as={titleTag} class="m-0" data-field="title"></H2>
-      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
-      <div class={grid} data-field="collections"></div>
-      <P1 as="div" data-field="extended"></P1>
+    <div class="flex w-full flex-col" data-status="ready" hidden={!record}>
+      <H2 as={titleTag} class="m-0" data-field="title">{category?.name}</H2>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description">{category?.description}</P1>
+      <div class={grid} data-field="collections">
+        {record?.collections.map((collection) => (
+          <ImageTile
+            href={`/textile/${typePath}/${collection.path}/`}
+            src={getImageUrl(collection)}
+            alt={String(collection.name)}
+            label={String(collection.name)}
+            ratio="7/6"
+          />
+        ))}
+      </div>
+      <P1 as="div" data-field="extended"><Fragment set:html={extended} /></P1>
     </div>
     <template data-tile>
       <ImageTile href="#" src="" alt="" label="" ratio="7/6" />
     </template>
   </div>
 </Container>
+
+{record && <script type="application/ld+json" id="ld-breadcrumb" set:html={jsonLd(breadcrumbLd(trail, Astro.site!))} />}
 
 <script>
   import { getImageUrl, isNotFound } from "#/core/pocketbase";
@@ -46,6 +68,7 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid
   import { getTypeWithCollections } from "../api";
   import { collectionHref } from "../links";
   import { isTextileFallback, textileRoute } from "../route";
+  import { typeDescription, typeTrail } from "../seo";
 
   const root = document.querySelector<HTMLElement>("[data-type-page]");
   if (root) {
@@ -77,18 +100,20 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1200:grid
 
           setPageMeta({
             title: `${category.name} - Коллекции тканей | Нортекс`,
-            description: category.description || `Коллекции ${category.name} от компании Нортекс`,
+            description: root.hasAttribute("data-prerendered")
+              ? typeDescription(category)
+              : category.description || `Коллекции ${category.name} от компании Нортекс`,
             image: getImageUrl(category),
             canonicalPath: `/textile/${type}/`,
           });
-          setBreadcrumb([
-            ["Главная", "/"],
-            ["Коллекции", "/textile/"],
-            [category.name, `/textile/${type}/`],
-          ]);
+          setBreadcrumb(typeTrail(type, category.name));
           setStatus(root, "ready");
         })
-        .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+        .catch((error) => {
+          // A built page keeps what the build wrote when the refresh fails.
+          if (root.hasAttribute("data-prerendered")) console.error(error);
+          else setStatus(root, isNotFound(error) ? "empty" : "error");
+        });
     }
   }
 </script>

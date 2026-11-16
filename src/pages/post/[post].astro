@@ -1,23 +1,26 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { builtPaths } from "#/app/paths";
-import { PostPage } from "#/site/blog";
+import { getPostForBuild, PostPage, postDescription, type BlogPost } from "#/site/blog";
 
-// One page per post that PocketBase holds at build time.
+// One page per post that PocketBase holds at build time, with the post's record in the HTML.
 export async function getStaticPaths() {
   const { posts } = await builtPaths();
-  return posts.map((post) => ({ params: { post: post.path }, props: { title: post.title, description: post.description } }));
+  // One request at a time: the build's parallel reads of PocketBase drop under load.
+  const paths = [];
+  for (const post of posts) paths.push({ params: { post: post.path }, props: { post: await getPostForBuild(post.path) } });
+  return paths;
 }
 
-const { post = "" } = Astro.params;
-const { title, description } = Astro.props as { title: string; description: string };
-const label = title || post;
+const { post } = Astro.props as { post: BlogPost };
+const path = Astro.params.post ?? "";
+const label = post.title || path;
 const seoData = {
   title: `${label} | Блог Нортекс`,
-  description: description || label,
+  description: postDescription(post),
 };
 ---
 
-<BaseLayout {...seoData} canonical={`/post/${post}/`}>
-  <PostPage />
+<BaseLayout {...seoData} canonical={`/post/${path}/`}>
+  <PostPage post={post} />
 </BaseLayout>

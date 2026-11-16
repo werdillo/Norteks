@@ -1,0 +1,34 @@
+---
+import BaseLayout from "#/app/layout/BaseLayout.astro";
+import { Container } from "#/components/container";
+import { H1, P1 } from "#/components/typography";
+
+// The page for an address that does not exist. Astro writes it to dist/404.html, and
+// deploy/nginx.conf serves it for every missing address. It is not indexed.
+const seoData = {
+  title: "Страница не найдена | Нортекс",
+  description: "Такой страницы на сайте Нортекс нет. Перейдите в каталог тканей, блог или контакты.",
+  canonical: "/",
+  robots: "noindex, follow",
+};
+
+const sections = [
+  { href: "/", text: "Главная" },
+  { href: "/textile/", text: "Каталог тканей" },
+  { href: "/blog/", text: "Блог" },
+  { href: "/contacts/", text: "Контакты" },
+];
+const link = "text-heading hover:text-gold";
+---
+
+<BaseLayout {...seoData}>
+  <Container width="min">
+    <H1 class="mt-0 text-heading">Страница не найдена</H1>
+    <P1 class="mb-24">Возможно, адрес изменился или в нём опечатка. Выберите раздел:</P1>
+    <nav aria-label="Разделы сайта" class="flex flex-col gap-12">
+      {sections.map((section) => (
+        <P1 as="a" class={link} href={section.href}>{section.text}</P1>
+      ))}
+    </nav>
+  </Container>
+</BaseLayout>

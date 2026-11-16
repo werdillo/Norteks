@@ -1,17 +1,8 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import UnoCSS from "@unocss/astro";
-
-/** Copies the sitemap to /sitemap.xml: a stock web server serves that name, not the index. */
-const sitemapAlias = {
-  name: "sitemap-alias",
-  hooks: {
-    "astro:build:done": async ({ dir }) => {
-      const { copyFile } = await import("node:fs/promises");
-      await copyFile(new URL("sitemap-0.xml", dir), new URL("sitemap.xml", dir));
-    },
-  },
-};
+// Relative on purpose: the `#/` alias does not resolve in the config.
+import { sitemapAlias, sitemapExclude } from "./src/core/seo/sitemap.ts";
 
 // https://astro.build/config
 // Static output with trailing slashes: every page is a directory with an index.html,
@@ -27,7 +18,8 @@ export default defineConfig({
   integrations: [
     UnoCSS(),
     // The fallback pages (…/item/) are not indexed, so they stay out of the sitemap.
-    sitemap({ filter: (page) => !page.includes("/item/") }),
-    sitemapAlias,
+    sitemap({ filter: sitemapExclude(["/item/"]) }),
+    // A stock web server serves /sitemap.xml, not the index.
+    sitemapAlias(),
   ],
 });

@@ -1,6 +1,15 @@
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import type { SliderSlide } from "#/components/slider";
 import homeImage from "./homeImage.jpg";
 import textileImage from "./textile.jpg";
+
+/**
+ * A slide background: the slider paints it as a CSS background, so it cannot take
+ * `<Image>`; the original JPEG (2.5 MB) was sent as is. A 1920px WebP is a fraction.
+ */
+const background = async (src: ImageMetadata) =>
+  (await getImage({ src, width: 1920, format: "webp", quality: 72 })).src;
 
 /** The hero slides of the home page. */
 export const heroSlides: SliderSlide[] = [
@@ -8,13 +17,13 @@ export const heroSlides: SliderSlide[] = [
     title: "Стильный гардероб мягкой мебели",
     href: "mailto:firma.nortex@gmail.com",
     label: "Оставить заявку",
-    image: homeImage.src,
+    image: await background(homeImage),
   },
   {
     title: "Широкий выбор тканей",
     href: "/textile/",
     label: "Текстиль",
-    image: textileImage.src,
+    image: await background(textileImage),
   },
 ];
 

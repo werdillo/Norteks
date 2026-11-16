@@ -5,3 +5,9 @@ export type SearchResult = RecordModel & {
   type: "category" | "collection";
   url: string;
 };
+
+/** A type as read at build: its category and its collections. */
+export interface TypeRecord {
+  category: RecordModel;
+  collections: RecordModel[];
+}

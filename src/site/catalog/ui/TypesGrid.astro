@@ -1,30 +1,40 @@
 ---
+import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
 import { ImageTile } from "#/components/image-tile";
 import { H4, P2 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
+import { getImageUrl } from "#/core/pocketbase";
+import { getTypes } from "../api";
 
 interface Props {
   /** The heading's tag: h1 on the types page, h2 under the home page's hero. */
   heading?: "h1" | "h2";
+  /** The types read at build. Without it the component reads them itself, so every use is filled in the HTML. */
+  types?: RecordModel[];
 }
 
 const { heading = "h1" } = Astro.props;
+const types = Astro.props.types ?? (await getTypes());
 
 const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid-cols-[1fr_1fr] max-1024:gap-10";
 ---
 
 <Container>
   <H4 as={heading} class="m-0">Широкий выбор тканей</H4>
-  <div class="w-full" data-types aria-busy="true">
-    <div data-status="loading">
+  <div class="w-full" data-types aria-busy="false" data-prerendered>
+    <div data-status="loading" hidden>
       <span class="sr-only">Загрузка…</span>
       <div class={grid}>
         {Array.from({ length: 8 }, () => <Skeleton variant="tile" ratio="4/3" />)}
       </div>
     </div>
     <P2 as="div" class="mt-20 text-muted" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
-    <div class={grid} data-status="ready" hidden></div>
+    <div class={grid} data-status="ready">
+      {types.map((type) => (
+        <ImageTile href={`/textile/${type.path}/`} src={getImageUrl(type)} alt={String(type.name)} label={String(type.name)} ratio="4/3" />
+      ))}
+    </div>
     <template data-tile>
       <ImageTile href="#" src="" alt="" label="" ratio="4/3" />
     </template>
@@ -59,7 +69,8 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr] gap-20 max-1024:grid
       })
       .catch((error) => {
         console.error(error);
-        setStatus(root, "error");
+        // The built grid stays: a failed refresh must not empty the page.
+        if (!root.hasAttribute("data-prerendered")) setStatus(root, "error");
       });
   }
 </script>

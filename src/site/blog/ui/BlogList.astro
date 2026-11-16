@@ -2,14 +2,28 @@
 import { Container } from "#/components/container";
 import { H1, H5, P2 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
+import { getImageUrl } from "#/core/pocketbase";
+import type { BlogPost } from "../api";
 
+interface Props {
+  /** The posts PocketBase held at build, newest first. Without them the browser fills the list. */
+  posts?: BlogPost[];
+}
+
+const { posts } = Astro.props;
+const prerendered = posts !== undefined;
 const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_1fr] max-768:gap-14";
 ---
 
 <Container>
   <H1 class="sr-only">Блог</H1>
-  <div class="flex w-full flex-col" data-posts aria-busy="true">
-    <div data-status="loading">
+  <div
+    class="flex w-full flex-col"
+    data-posts
+    aria-busy={prerendered ? "false" : "true"}
+    data-prerendered={prerendered ? "" : undefined}
+  >
+    <div data-status="loading" hidden={prerendered}>
       <span class="sr-only">Загрузка…</span>
       <div class={grid}>
         {
@@ -24,7 +38,23 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
       </div>
     </div>
     <P2 as="div" class="text-muted" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
-    <div class={grid} data-status="ready" hidden></div>
+    <div class={grid} data-status="ready" hidden={!prerendered}>
+      {
+        posts?.map((post) => (
+          <a href={`/post/${post.path}/`}>
+            <img
+              data-field="image"
+              class="h-auto w-full aspect-[7/4] object-cover"
+              src={getImageUrl(post) || undefined}
+              alt={post.title}
+              loading="lazy"
+            />
+            <H5 as="h2" class="m-0 mt-12" data-field="title">{post.title}</H5>
+            <P2 as="div" class="mt-6" data-field="description">{post.description ?? ""}</P2>
+          </a>
+        ))
+      }
+    </div>
     <template data-post>
       <a>
         <img data-field="image" class="h-auto w-full aspect-[7/4] object-cover" alt="" loading="lazy" />
@@ -63,6 +93,9 @@ const grid = "grid w-full grid-cols-[1fr_1fr_1fr] gap-30 max-768:grid-cols-[1fr_
         );
         setStatus(root, "ready");
       })
-      .catch(() => setStatus(root, "error"));
+      // Built with the list: a failed refresh keeps the built cards.
+      .catch(() => {
+        if (!root.hasAttribute("data-prerendered")) setStatus(root, "error");
+      });
   }
 </script>

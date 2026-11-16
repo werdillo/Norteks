@@ -2,11 +2,45 @@
 import { Container } from "#/components/container";
 import { H3, P1, P2 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
+import { getImageUrl } from "#/core/pocketbase";
+import { breadcrumbLd, jsonLd } from "#/core/seo";
+import type { BlogPost } from "../api";
+import { postArticle, postDescription } from "../seo";
+
+interface Props {
+  /** The post, read at build: its content is in the HTML. Without it the browser fills the page. */
+  post?: BlogPost;
+}
+
+const { post } = Astro.props;
+const image = post ? getImageUrl(post) : "";
+const site = Astro.site!;
 ---
 
-<!-- One post (/post/<path>): the browser reads the post from the address. -->
-<div data-post-page aria-busy="true">
-  <div data-status="loading">
+<!-- One post (/post/<path>): built with the post, and refreshed by the browser from the address. -->
+<div data-post-page aria-busy={post ? "false" : "true"} data-prerendered={post ? "" : undefined}>
+  {
+    post && (
+      <>
+        <script
+          type="application/ld+json"
+          id="ld-breadcrumb"
+          set:html={jsonLd(
+            breadcrumbLd(
+              [
+                ["Главная", "/"],
+                ["Блог", "/blog/"],
+                [post.title, `/post/${post.path}/`],
+              ],
+              site,
+            ),
+          )}
+        />
+        <script type="application/ld+json" id="ld-article" set:html={jsonLd(postArticle(post, site))} />
+      </>
+    )
+  }
+  <div data-status="loading" hidden={Boolean(post)}>
     <span class="sr-only">Загрузка…</span>
     <Skeleton variant="block" class="h-[500px] w-full max-768:h-[30vh]" />
     <Container>
@@ -20,12 +54,18 @@ import { Skeleton } from "#/components/skeleton";
     <P2 as="div" class="p-20" data-status="empty" hidden>Ничего не найдено</P2>
     <P2 as="div" class="p-20" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P2>
   </Container>
-  <div data-status="ready" hidden>
-    <img data-field="image" class="h-[500px] w-full object-cover max-768:h-[30vh]" alt="" fetchpriority="high" />
+  <div data-status="ready" hidden={!post}>
+    <img
+      data-field="image"
+      class="h-[500px] w-full object-cover max-768:h-[30vh]"
+      src={image || undefined}
+      alt={post?.title ?? ""}
+      fetchpriority="high"
+    />
     <Container>
       <div class="p-20 max-768:p-10">
-        <H3 as="h1" class="m-0" data-field="title"></H3>
-        <P1 as="div" data-field="content"></P1>
+        <H3 as="h1" class="m-0" data-field="title">{post?.title}</H3>
+        <P1 as="div" data-field="content"><Fragment set:html={post?.content ?? ""} /></P1>
       </div>
     </Container>
   </div>
@@ -34,12 +74,15 @@ import { Skeleton } from "#/components/skeleton";
 <script>
   import { getImageUrl, isNotFound } from "#/core/pocketbase";
   import { field, setStatus } from "#/core/dom";
-  import { setBreadcrumb, setPageMeta } from "#/core/seo";
+  import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { getPostByPath } from "../api";
+  import { postArticle, postDescription } from "../seo";
   import { postRoute } from "../route";
 
   const root = document.querySelector<HTMLElement>("[data-post-page]");
   if (root) {
+    // Built with the post: a failed refresh keeps the built content.
+    const prerendered = root.hasAttribute("data-prerendered");
     const path = postRoute();
     getPostByPath(path)
       .then((post) => {
@@ -49,9 +92,10 @@ import { Skeleton } from "#/components/skeleton";
         image.alt = post.title;
         // The content is HTML written in PocketBase by the site's editors.
         field(root, "content").innerHTML = String(post.content ?? "");
+        const site = import.meta.env.SITE ?? location.origin;
         setPageMeta({
           title: `${post.title} | Блог Нортекс`,
-          description: post.description || post.title,
+          description: prerendered ? postDescription(post) : post.description || post.title,
           image: getImageUrl(post),
           canonicalPath: `/post/${path}/`,
         });
@@ -60,8 +104,11 @@ import { Skeleton } from "#/components/skeleton";
           ["Блог", "/blog/"],
           [post.title, `/post/${path}/`],
         ]);
+        if (prerendered) setJsonLd("ld-article", postArticle(post, site));
         setStatus(root, "ready");
       })
-      .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+      .catch((error) => {
+        if (!prerendered) setStatus(root, isNotFound(error) ? "empty" : "error");
+      });
   }
 </script>

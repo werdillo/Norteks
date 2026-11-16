@@ -1,26 +1,33 @@
 ---
+import type { RecordModel } from "pocketbase";
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { builtPaths } from "#/app/paths";
-import { CollectionPage } from "#/site/catalog";
+import { getImageUrl } from "#/core/pocketbase";
+import { CollectionPage, categoryOf, collectionDescription, getCollectionOf } from "#/site/catalog";
 
-// One page per collection that PocketBase holds at build time, under its type.
+// One page per collection that PocketBase holds at build time, under its type. The collection
+// is rendered into the page; the browser refreshes it from PocketBase after the page loads.
 export async function getStaticPaths() {
   const { collections } = await builtPaths();
-  return collections.map((collection) => ({
-    params: { type: collection.type, collection: collection.path },
-    props: { name: collection.name, description: collection.description },
-  }));
+  // One read after another, not a burst of parallel requests from the build.
+  const paths = [];
+  for (const collection of collections) {
+    const record = await getCollectionOf(collection.type, collection.path);
+    paths.push({ params: { type: collection.type, collection: collection.path }, props: { record } });
+  }
+  return paths;
 }
 
 const { type = "", collection = "" } = Astro.params;
-const { name, description } = Astro.props as { name: string; description: string };
-const label = name || collection;
+const { record } = Astro.props as { record: RecordModel };
+const label = String(record.name || collection);
 const seoData = {
   title: `${label} - Ткани коллекции | Нортекс`,
-  description: description || `Ткани из коллекции ${label}`,
+  description: collectionDescription(record, categoryOf(record)?.name),
+  ogImage: getImageUrl(record) || undefined,
 };
 ---
 
 <BaseLayout {...seoData} canonical={`/textile/${type}/${collection}/`}>
-  <CollectionPage />
+  <CollectionPage record={record} />
 </BaseLayout>

@@ -1,24 +1,32 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { builtPaths } from "#/app/paths";
-import { TypeCollections } from "#/site/catalog";
+import { getImageUrl } from "#/core/pocketbase";
+import { getTypeWithCollections, TypeCollections, typeDescription, type TypeRecord } from "#/site/catalog";
 
-// One page per type that PocketBase holds at build time. The browser loads the
-// collections; the title and description name the type as it was at build.
+// One page per type that PocketBase holds at build time. The type and its collections are
+// rendered into the page; the browser refreshes them from PocketBase after the page loads.
 export async function getStaticPaths() {
   const { types } = await builtPaths();
-  return types.map((type) => ({ params: { type: type.path }, props: { name: type.name, description: type.description } }));
+  // One read after another, not a burst of parallel requests from the build.
+  const paths = [];
+  for (const type of types) {
+    const { category, collections } = await getTypeWithCollections(type.path);
+    paths.push({ params: { type: type.path }, props: { record: { category, collections: collections.items } satisfies TypeRecord } });
+  }
+  return paths;
 }
 
 const { type = "" } = Astro.params;
-const { name, description } = Astro.props as { name: string; description: string };
-const label = name || type;
+const { record } = Astro.props as { record: TypeRecord };
+const label = String(record.category.name || type);
 const seoData = {
   title: `${label} - Коллекции тканей | Нортекс`,
-  description: description || `Коллекции ${label} от компании Нортекс`,
+  description: typeDescription(record.category),
+  ogImage: getImageUrl(record.category) || undefined,
 };
 ---
 
 <BaseLayout {...seoData} canonical={`/textile/${type}/`}>
-  <TypeCollections />
+  <TypeCollections record={record} />
 </BaseLayout>

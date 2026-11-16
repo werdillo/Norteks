@@ -31,6 +31,8 @@ src/
     textile/item/       fallback for a type or collection created after the build
     post/[post].astro   one page per post (built from PocketBase)
     post/item/          fallback for a post created after the build
+    404.astro           the not-found page, built to dist/404.html
+    robots.txt.ts       robots.txt, from the rules in core/seo/robots.ts
     paths.json.ts       the list of built record pages, read by the browser to choose links
 ```
 
@@ -57,6 +59,8 @@ bun run check              # typecheck, lint, tests
 | `/post/item/?post=<post>` | fallback for a post made after the build (`noindex`) |
 | `/paths.json` | the built record pages, used by the browser to choose the links |
 | `/sitemap.xml` | the sitemap (also `/sitemap-index.xml`) |
+| `/robots.txt` | the crawl rules: everything open except `/api/`, and the sitemap address |
+| `/404.html` | the not-found page (`noindex`); `deploy/nginx.conf` serves it for a missing address, a stock server shows its own |
 
 Every address ends with a slash. A stock server redirects `/about-us` to `/about-us/`; the links and canonicals already use the slash form, so no page links through that redirect.
 
@@ -81,13 +85,13 @@ bun run build
 rsync -a --delete dist/ /var/www/norteks/dist/
 ```
 
-That is all. The server needs a root at `dist/`, `index index.html`, and nothing else. `deploy/nginx.conf` is an optional tuning (compression, cache headers) for nginx; the site works without it.
+That is all. The server needs a root at `dist/`, `index index.html`, and nothing else. `deploy/nginx.conf` is an optional tuning for nginx (compression, cache headers, and the site's own 404 page); the site works without it, a missing address then gets the server's own 404 page.
 
 `bun run preview` serves `dist/` the same way (`deploy/serve-dist.mjs`) for a local check.
 
 ## SEO
 
-Each static page has its own title, description, canonical URL, Open Graph and Twitter card, and the organization JSON-LD. The record pages get their title and description at build from the record's name, and the browser refreshes them with the loaded record. Once the record is loaded, the browser also sets the canonical, Open Graph, the breadcrumb (and a Product on a collection). The sitemap (`/sitemap.xml`) lists the static pages and every built record page; the fallback pages are left out. `robots.txt` points to it.
+Each static page has its own title, description, canonical URL, Open Graph and Twitter card, and the organization JSON-LD (the home page also carries a WebSite). The record pages get their title and description at build from the record's name, and the browser refreshes them with the loaded record. Once the record is loaded, the browser also sets the canonical, Open Graph, the breadcrumb (and a Product on a collection). The sitemap (`/sitemap.xml`) lists the static pages and every built record page; the fallback pages are left out. `robots.txt` allows everything except `/api/` and points to it. The not-found page is `noindex`.
 
 Known limit, by choice: the content of a record is not in the HTML a crawler receives without running JavaScript, and a record created after the build is only reachable through its fallback page until the next build.
 
@@ -110,7 +114,7 @@ Deviations from the latest-everything baseline, and why:
 - The browser's PocketBase client has auto-cancellation off: the pages make parallel requests on purpose.
 - No `features/` layer: the site has no i18n and no analytics.
 - `@types/node` added: the layer test and the vitest config use `node:` modules.
-- `@astrojs/sitemap` replaces the hand-written sitemap; `/sitemap.xml` is a copy of its URL list; `robots.txt` no longer disallows `/_astro/`, because the browser needs the bundles.
+- `@astrojs/sitemap` replaces the hand-written sitemap; `/sitemap.xml` is a copy of its URL list; `robots.txt` no longer disallows `/_astro/`, because the browser needs the bundles. It is generated (`src/pages/robots.txt.ts`) and has no Crawl-delay, which Google ignores, and no paths the site does not have.
 - Not added: `astro-compress`, `astro-relative-links`, `@tabler/icons` (icons are Tabler through `@iconify-json/tabler`), `zod`, `class-variance-authority`, `clsx`. The site imports none of them.
 - `tsconfig.json` extends `astro/tsconfigs/strict`.
 

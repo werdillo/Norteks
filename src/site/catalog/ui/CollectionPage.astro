@@ -1,23 +1,36 @@
 ---
+import type { RecordModel } from "pocketbase";
 import { Container } from "#/components/container";
 import { ImageTile } from "#/components/image-tile";
 import { H3, H6, P1, P3 } from "#/components/typography";
 import { Skeleton } from "#/components/skeleton";
+import { fileUrl, getImageUrl } from "#/core/pocketbase";
+import { breadcrumbLd, jsonLd, productLd } from "#/core/seo";
+import { collectionImages, collectionSpecs } from "../services";
+import { categoryOf, collectionDescription, collectionTrail } from "../seo";
 
 interface Props {
   /** `h1` on a collection's page; the fallback page starts with h2 and the script makes it h1 when it shows a collection. */
   titleTag?: "h1" | "h2";
+  /** The collection, read at build with its category expanded. Without it the page is only filled by the browser (the fallback). */
+  record?: RecordModel;
 }
 
-const { titleTag = "h1" } = Astro.props;
+const { titleTag = "h1", record } = Astro.props;
 const specRow = "mb-8 flex max-w-[300px] flex-col gap-6 [border-bottom:1px_solid_var(--color-black)] pb-12";
 const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1200:grid-cols-[1fr_1fr_1fr] max-1200:gap-5";
+
+const category = record ? categoryOf(record) : undefined;
+const specs = record ? collectionSpecs(record) : [];
+const pictures = record ? collectionImages(record).map((item) => ({ ...item, src: fileUrl(record.collectionId, record.id, item.img) })) : [];
+const description = record ? collectionDescription(record, category?.name) : "";
+const trail = record ? collectionTrail(String(category?.path ?? ""), String(record.path), String(record.name), category?.name) : [];
 ---
 
 <!-- One collection (/textile/<type>/<collection>): the browser reads the collection from the address. -->
 <Container>
-  <div class="flex w-full flex-col" data-collection-page aria-busy="true">
-    <div class="flex w-full flex-col" data-status="loading">
+  <div class="flex w-full flex-col" data-collection-page aria-busy={record ? "false" : "true"} data-prerendered={record ? true : undefined}>
+    <div class="flex w-full flex-col" data-status="loading" hidden={!!record}>
       <span class="sr-only">Загрузка…</span>
       <H3 as="div" class="m-0"><Skeleton variant="text" width="50%" /></H3>
       <P1 as="div" class="mt-2 max-w-[1800px]"><Skeleton variant="text" width="60%" /></P1>
@@ -37,13 +50,24 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
     </div>
     <P1 as="div" data-status="empty" hidden>Ничего не найдено</P1>
     <P1 as="div" data-status="error" hidden>Не удалось загрузить данные. Попробуйте позже.</P1>
-    <div class="flex w-full flex-col" data-status="ready" hidden>
-      <H3 as={titleTag} class="m-0" data-field="name"></H3>
-      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description"></P1>
-      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="type"></P1>
+    <div class="flex w-full flex-col" data-status="ready" hidden={!record}>
+      <H3 as={titleTag} class="m-0" data-field="name">{record?.name}</H3>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="description">{record?.description}</P1>
+      <P1 as="div" class="mt-2 max-w-[1800px]" data-field="type">{record?.description_type}</P1>
       <br />
-      <div class="flex flex-col" data-field="specs"></div>
-      <div class={grid} data-field="pictures"></div>
+      <div class="flex flex-col" data-field="specs">
+        {specs.map((spec) => (
+          <div class={specRow}>
+            <P3 as="div" class="text-muted" data-field="label">{spec.name}</P3>
+            <H6 as="div" data-field="value">{String(spec.value)}</H6>
+          </div>
+        ))}
+      </div>
+      <div class={grid} data-field="pictures">
+        {pictures.map((item) => (
+          <ImageTile src={item.src} alt={item.textile} label={item.textile} ratio="1/1" />
+        ))}
+      </div>
     </div>
     <template data-spec>
       <div class={specRow}>
@@ -57,11 +81,25 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
   </div>
 </Container>
 
+{
+  record && (
+    <>
+      <script type="application/ld+json" id="ld-breadcrumb" set:html={jsonLd(breadcrumbLd(trail, Astro.site!))} />
+      <script
+        type="application/ld+json"
+        id="ld-product"
+        set:html={jsonLd(productLd({ name: String(record.name), description, image: getImageUrl(record), brand: "Нортекс" }))}
+      />
+    </>
+  )
+}
+
 <script>
+  import { categoryOf, collectionDescription, collectionTrail } from "../seo";
   import { collectionImages, collectionSpecs } from "../services";
   import { fileUrl, getImageUrl, isNotFound } from "#/core/pocketbase";
   import { field, fromTemplate, retag, setStatus } from "#/core/dom";
-  import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
+  import { productLd, setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { tileFrom } from "#/components/image-tile";
   import { getCollection } from "../api";
   import { isTextileFallback, textileRoute } from "../route";
@@ -78,6 +116,12 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
 
       getCollection(path)
         .then((collection) => {
+          const category = categoryOf(collection);
+          // A built page gets the built description; the fallback keeps the record's own text as it was.
+          const built = root.hasAttribute("data-prerendered");
+          const description = built
+            ? collectionDescription(collection, category?.name)
+            : collection.description || `Ткани из коллекции ${collection.name}`;
           field(root, "name").textContent = collection.name;
           field(root, "description").textContent = collection.description ?? "";
           field(root, "type").textContent = collection.description_type ?? "";
@@ -100,8 +144,6 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
             ),
           );
 
-          const category = ([] as { name: string; path: string }[]).concat(collection.expand?.category ?? [])[0];
-          const description = collection.description || `Ткани из коллекции ${collection.name}`;
           const home = `/textile/${type}/${path}/`;
           setPageMeta({
             title: `${collection.name} - Ткани коллекции | Нортекс`,
@@ -109,23 +151,18 @@ const grid = "mt-20 grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] gap-10 max-1
             image: getImageUrl(collection),
             canonicalPath: home,
           });
-          const trail: [string, string][] = [
-            ["Главная", "/"],
-            ["Коллекции", "/textile/"],
-          ];
-          if (category) trail.push([category.name, `/textile/${type}/`]);
-          trail.push([collection.name, home]);
-          setBreadcrumb(trail);
-          setJsonLd("ld-product", {
-            "@type": "Product",
-            name: collection.name,
-            description: collection.description || undefined,
-            image: getImageUrl(collection) || undefined,
-            brand: { "@type": "Brand", name: "Нортекс" },
-          });
+          setBreadcrumb(collectionTrail(type, path, collection.name, category?.name));
+          setJsonLd(
+            "ld-product",
+            productLd({ name: collection.name, description: built ? description : collection.description, image: getImageUrl(collection), brand: "Нортекс" }),
+          );
           setStatus(root, "ready");
         })
-        .catch((error) => setStatus(root, isNotFound(error) ? "empty" : "error"));
+        .catch((error) => {
+          // A built page keeps what the build wrote when the refresh fails.
+          if (root.hasAttribute("data-prerendered")) console.error(error);
+          else setStatus(root, isNotFound(error) ? "empty" : "error");
+        });
     }
   }
 </script>
