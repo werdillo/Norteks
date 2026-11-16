@@ -15,11 +15,11 @@ const wash =
 const content = "relative ml-100 flex max-w-[760px] flex-col gap-24 max-1200:ml-50 max-768:mx-20 max-768:gap-16";
 // Exception to the type matrix (listed in src/app/tests/typography.test.ts): the 80px hero title, once per page.
 const title = "m-0 text-[80px] max-768:text-[34px] font-normal leading-[1.15] text-on-dark";
-const buttons = "mt-8 flex flex-wrap gap-16 max-768:gap-10";
+const buttons = "mt-8 flex flex-wrap gap-16 max-768:mt-4 max-768:gap-8";
 const outline =
-  "flex h-60 w-[220px] max-768:h-50 max-768:w-[170px] cursor-pointer items-center justify-center rounded-pill text-on-dark [border:2px_solid_rgba(255,255,255,0.85)] [transition:200ms] hover:bg-on-dark hover:text-heading";
+  "flex h-60 w-[220px] max-768:h-42 max-768:w-auto max-768:px-14 cursor-pointer items-center justify-center rounded-pill text-on-dark [border:2px_solid_rgba(255,255,255,0.85)] [transition:200ms] hover:bg-on-dark hover:text-heading";
 const button =
-  "flex h-60 w-[280px] max-768:h-50 max-768:w-[190px] cursor-pointer items-center justify-center rounded-pill text-on-dark bg-accent [transition:200ms] hover:elevation-accent-hover hover:[transform:translateY(-2px)] active:elevation-accent-press active:[transform:translateY(1px)]";
+  "flex h-60 w-[280px] max-768:h-42 max-768:w-auto max-768:px-14 cursor-pointer items-center justify-center rounded-pill text-on-dark bg-accent [transition:200ms] hover:elevation-accent-hover hover:[transform:translateY(-2px)] active:elevation-accent-press active:[transform:translateY(1px)]";
 ---
 
 <!-- Swiper's web component, with the options of the old island: one slide, a loop, autoplay every 5 s. -->
@@ -42,11 +42,11 @@ const button =
             {slide.subtitle && <P1 class="m-0 max-w-[560px] text-on-dark opacity-90">{slide.subtitle}</P1>}
             <div class={buttons}>
               <a href={slide.href} class={button}>
-                <H5 as="span">{slide.label}</H5>
+                <H5 as="span" class="max-768:text-h6">{slide.label}</H5>
               </a>
               {slide.secondary && (
                 <a href={slide.secondary.href} class={outline}>
-                  <H5 as="span">{slide.secondary.label}</H5>
+                  <H5 as="span" class="max-768:text-h6">{slide.secondary.label}</H5>
                 </a>
               )}
             </div>

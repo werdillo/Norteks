@@ -12,4 +12,5 @@ The text styles of the site: the matrix of nine, `H1`-`H6` and `P1`-`P3`. Each s
 Text outside the matrix, each one listed in `src/app/tests/typography.test.ts` with the same reason:
 
 - Hero slide title (`src/components/slider/Slider.astro`): 80px, 40px up to 768px, regular weight. A display size used once per page on the home slider; no other text is this large.
+- Fabric type description (`src/site/catalog/ui/TypeCollections.astro`): 24px from 1024px, P1 below. The lead of a type page, larger than body text on a wide screen.
 - Image tile caption (`src/components/image-tile/ImageTile.astro`): 36px, 16px up to 550px, regular weight. A caption laid over a picture at the size the tiles were designed for; it cannot take a bold heading style without covering the picture.

@@ -78,7 +78,7 @@ const site = Astro.site!;
   import { setBreadcrumb, setJsonLd, setPageMeta } from "#/core/seo";
   import { getPostByPath } from "../api";
   import { postContent } from "../content";
-  import { postArticle, postDescription } from "../seo";
+  import { postArticle, postDescription, postTitle } from "../seo";
   import { postRoute } from "../route";
 
   const root = document.querySelector<HTMLElement>("[data-post-page]");
@@ -96,7 +96,7 @@ const site = Astro.site!;
         field(root, "content").innerHTML = postContent(String(post.content ?? ""), String(post.title ?? ""));
         const site = import.meta.env.SITE ?? location.origin;
         setPageMeta({
-          title: `${post.title} | Блог Нортекс`,
+          title: postTitle(post.title),
           description: prerendered ? postDescription(post) : post.description || post.title,
           image: getImageUrl(post),
           canonicalPath: `/post/${path}/`,

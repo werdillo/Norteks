@@ -40,3 +40,6 @@ export function postArticle(post: BlogPost, site: URL | string) {
     publisher: "Нортекс",
   });
 }
+
+/** The <title> of a post: its title and the blog's name, or the shorter site name when the title is long. */
+export const postTitle = (title: string): string => (title.length > 45 ? `${title} | Нортекс` : `${title} | Блог Нортекс`);

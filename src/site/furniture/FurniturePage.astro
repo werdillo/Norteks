@@ -16,9 +16,10 @@ const notes = [
   },
 ];
 
-const row = "mx-8 mb-4 flex flex-row items-center justify-between pb-8";
+// On a phone the label sits over its value: a long value (a list of colours) needs the width.
+const row = "mx-8 mb-4 flex flex-row items-center justify-between gap-8 pb-8 max-768:flex-col max-768:items-start max-768:gap-2";
 const grid =
-  "grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8";
+  "grid w-full grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-start gap-16 max-768:grid-cols-[49%_49%] max-768:gap-8";
 ---
 
 <Container>

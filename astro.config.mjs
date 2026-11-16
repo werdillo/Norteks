@@ -3,6 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import UnoCSS from "@unocss/astro";
 // Relative on purpose: the `#/` alias does not resolve in the config.
 import { sitemapAlias, sitemapExclude } from "./src/core/seo/sitemap.ts";
+import { htaccessIntegration } from "./src/core/seo/htaccess.ts";
 
 // https://astro.build/config
 // Static output with trailing slashes: every page is a directory with an index.html,
@@ -21,5 +22,7 @@ export default defineConfig({
     sitemap({ filter: sitemapExclude(["/item/"]) }),
     // A stock web server serves /sitemap.xml, not the index.
     sitemapAlias(),
+    // The hosting serves the HTML with Apache: its 404 page and the old site's addresses (src/core/seo/htaccess.ts).
+    htaccessIntegration(),
   ],
 });

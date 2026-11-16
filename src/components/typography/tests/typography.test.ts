@@ -15,6 +15,11 @@ const ALLOWED = ["components/typography/", "app/styles/", "app/tests/"];
 /** Text outside the matrix. Each entry names a line by a fragment of it; the reason is in components/typography/README.md. */
 const EXCEPTIONS: { file: string; fragment: string; reason: string }[] = [
   {
+    file: "site/catalog/ui/TypeCollections.astro",
+    fragment: "min-1024:text-[24px]",
+    reason: "fabric type description, 24px from 1024px (P1 below), the lead of the type page",
+  },
+  {
     file: "components/slider/Slider.astro",
     fragment: "text-[80px]",
     reason: "hero slide title, 80px (40px up to 768px), used once per page",

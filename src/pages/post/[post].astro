@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "#/app/layout/BaseLayout.astro";
 import { builtPaths } from "#/app/paths";
-import { getPostForBuild, isoDate, PostPage, postDescription, type BlogPost } from "#/site/blog";
+import { getPostForBuild, isoDate, PostPage, postDescription, postTitle, type BlogPost } from "#/site/blog";
 
 // One page per post that PocketBase holds at build time, with the post's record in the HTML.
 export async function getStaticPaths() {
@@ -16,7 +16,7 @@ const { post } = Astro.props as { post: BlogPost };
 const path = Astro.params.post ?? "";
 const label = post.title || path;
 const seoData = {
-  title: `${label} | Блог Нортекс`,
+  title: postTitle(label),
   description: postDescription(post),
 };
 ---
